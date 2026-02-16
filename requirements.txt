@@ -1,0 +1,1 @@
+# Lista de dependencias (ejemplo):\n# numpy\n# pandas\n
