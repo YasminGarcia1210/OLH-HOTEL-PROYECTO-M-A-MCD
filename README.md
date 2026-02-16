@@ -140,3 +140,9 @@ Agente inteligente (Fase 3)
 ## 🧠 Visión
 
 Evolucionar hacia un modelo de hotel inteligente donde la experiencia del huésped, la reputación y la operación estén conectadas mediante inteligencia artificial.
+
+---
+
+## ✨ Firma Estratégica
+
+Proyecto diseñado para escalar de analítica operativa a inteligencia accionable, con foco en reputación, ingresos y experiencia del huésped.
