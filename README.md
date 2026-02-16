@@ -105,8 +105,29 @@ Agente inteligente (Fase 3)
 ## 📅 Cronograma
 
 - Inicio: 16 febrero
-- Finalización Fase 2: Primera semana de junio
-- Fase 3: Evolutiva posterior
+- Horizonte: 16 semanas (febrero–junio)
+- Finalización Fase 2: primera semana de junio
+- Fase 3: evolutiva posterior (arranca en S13)
+
+### Metodología Gantt (semanas S1–S16)
+
+**Leyenda:** 🟦 Fase 1 · 🟪 Fase 2 · 🟩 Fase 3 · — sin actividad
+
+| Actividad | S1 | S2 | S3 | S4 | S5 | S6 | S7 | S8 | S9 | S10 | S11 | S12 | S13 | S14 | S15 | S16 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Levantamiento + KPIs | 🟦 | 🟦 | — | — | — | — | — | — | — | — | — | — | — | — | — | — |
+| Pipeline de datos | — | — | 🟦 | 🟦 | — | — | — | — | — | — | — | — | — | — | — | — |
+| Análisis emocional | — | — | — | — | 🟦 | 🟦 | — | — | — | — | — | — | — | — | — | — |
+| Alertas automáticas | — | — | — | — | — | — | 🟦 | — | — | — | — | — | — | — | — | — |
+| Dashboard ejecutivo | — | — | — | — | — | — | — | 🟦 | — | — | — | — | — | — | — | — |
+| Segmentación clientes | — | — | — | — | — | — | — | — | 🟪 | 🟪 | — | — | — | — | — | — |
+| Motor recomendación | — | — | — | — | — | — | — | — | — | — | 🟪 | 🟪 | — | — | — | — |
+| Integración comunicación | — | — | — | — | — | — | — | — | — | — | — | — | 🟪 | 🟪 | — | — |
+| Métricas impacto | — | — | — | — | — | — | — | — | — | — | — | — | — | — | 🟪 | — |
+| Diseño agente reservas | — | — | — | — | — | — | — | — | — | — | — | — | 🟩 | 🟩 | — | — |
+| Integración WhatsApp IA | — | — | — | — | — | — | — | — | — | — | — | — | — | 🟩 | 🟩 | — |
+| Pruebas piloto agente | — | — | — | — | — | — | — | — | — | — | — | — | — | — | 🟩 | — |
+| Presentación final | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | 🟩 |
 
 ## 🚀 Impacto Esperado
 
