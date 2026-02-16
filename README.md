@@ -47,6 +47,7 @@ Agente inteligente (Fase 3)
 - Automatización de KPIs.
 - Dashboard ejecutivo.
 - Sistema de alertas tempranas.
+- MLops
 
 ### KPIs Clave
 
