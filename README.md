@@ -136,10 +136,11 @@ Agente inteligente (Fase 3)
 
 ### Metodología Gantt (semanas S1–S16)
 
-**Leyenda:** 🟦 Fase 1 · 🟪 Fase 2 · 🟩 Fase 3 · — sin actividad
+**Leyenda:** 🟨 Etapa 0 · 🟦 Fase 1 · 🟪 Fase 2 · 🟩 Fase 3 · — sin actividad
 
 | Actividad | S1 | S2 | S3 | S4 | S5 | S6 | S7 | S8 | S9 | S10 | S11 | S12 | S13 | S14 | S15 | S16 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Etapa 0 – Automatización operativa | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 |
 | Levantamiento + KPIs | 🟦 | 🟦 | — | — | — | — | — | — | — | — | — | — | — | — | — | — |
 | Pipeline de datos | — | — | 🟦 | 🟦 | — | — | — | — | — | — | — | — | — | — | — | — |
 | Análisis emocional | — | — | — | — | 🟦 | 🟦 | — | — | — | — | — | — | — | — | — | — |
