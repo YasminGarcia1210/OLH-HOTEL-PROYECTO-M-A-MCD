@@ -13,6 +13,33 @@ La iniciativa evoluciona en tres fases:
 
 El enfoque es escalable, de bajo costo y orientado a impacto real en reputación, ingresos y experiencia del huésped.
 
+## 🟡 Etapa 0 – Automatización Operativa (Transversal)
+
+Esta etapa acompaña todo el proyecto y habilita automatizaciones desde la reserva hasta la atención post‑estadía, incluyendo un agente ligero conectado a WhatsApp Business.
+
+### Alcance
+
+- Captura y normalización de solicitudes de reserva.
+- Respuestas automáticas iniciales y recolección de datos básicos.
+- Confirmación y actualización de reservas.
+- Derivación a humano ante casos complejos.
+
+### Flujo operativo (Etapa 0)
+
+Cliente / OTA / WhatsApp
+↓
+Webhook o API de mensajería
+↓
+Orquestador ligero (reglas + plantillas)
+↓
+Verificación de disponibilidad (PMS / inventario)
+↓
+Propuesta de reserva + confirmación
+↓
+Registro en base + notificaciones internas
+↓
+Seguimiento automático (pre‑check‑in y post‑estadía)
+
 ## 🎯 Objetivos Estratégicos
 
 - Automatizar el análisis de reseñas y mensajes.
