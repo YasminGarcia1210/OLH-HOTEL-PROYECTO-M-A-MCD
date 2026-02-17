@@ -26,19 +26,16 @@ Esta etapa acompaña todo el proyecto y habilita automatizaciones desde la reser
 
 ### Flujo operativo (Etapa 0)
 
-Cliente / OTA / WhatsApp
-↓
-Webhook o API de mensajería
-↓
-Orquestador ligero (reglas + plantillas)
-↓
-Verificación de disponibilidad (PMS / inventario)
-↓
-Propuesta de reserva + confirmación
-↓
-Registro en base + notificaciones internas
-↓
-Seguimiento automático (pre‑check‑in y post‑estadía)
+```mermaid
+flowchart TD
+    A[Cliente / OTA / WhatsApp] --> B[Webhook o API de mensajería]
+    B --> C[Orquestador ligero<br/>reglas + plantillas]
+    C --> D[Verificación de disponibilidad<br/>PMS / inventario]
+    D --> E[Propuesta de reserva + confirmación]
+    E --> F[Registro en base + notificaciones internas]
+    F --> G[Seguimiento automático<br/>pre-check-in y post-estadía]
+    C --> H[Derivación a humano<br/>casos complejos]
+```
 
 ## 🎯 Objetivos Estratégicos
 
