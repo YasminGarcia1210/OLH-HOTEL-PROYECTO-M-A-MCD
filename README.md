@@ -13,7 +13,7 @@ La iniciativa evoluciona en tres fases:
 
 El enfoque es escalable, de bajo costo y orientado a impacto real en reputación, ingresos y experiencia del huésped.
 
-## 🟡 Etapa 0 – Automatización Operativa (Transversal)
+## 🟡 Fase 0 – Automatización Operativa (Transversal)
 
 Esta etapa acompaña todo el proyecto y habilita automatizaciones desde la reserva hasta la atención post‑estadía, incluyendo un agente ligero conectado a WhatsApp Business.
 
@@ -24,7 +24,7 @@ Esta etapa acompaña todo el proyecto y habilita automatizaciones desde la reser
 - Confirmación y actualización de reservas.
 - Derivación a humano ante casos complejos.
 
-### Flujo operativo (Etapa 0)
+### Flujo operativo (Fase 0)
 
 ```mermaid
 flowchart TD
@@ -36,8 +36,8 @@ flowchart TD
     F --> G[Seguimiento automático<br/>pre-check-in y post-estadía]
     C --> H[Derivación a humano<br/>casos complejos]
 
-    classDef etapa0 fill:#FDE68A,stroke:#B45309,stroke-width:1px,color:#1F2937;
-    class A,B,C,D,E,F,G,H etapa0;
+    classDef fase0 fill:#FDE68A,stroke:#B45309,stroke-width:1px,color:#1F2937;
+    class A,B,C,D,E,F,G,H fase0;
 ```
 
 ## 🎯 Objetivos Estratégicos
@@ -139,11 +139,11 @@ Agente inteligente (Fase 3)
 
 ### Metodología Gantt (semanas S1–S16)
 
-**Leyenda:** 🟨 Etapa 0 · 🟦 Fase 1 · 🟪 Fase 2 · 🟩 Fase 3 · — sin actividad
+**Leyenda:** 🟨 Fase 0 · 🟦 Fase 1 · 🟪 Fase 2 · 🟩 Fase 3 · — sin actividad
 
 | Actividad | S1 | S2 | S3 | S4 | S5 | S6 | S7 | S8 | S9 | S10 | S11 | S12 | S13 | S14 | S15 | S16 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Etapa 0 – Automatización operativa | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 |
+| Fase 0 – Automatización operativa | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 | 🟨 |
 | Levantamiento + KPIs | 🟦 | 🟦 | — | — | — | — | — | — | — | — | — | — | — | — | — | — |
 | Pipeline de datos | — | — | 🟦 | 🟦 | — | — | — | — | — | — | — | — | — | — | — | — |
 | Análisis emocional | — | — | — | — | 🟦 | 🟦 | — | — | — | — | — | — | — | — | — | — |
