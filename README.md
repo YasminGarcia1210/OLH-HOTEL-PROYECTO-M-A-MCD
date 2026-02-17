@@ -35,6 +35,9 @@ flowchart TD
     E --> F[Registro en base + notificaciones internas]
     F --> G[Seguimiento automático<br/>pre-check-in y post-estadía]
     C --> H[Derivación a humano<br/>casos complejos]
+
+    classDef etapa0 fill:#FDE68A,stroke:#B45309,stroke-width:1px,color:#1F2937;
+    class A,B,C,D,E,F,G,H etapa0;
 ```
 
 ## 🎯 Objetivos Estratégicos
