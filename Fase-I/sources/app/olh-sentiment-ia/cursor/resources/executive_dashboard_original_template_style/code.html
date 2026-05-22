@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hoteles OLH - Sentiment AI Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@400;500;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary": "#402d00",
+                        "surface-container": "#1d1f27",
+                        "on-background": "#e1e2ed",
+                        "tertiary-fixed": "#6ffbbe",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "secondary-container": "#3e495d",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "surface-dim": "#11131b",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed-variant": "#5c4300",
+                        "outline": "#9a8f7d",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "surface-container-lowest": "#0c0e15",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "on-surface": "#e1e2ed",
+                        "surface-container-low": "#191b23",
+                        "on-primary-fixed": "#261a00",
+                        "on-tertiary-fixed": "#002113",
+                        "on-error": "#690005",
+                        "surface-container-high": "#272a32",
+                        "on-tertiary": "#003824",
+                        "inverse-primary": "#795900",
+                        "on-secondary-fixed": "#111c2d",
+                        "inverse-on-surface": "#2e3038",
+                        "outline-variant": "#4e4637",
+                        "on-secondary-container": "#aeb9d0",
+                        "inverse-surface": "#e1e2ed",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#263143",
+                        "surface-variant": "#32343d",
+                        "on-surface-variant": "#d2c5b1",
+                        "primary-fixed": "#ffdea0",
+                        "primary": "#D4A847",
+                        "primary-fixed-dim": "#eec05c",
+                        "on-primary-container": "#563e00",
+                        "surface-tint": "#D4A847",
+                        "tertiary-container": "#2bc58c",
+                        "surface-container-highest": "#32343d",
+                        "secondary-fixed": "#d8e3fb",
+                        "background": "#11131b",
+                        "surface": "#11131b",
+                        "primary-container": "#d4a847",
+                        "surface-bright": "#373941",
+                        "tertiary": "#52e2a6",
+                        "secondary": "#bcc7de",
+                        "error-container": "#93000a",
+                        "on-tertiary-container": "#004c32",
+                        "accent": "#D4A847"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem",
+                        "card": "14px",
+                        "card-sm": "10px"
+                    },
+                    fontFamily: {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; scroll-behavior: smooth; }
+        .glass { background: rgba(50, 52, 61, 0.4); backdrop-filter: blur(16px); }
+        .gradient-gold { background: linear-gradient(135deg, #f2c35f 0%, #D4A847 100%); }
+        .section-divider { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .section-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, rgba(212, 168, 71, 0.25), transparent 60%); }
+        .spark-bar { width: 7px; border-radius: 4px 4px 0 0; transition: height 0.9s cubic-bezier(.22,.61,.36,1); }
+        .tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 10px; border-radius: 100px; display: inline-block; }
+        .tag-crit { background: rgba(255, 107, 107, 0.1); color: #FF6B6B; }
+        .tag-warn { background: rgba(255, 170, 92, 0.1); color: #FFAA5C; }
+        .tag-ok { background: rgba(61, 220, 151, 0.1); color: #3DDC97; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-[#0c0e15] border-r border-[#32343d]/10 z-50">
+<div class="p-8">
+<h1 class="text-lg font-serif text-[#f2c35f] font-['Noto_Serif']">Sentiment AI</h1>
+<p class="font-sans uppercase tracking-[0.1em] text-[0.6875rem] font-['Inter'] text-[#e1e2ed]/40">Intelligence Suite</p>
+</div>
+<nav class="flex-1 mt-4">
+<a class="flex items-center gap-4 px-6 py-4 text-[#f2c35f] bg-[#1d1f27] border-r-2 border-[#f2c35f]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-sans uppercase tracking-[0.1em] text-[0.6875rem] font-['Inter']">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-[#e1e2ed]/40 hover:bg-[#11131b] hover:text-[#e1e2ed] transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:translate-x-1 duration-200">analytics</span>
+<span class="font-sans uppercase tracking-[0.1em] text-[0.6875rem] font-['Inter']">Reviews</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-[#e1e2ed]/40 hover:bg-[#11131b] hover:text-[#e1e2ed] transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:translate-x-1 duration-200">cloud_upload</span>
+<span class="font-sans uppercase tracking-[0.1em] text-[0.6875rem] font-['Inter']">Upload</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-[#e1e2ed]/40 hover:bg-[#11131b] hover:text-[#e1e2ed] transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:translate-x-1 duration-200">settings</span>
+<span class="font-sans uppercase tracking-[0.1em] text-[0.6875rem] font-['Inter']">Settings</span>
+</a>
+</nav>
+<div class="p-6">
+<button class="w-full gradient-gold text-on-primary font-bold py-3 rounded-md font-sans uppercase tracking-widest text-[0.6875rem] mb-8 transition-transform active:scale-95">
+            New Analysis
+        </button>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-4 px-6 py-2 text-[#e1e2ed]/40 hover:text-[#f2c35f] transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">help</span>
+<span class="font-sans uppercase tracking-[0.1em] text-[0.6875rem] font-['Inter']">Support</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-2 text-[#e1e2ed]/40 hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">logout</span>
+<span class="font-sans uppercase tracking-[0.1em] text-[0.6875rem] font-['Inter']">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<main class="md:ml-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center px-8 w-full sticky top-0 z-50 bg-[#11131b] h-16 border-b border-[#32343d]/20 shadow-[0px_12px_32px_rgba(225,226,237,0.04)]">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold italic text-[#f2c35f] font-headline">Hoteles OLH</span>
+<nav class="hidden lg:flex gap-6">
+<a class="text-[#f2c35f] font-semibold font-serif tracking-tight text-sm" href="#">Overview</a>
+<a class="text-[#e1e2ed]/60 hover:text-[#f2c35f] transition-colors duration-300 font-serif tracking-tight text-sm" href="#">Reports</a>
+<a class="text-[#e1e2ed]/60 hover:text-[#f2c35f] transition-colors duration-300 font-serif tracking-tight text-sm" href="#">Benchmarks</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-[#e1e2ed]/40 text-lg">search</span>
+<input class="bg-[#1d1f27] border-0 border-b-2 border-outline-variant focus:border-primary focus:ring-0 text-sm pl-10 pr-4 py-1.5 w-64 transition-all duration-300" placeholder="Search insights..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-[#e1e2ed]/60 hover:text-primary active:scale-95 transition-all">notifications</button>
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLzNG4eUi8ZWRuu1dlo1xBra8qZOCskZwu19fS3Jb-MY9wfpCHd0BH4bgYtC2oDPMdyVYBPlBD_iIDOZ04plFHlySHyQU9x80kqUxPU7a54NR16UUWe7Tp7dxG92Ok0PsTTnmLq25aDMM1OxcVbWeVujiuYESTVuGxkcFbLVHlnXIrVlsC45stcIP4zIi1NzHBVrehQeYhTlV4d5zaSnuTXjIHLwBJfgHbTm6oNcuxtVwdIBIhU-nQJb0ep0I8YivkujWwsBZG0bU"/>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-8 lg:p-12 space-y-12 max-w-[1400px] mx-auto">
+<!-- 1. HERO KPIs -->
+<section>
+<div class="section-divider">
+<span class="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">✦ Sentimiento General · Core del Modelo</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
+<div class="lg:col-span-5 bg-gradient-to-br from-[#121A2A] via-[#0D1117] to-[#15111D] border border-primary/20 rounded-card p-8 flex flex-col justify-center relative overflow-hidden group">
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<span class="text-[11px] uppercase tracking-[1.5px] text-on-surface-variant opacity-60">Customer Sentiment Score</span>
+<div class="flex items-baseline gap-2 mt-4">
+<span class="text-7xl font-headline font-extrabold text-primary tracking-tighter">72%</span>
+</div>
+<p class="text-sm text-on-surface-variant mt-2">Percepción global del huésped</p>
+<div class="mt-4 flex">
+<span class="flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-tertiary/10 text-tertiary border border-tertiary/20 text-xs font-semibold">
+                            ▲ +1.42% vs período anterior
+                        </span>
+</div>
+</div>
+<div class="lg:col-span-2.5 bg-surface-container rounded-card p-6 flex flex-col justify-center border border-white/5">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 mb-2">Variación Δ%</span>
+<span class="text-4xl font-headline font-bold text-tertiary">+1.42%</span>
+<p class="text-[11px] text-on-surface-variant/60 mt-2 leading-relaxed">Mejora constante<br/>3 meses consecutivos</p>
+</div>
+<div class="lg:col-span-2.5 bg-surface-container rounded-card p-6 flex flex-col justify-center border border-white/5">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 mb-2">Mejor Área</span>
+<span class="text-4xl font-headline font-bold text-tertiary">88%</span>
+<p class="text-[11px] text-on-surface-variant/60 mt-2 leading-relaxed">📍 Ubicación</p>
+</div>
+<div class="lg:col-span-2.5 bg-surface-container rounded-card p-6 flex flex-col justify-center border border-white/5">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 mb-2">Peor Área</span>
+<span class="text-4xl font-headline font-bold text-error">58%</span>
+<p class="text-[11px] text-on-surface-variant/60 mt-2 leading-relaxed">🔇 Ruido · Pain Point #1</p>
+</div>
+</div>
+</section>
+<!-- 2. MONTHLY TREND CHART -->
+<section>
+<div class="section-divider">
+<span class="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">📈 Tendencia del Sentimiento · Serie Temporal</span>
+</div>
+<div class="bg-surface-container rounded-card p-8 border border-white/5">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-lg font-headline italic">Comportamiento Mensual del Sentimiento</h3>
+<span class="text-xs text-on-surface-variant/40">May 2025 → Abr 2026</span>
+</div>
+<div class="h-[250px] w-full relative">
+<canvas id="trendChartMain"></canvas>
+</div>
+</div>
+</section>
+<!-- 3. VOLUME / DATA STRENGTH -->
+<section>
+<div class="section-divider">
+<span class="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">📊 Data Strength · Volumen y Confiabilidad</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-surface-container rounded-card p-6 text-center border border-white/5">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40">Reviews Analizadas</span>
+<div class="text-3xl font-headline font-bold text-on-background mt-2">1,247</div>
+<span class="text-[10px] text-on-surface-variant/40 block mt-1">Total acumulado</span>
+</div>
+<div class="bg-surface-container rounded-card p-6 text-center border border-white/5">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40">Reviews / Mes</span>
+<div class="text-3xl font-headline font-bold text-on-background mt-2">104</div>
+<span class="text-[10px] text-on-surface-variant/40 block mt-1">Promedio últimos 12 meses</span>
+<div class="flex items-end justify-center gap-1 h-8 mt-4" id="sparklineContainer"></div>
+</div>
+<div class="bg-surface-container rounded-card p-6 text-center border border-white/5">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40">Fuentes de Datos</span>
+<div class="text-3xl font-headline font-bold text-secondary mt-2">4</div>
+<span class="text-[10px] text-on-surface-variant/40 block mt-1">Google · Booking · TripAdvisor · Expedia</span>
+</div>
+<div class="bg-surface-container rounded-card p-6 text-center border border-white/5">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40">Confiabilidad</span>
+<div class="text-3xl font-headline font-bold text-tertiary mt-2">Alta</div>
+<span class="text-[10px] text-on-surface-variant/40 block mt-1">n &gt; 1,000 reviews</span>
+</div>
+</div>
+</section>
+<!-- 4. REPUTATION RISK ALERT -->
+<section>
+<div class="section-divider">
+<span class="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">🚨 Riesgo Reputacional · Alertas Activas</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+<!-- Table -->
+<div class="lg:col-span-8 bg-surface-container rounded-card p-8 border border-white/5">
+<div class="grid grid-cols-3 gap-8 mb-8 text-center">
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 mb-1">Tópicos en Alerta</p>
+<span class="text-3xl font-headline font-bold text-error">4</span>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 mb-1">% Críticos</p>
+<span class="text-3xl font-headline font-bold text-[#FFAA5C]">40%</span>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 mb-1">Nuevas (7d)</p>
+<span class="text-3xl font-headline font-bold text-primary">2</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead>
+<tr class="text-left text-[10px] uppercase tracking-widest text-on-surface-variant/40 border-b border-white/5">
+<th class="pb-3">Tópico</th>
+<th class="pb-3">Score</th>
+<th class="pb-3">Estado</th>
+<th class="pb-3">Tendencia</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr class="border-b border-white/5">
+<td class="py-4 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span> Ruido
+                                    </td>
+<td class="py-4 font-bold text-on-surface-variant">58%</td>
+<td class="py-4"><span class="tag tag-crit">Crítico</span></td>
+<td class="py-4 text-error font-bold text-xs">▼ -5.2%</td>
+</tr>
+<tr class="border-b border-white/5">
+<td class="py-4 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span> WiFi
+                                    </td>
+<td class="py-4 font-bold text-on-surface-variant">61%</td>
+<td class="py-4"><span class="tag tag-crit">Crítico</span></td>
+<td class="py-4 text-error font-bold text-xs">▼ -2.0%</td>
+</tr>
+<tr class="border-b border-white/5">
+<td class="py-4 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#FFAA5C]"></span> Calidad-Precio
+                                    </td>
+<td class="py-4 font-bold text-on-surface-variant">65%</td>
+<td class="py-4"><span class="tag tag-warn">Alerta</span></td>
+<td class="py-4 text-error font-bold text-xs">▼ -4.2%</td>
+</tr>
+<tr>
+<td class="py-4 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#FFAA5C]"></span> Instalaciones
+                                    </td>
+<td class="py-4 font-bold text-on-surface-variant">70%</td>
+<td class="py-4"><span class="tag tag-warn">Alerta</span></td>
+<td class="py-4 text-error font-bold text-xs">▼ -3.0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Donut Chart -->
+<div class="lg:col-span-4 bg-surface-container rounded-card p-8 border border-white/5 flex flex-col items-center justify-center text-center">
+<h3 class="text-sm font-bold mb-6">Umbral de Riesgo</h3>
+<div class="relative w-44 h-44 mb-6">
+<canvas height="176" id="riskDonutChart" width="176"></canvas>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-3xl font-headline font-bold text-[#FFAA5C]">40%</span>
+<span class="text-[10px] text-on-surface-variant/40 leading-tight">bajo umbral<br/>65%</span>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant/40">4 de 10 tópicos en zona de riesgo</p>
+</div>
+</div>
+</section>
+<!-- 5. CATEGORY SCORE GRID -->
+<section>
+<div class="section-divider">
+<span class="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">🧩 Score por Categoría · Desglose Completo</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+<!-- Row 1 -->
+<div class="bg-surface-container rounded-card-sm p-5 border border-white/5 hover:translate-y-[-2px] transition-transform">
+<span class="text-lg mb-2 block">📍</span>
+<p class="text-[11px] font-medium text-on-surface-variant/60 mb-2">Ubicación</p>
+<span class="text-3xl font-headline font-bold text-tertiary">88%</span>
+<div class="h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
+<div class="h-full bg-tertiary" style="width: 88%;"></div>
+</div>
+<span class="text-[10px] font-bold text-tertiary mt-2 block">▲ +0.5%</span>
+</div>
+<div class="bg-surface-container rounded-card-sm p-5 border border-white/5 hover:translate-y-[-2px] transition-transform">
+<span class="text-lg mb-2 block">🤝</span>
+<p class="text-[11px] font-medium text-on-surface-variant/60 mb-2">Atención Personal</p>
+<span class="text-3xl font-headline font-bold text-tertiary">82%</span>
+<div class="h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
+<div class="h-full bg-tertiary" style="width: 82%;"></div>
+</div>
+<span class="text-[10px] font-bold text-tertiary mt-2 block">▲ +2.1%</span>
+</div>
+<div class="bg-surface-container rounded-card-sm p-5 border border-white/5 hover:translate-y-[-2px] transition-transform">
+<span class="text-lg mb-2 block">🛏️</span>
+<p class="text-[11px] font-medium text-on-surface-variant/60 mb-2">Confort Habitación</p>
+<span class="text-3xl font-headline font-bold text-secondary">78%</span>
+<div class="h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
+<div class="h-full bg-secondary" style="width: 78%;"></div>
+</div>
+<span class="text-[10px] font-bold text-tertiary mt-2 block">▲ +2.4%</span>
+</div>
+<div class="bg-surface-container rounded-card-sm p-5 border border-white/5 hover:translate-y-[-2px] transition-transform">
+<span class="text-lg mb-2 block">🧹</span>
+<p class="text-[11px] font-medium text-on-surface-variant/60 mb-2">Limpieza</p>
+<span class="text-3xl font-headline font-bold text-secondary">75%</span>
+<div class="h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
+<div class="h-full bg-secondary" style="width: 75%;"></div>
+</div>
+<span class="text-[10px] font-bold text-error mt-2 block">▼ -1.2%</span>
+</div>
+<div class="bg-surface-container rounded-card-sm p-5 border border-white/5 hover:translate-y-[-2px] transition-transform">
+<span class="text-lg mb-2 block">🍽️</span>
+<p class="text-[11px] font-medium text-on-surface-variant/60 mb-2">Alimentación</p>
+<span class="text-3xl font-headline font-bold text-secondary">74%</span>
+<div class="h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
+<div class="h-full bg-secondary" style="width: 74%;"></div>
+</div>
+<span class="text-[10px] font-bold text-tertiary mt-2 block">▲ +1.8%</span>
+</div>
+<!-- Row 2 -->
+<div class="bg-surface-container rounded-card-sm p-5 border border-white/5 hover:translate-y-[-2px] transition-transform">
+<span class="text-lg mb-2 block">🅿️</span>
+<p class="text-[11px] font-medium text-on-surface-variant/60 mb-2">Estacionamiento</p>
+<span class="text-3xl font-headline font-bold text-secondary">72%</span>
+<div class="h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
+<div class="h-full bg-secondary" style="width: 72%;"></div>
+</div>
+<span class="text-[10px] font-bold text-tertiary mt-2 block">▲ +1.0%</span>
+</div>
+<div class="bg-surface-container rounded-card-sm p-5 border border-white/5 hover:translate-y-[-2px] transition-transform">
+<span class="text-lg mb-2 block">🏢</span>
+<p class="text-[11px] font-medium text-on-surface-variant/60 mb-2">Instalaciones</p>
+<span class="text-3xl font-headline font-bold text-[#FFAA5C]">70%</span>
+<div class="h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
+<div class="h-full bg-[#FFAA5C]" style="width: 70%;"></div>
+</div>
+<span class="text-[10px] font-bold text-error mt-2 block">▼ -3.0%</span>
+</div>
+<div class="bg-surface-container rounded-card-sm p-5 border border-white/5 hover:translate-y-[-2px] transition-transform">
+<span class="text-lg mb-2 block">💰</span>
+<p class="text-[11px] font-medium text-on-surface-variant/60 mb-2">Calidad-Precio</p>
+<span class="text-3xl font-headline font-bold text-error">65%</span>
+<div class="h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
+<div class="h-full bg-error" style="width: 65%;"></div>
+</div>
+<span class="text-[10px] font-bold text-error mt-2 block">▼ -4.2%</span>
+</div>
+<div class="bg-surface-container rounded-card-sm p-5 border border-white/5 hover:translate-y-[-2px] transition-transform">
+<span class="text-lg mb-2 block">📶</span>
+<p class="text-[11px] font-medium text-on-surface-variant/60 mb-2">WiFi</p>
+<span class="text-3xl font-headline font-bold text-error">61%</span>
+<div class="h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
+<div class="h-full bg-error" style="width: 61%;"></div>
+</div>
+<span class="text-[10px] font-bold text-error mt-2 block">▼ -2.0%</span>
+</div>
+<div class="bg-surface-container rounded-card-sm p-5 border-2 border-error/30 hover:translate-y-[-2px] transition-transform bg-error/5">
+<span class="text-lg mb-2 block">🔇</span>
+<p class="text-[11px] font-medium text-on-surface-variant/60 mb-2">Ruido</p>
+<span class="text-3xl font-headline font-bold text-error">58%</span>
+<div class="h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
+<div class="h-full bg-error" style="width: 58%;"></div>
+</div>
+<span class="text-[10px] font-bold text-error mt-2 block">▼ -5.2% ⚠️</span>
+</div>
+</div>
+</section>
+<!-- 6. STRENGTHS & WEAKNESSES -->
+<section>
+<div class="section-divider">
+<span class="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">🏆 Top Insights · Fortalezas vs. Pain Points</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-surface-container rounded-card p-6 border border-white/5">
+<h3 class="text-sm font-bold mb-6 flex items-center gap-2">
+<span class="text-tertiary">◆</span> Top Fortalezas
+                    </h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center pb-3 border-b border-white/5 last:border-0">
+<div class="flex items-center gap-3">
+<span class="text-[11px] font-bold text-on-surface-variant/40">1</span>
+<span class="text-sm">Ubicación</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-tertiary/10 text-tertiary text-xs font-bold">88%</span>
+</div>
+<div class="flex justify-between items-center pb-3 border-b border-white/5 last:border-0">
+<div class="flex items-center gap-3">
+<span class="text-[11px] font-bold text-on-surface-variant/40">2</span>
+<span class="text-sm">Atención del Personal</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-tertiary/10 text-tertiary text-xs font-bold">82%</span>
+</div>
+<div class="flex justify-between items-center pb-3 border-b border-white/5 last:border-0">
+<div class="flex items-center gap-3">
+<span class="text-[11px] font-bold text-on-surface-variant/40">3</span>
+<span class="text-sm">Confort Habitación</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-tertiary/10 text-tertiary text-xs font-bold">78%</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="text-[11px] font-bold text-on-surface-variant/40">4</span>
+<span class="text-sm">Limpieza</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-tertiary/10 text-tertiary text-xs font-bold">75%</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container rounded-card p-6 border border-white/5">
+<h3 class="text-sm font-bold mb-6 flex items-center gap-2">
+<span class="text-error">◆</span> Top Pain Points
+                    </h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center pb-3 border-b border-white/5 last:border-0">
+<div class="flex items-center gap-3">
+<span class="text-[11px] font-bold text-on-surface-variant/40">1</span>
+<span class="text-sm">Ruido</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-error/10 text-error text-xs font-bold">58%</span>
+</div>
+<div class="flex justify-between items-center pb-3 border-b border-white/5 last:border-0">
+<div class="flex items-center gap-3">
+<span class="text-[11px] font-bold text-on-surface-variant/40">2</span>
+<span class="text-sm">WiFi</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-error/10 text-error text-xs font-bold">61%</span>
+</div>
+<div class="flex justify-between items-center pb-3 border-b border-white/5 last:border-0">
+<div class="flex items-center gap-3">
+<span class="text-[11px] font-bold text-on-surface-variant/40">3</span>
+<span class="text-sm">Relación Calidad-Precio</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-[#FFAA5C]/10 text-[#FFAA5C] text-xs font-bold">65%</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="text-[11px] font-bold text-on-surface-variant/40">4</span>
+<span class="text-sm">Instalaciones</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-[#FFAA5C]/10 text-[#FFAA5C] text-xs font-bold">70%</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. PAIN POINTS INDEX -->
+<section>
+<div class="section-divider">
+<span class="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">⚠️ Pain Points Index · Tópicos Específicos</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div class="bg-surface-container rounded-card p-6 text-center border-2 border-error/20 bg-error/5">
+<span class="text-2xl mb-2 block">🔇</span>
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 font-bold">Ruido</span>
+<div class="text-4xl font-headline font-bold text-error mt-2">58%</div>
+<span class="text-xs font-bold text-error mt-1 block">▼ -5.2%</span>
+<div class="mt-4"><span class="tag tag-crit">Crítico</span></div>
+</div>
+<div class="bg-surface-container rounded-card p-6 text-center border-2 border-error/20 bg-error/5">
+<span class="text-2xl mb-2 block">📶</span>
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 font-bold">WiFi</span>
+<div class="text-4xl font-headline font-bold text-error mt-2">61%</div>
+<span class="text-xs font-bold text-error mt-1 block">▼ -2.0%</span>
+<div class="mt-4"><span class="tag tag-crit">Crítico</span></div>
+</div>
+<div class="bg-surface-container rounded-card p-6 text-center border border-white/5">
+<span class="text-2xl mb-2 block">🅿️</span>
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 font-bold">Estacionamiento</span>
+<div class="text-4xl font-headline font-bold text-secondary mt-2">72%</div>
+<span class="text-xs font-bold text-tertiary mt-1 block">▲ +1.0%</span>
+<div class="mt-4"><span class="tag tag-ok">Estable</span></div>
+</div>
+</div>
+</section>
+<!-- 8. EXECUTIVE SUMMARY -->
+<section>
+<div class="section-divider">
+<span class="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">💼 Resumen Ejecutivo · Los 6 KPIs Clave</span>
+</div>
+<div class="bg-gradient-to-br from-[#121A2A] via-[#0D1117] to-[#15111D] border border-primary/30 rounded-card p-10">
+<h3 class="text-xl font-headline font-bold text-primary mb-2">Customer Experience Index</h3>
+<p class="text-xs text-on-surface-variant/40 mb-10">Los indicadores esenciales para cualquier presentación directiva</p>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 text-center">
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 mb-3">Sentiment Score</p>
+<span class="text-3xl font-headline font-bold text-primary">72%</span>
+<p class="text-[10px] text-on-surface-variant/40 mt-2">Percepción global</p>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 mb-3">Experience Trend</p>
+<span class="text-3xl font-headline font-bold text-tertiary">+1.42%</span>
+<p class="text-[10px] text-on-surface-variant/40 mt-2">Mejora continua</p>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 mb-3">Tópicos Críticos</p>
+<span class="text-3xl font-headline font-bold text-error">4</span>
+<p class="text-[10px] text-on-surface-variant/40 mt-2">Requieren acción</p>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 mb-3">Peor Categoría</p>
+<span class="text-3xl font-headline font-bold text-error">65%</span>
+<p class="text-[10px] text-on-surface-variant/40 mt-2">Calidad-Precio</p>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 mb-3">Mejor Categoría</p>
+<span class="text-3xl font-headline font-bold text-tertiary">88%</span>
+<p class="text-[10px] text-on-surface-variant/40 mt-2">Ubicación</p>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant/40 mb-3">Main Complaint</p>
+<span class="text-3xl font-headline font-bold text-error">58%</span>
+<p class="text-[10px] text-on-surface-variant/40 mt-2">Ruido</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 9. ADVANCED DATA SCIENCE -->
+<section class="pb-12">
+<div class="section-divider">
+<span class="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">🚀 Métricas Avanzadas · Data Science</span>
+</div>
+<div class="space-y-4">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-surface-container rounded-card p-6 text-center border border-white/5">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40">Weighted Sentiment</span>
+<div class="text-4xl font-headline font-bold text-[#4ECDC4] mt-2">69.4%</div>
+<p class="text-[11px] text-on-surface-variant/40 mt-3 leading-relaxed">Ponderado por importancia y volumen de menciones</p>
+</div>
+<div class="bg-surface-container rounded-card p-6 text-center border border-white/5">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40">Topic Impact Score</span>
+<div class="text-4xl font-headline font-bold text-[#A78BFA] mt-2">0.73</div>
+<p class="text-[11px] text-on-surface-variant/40 mt-3 leading-relaxed">Correlación tópicos negativos ↔ caída general (0–1)</p>
+</div>
+<div class="bg-surface-container rounded-card p-6 text-center border border-white/5">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40">Sentiment Volatility</span>
+<div class="text-4xl font-headline font-bold text-[#FFAA5C] mt-2">4.2σ</div>
+<p class="text-[11px] text-on-surface-variant/40 mt-3 leading-relaxed">Desviación estándar · Baja volatilidad = estabilidad</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-surface-container rounded-card p-6 text-center border border-white/5">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40">Anomaly Detection</span>
+<div class="text-4xl font-headline font-bold text-error mt-2">2</div>
+<p class="text-[11px] text-on-surface-variant/40 mt-3 leading-relaxed">Anomalías últimos 30 días: Ruido (-5.2%) y Calidad-Precio (-4.2%)</p>
+</div>
+<div class="bg-surface-container rounded-card p-6 text-center border border-white/5">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/40">Recovery Prediction</span>
+<div class="text-4xl font-headline font-bold text-tertiary mt-2">~3 meses</div>
+<p class="text-[11px] text-on-surface-variant/40 mt-3 leading-relaxed">Tiempo estimado para regresar al umbral 65% si se interviene</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="text-center pt-8 border-t border-white/5 opacity-40 text-[10px] font-label uppercase tracking-widest">
+            Hoteles OLH · Sentiment Intelligence · POC Tesis ICESI · Datos simulados · Abril 2026
+        </footer>
+</div>
+</main>
+<!-- BottomNavBar for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#11131b] flex justify-around items-center z-50 px-4 border-t border-white/5">
+<a class="flex flex-col items-center gap-1 text-[#f2c35f]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-[10px] font-label uppercase tracking-tighter">Dashboard</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-[#e1e2ed]/60" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-label uppercase tracking-tighter">Reviews</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-[#e1e2ed]/60" href="#">
+<span class="material-symbols-outlined">cloud_upload</span>
+<span class="text-[10px] font-label uppercase tracking-tighter">Upload</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-[#e1e2ed]/60" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-label uppercase tracking-tighter">Settings</span>
+</a>
+</nav>
+<script>
+    // ─── SPARKLINE ───
+    const sparkData = [78, 92, 105, 88, 115, 98, 120, 110, 95, 130, 108, 112];
+    const sparkContainer = document.getElementById('sparklineContainer');
+    const maxVal = Math.max(...sparkData);
+    sparkData.forEach((v, i) => {
+        const bar = document.createElement('div');
+        bar.className = 'spark-bar';
+        bar.style.height = '0px';
+        bar.style.width = '6px';
+        bar.style.backgroundColor = v === maxVal ? '#D4A847' : '#5BA4F5';
+        sparkContainer.appendChild(bar);
+        setTimeout(() => { bar.style.height = ((v / maxVal) * 100) + '%'; }, 400 + i * 50);
+    });
+
+    // ─── TREND CHART MAIN ───
+    const trendCanvas = document.getElementById('trendChartMain');
+    const tCtx = trendCanvas.getContext('2d');
+    
+    function drawTrendChart() {
+        const parent = trendCanvas.parentElement;
+        const dpr = window.devicePixelRatio || 1;
+        trendCanvas.width = parent.clientWidth * dpr;
+        trendCanvas.height = parent.clientHeight * dpr;
+        trendCanvas.style.width = parent.clientWidth + 'px';
+        trendCanvas.style.height = parent.clientHeight + 'px';
+        tCtx.scale(dpr, dpr);
+
+        const w = parent.clientWidth, h = parent.clientHeight;
+        const padding = { L: 40, R: 20, T: 20, B: 40 };
+        const chartW = w - padding.L - padding.R, chartH = h - padding.T - padding.B;
+        
+        const months = ['May','Jun','Jul','Ago','Sep','Oct','Nov','Dic','Ene','Feb','Mar','Abr'];
+        const data = [65, 67, 68, 70, 69, 72, 73, 71, 73, 74, 72, 72];
+        
+        tCtx.clearRect(0,0,w,h);
+
+        // Grid
+        tCtx.strokeStyle = 'rgba(255,255,255,0.05)';
+        tCtx.lineWidth = 1;
+        for(let i=0; i<=4; i++) {
+            const y = padding.T + (chartH/4)*i;
+            tCtx.beginPath(); tCtx.moveTo(padding.L, y); tCtx.lineTo(w-padding.R, y); tCtx.stroke();
+            tCtx.fillStyle = '#8B95A8';
+            tCtx.font = '10px Inter';
+            tCtx.textAlign = 'right';
+            tCtx.fillText((100 - i*10) + '%', padding.L - 10, y + 4);
+        }
+
+        const pts = data.map((v, i) => ({
+            x: padding.L + (chartW / (data.length - 1)) * i,
+            y: padding.T + chartH - ((v - 50) / 50) * chartH
+        }));
+
+        // Area
+        const grad = tCtx.createLinearGradient(0, padding.T, 0, padding.T + chartH);
+        grad.addColorStop(0, 'rgba(212, 168, 71, 0.1)');
+        grad.addColorStop(1, 'rgba(212, 168, 71, 0)');
+        tCtx.beginPath();
+        tCtx.moveTo(pts[0].x, padding.T + chartH);
+        pts.forEach(p => tCtx.lineTo(p.x, p.y));
+        tCtx.lineTo(pts[pts.length-1].x, padding.T + chartH);
+        tCtx.fillStyle = grad;
+        tCtx.fill();
+
+        // Line
+        tCtx.beginPath();
+        tCtx.strokeStyle = '#D4A847';
+        tCtx.lineWidth = 2;
+        tCtx.lineJoin = 'round';
+        pts.forEach((p, i) => i === 0 ? tCtx.moveTo(p.x, p.y) : tCtx.lineTo(p.x, p.y));
+        tCtx.stroke();
+
+        // Dots & Labels
+        tCtx.textAlign = 'center';
+        pts.forEach((p, i) => {
+            tCtx.beginPath();
+            tCtx.arc(p.x, p.y, 3, 0, Math.PI*2);
+            tCtx.fillStyle = '#D4A847';
+            tCtx.fill();
+            tCtx.fillStyle = '#8B95A8';
+            tCtx.fillText(months[i], p.x, h - 10);
+        });
+    }
+
+    // ─── RISK DONUT ───
+    function drawRiskDonut() {
+        const dCanvas = document.getElementById('riskDonutChart');
+        const dCtx = dCanvas.getContext('2d');
+        const cx = 88, cy = 88, r = 70, lw = 12;
+        
+        dCtx.clearRect(0,0,176,176);
+        
+        // Background ring
+        dCtx.beginPath();
+        dCtx.arc(cx, cy, r, 0, Math.PI*2);
+        dCtx.strokeStyle = 'rgba(255,255,255,0.05)';
+        dCtx.lineWidth = lw;
+        dCtx.stroke();
+        
+        // Success part (60%)
+        dCtx.beginPath();
+        dCtx.arc(cx, cy, r, -Math.PI/2, -Math.PI/2 + 1.2*Math.PI);
+        dCtx.strokeStyle = '#3DDC97';
+        dCtx.lineCap = 'round';
+        dCtx.stroke();
+        
+        // Critical part (40%)
+        dCtx.beginPath();
+        dCtx.arc(cx, cy, r, -Math.PI/2 + 1.2*Math.PI, -Math.PI/2 + 2*Math.PI);
+        dCtx.strokeStyle = '#FF6B6B';
+        dCtx.stroke();
+    }
+
+    window.addEventListener('load', () => {
+        drawTrendChart();
+        drawRiskDonut();
+    });
+    window.addEventListener('resize', drawTrendChart);
+</script>
+</body></html>

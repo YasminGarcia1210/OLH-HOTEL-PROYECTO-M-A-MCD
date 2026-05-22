@@ -1,0 +1,886 @@
+{
+  "name": "miaa-Olh-hoteles-icesi",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "a96993c1-d180-4b56-bf95-14752f402d50",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -848,
+        -64
+      ],
+      "id": "97002a4f-385e-4ea3-bf06-7fefacbe6347",
+      "name": "Webhook",
+      "webhookId": "a96993c1-d180-4b56-bf95-14752f402d50",
+      "alwaysOutputData": true,
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SVC_DATA_VERIFICATION_URL_EJECUTAR }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "hotel_id",
+              "value": "={{ $json.body.hotel_id }}"
+            },
+            {
+              "name": "=drive_id_origen",
+              "value": "={{ $json.body.drive_id_origen }}"
+            },
+            {
+              "name": "nombre_archivo_origen",
+              "value": "={{ $json.body.nombre_archivo_origen }}"
+            },
+            {
+              "name": "plataforma",
+              "value": "={{ $json.body.plataforma }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -464,
+        -64
+      ],
+      "id": "418c152a-2539-4de5-ba71-c445794fb2cc",
+      "name": "VerificationCleanner",
+      "retryOnFail": false,
+      "alwaysOutputData": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SVC_SENTIMENT_URL_PROCESAR }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "archivo_id",
+              "value": "={{ $json.data.archivo_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -16,
+        -80
+      ],
+      "id": "2f96aeea-fc5a-449b-b57d-9a6646a53747",
+      "name": "SentimentPredict",
+      "alwaysOutputData": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        -400
+      ],
+      "id": "e32ab399-ca55-4d7b-b0dd-40b51644492d",
+      "name": "Wait",
+      "webhookId": "9bacef7e-2593-4780-a3d7-b5b25ec0fc0f"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "afcaea68-2895-4ba5-9177-e0c1235e6c05",
+              "leftValue": "={{ $json.data.estado_proceso }}",
+              "rightValue": "completado",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        560,
+        -400
+      ],
+      "id": "c68e2e59-4644-41fa-bda1-a457a96b7087",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.SVC_SENTIMENT_API_BASE + '/archivo/' + $('SentimentPredict').item.json.data.archivo_id + '/resultados' }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        368,
+        -400
+      ],
+      "id": "99dcaed2-ab7c-42f1-b194-2df5bbe251a1",
+      "name": "SentimentPredictResultados"
+    },
+    {
+      "parameters": {
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        528,
+        -64
+      ],
+      "id": "05a493a2-5358-4c17-865f-63c61c763766",
+      "name": "Wait1",
+      "webhookId": "0758ae83-8134-4132-82c5-fa54b207f456"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SVC_ABSA_URL_PROCESAR_BATCH }}",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "archivo_id",
+              "value": "={{ $json.data.archivo_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        256,
+        -64
+      ],
+      "id": "39dcc89a-568f-454a-b297-e4fdfeb0d9c3",
+      "name": "ABSAService",
+      "alwaysOutputData": false,
+      "notesInFlow": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2b91e187-fc5a-4bc8-8ed2-16c36e94a4bc",
+              "leftValue": "={{ $json.data.resultados[0].motivo }}",
+              "rightValue": "estado_aplicacion=aplicado",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        880,
+        -64
+      ],
+      "id": "0c6a1f21-4516-4bac-8349-825ac7316032",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SVC_ABSA_URL_BATCH_SINCRONIZAR }}",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "openai_batch_id",
+              "value": "={{ $('ABSAService').item.json.data.openai_batch_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        704,
+        -64
+      ],
+      "id": "ada25f70-c00a-469f-aa98-9271d2d7502d",
+      "name": "ABSAServiceSincronizar"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7968a068-a1dd-4952-abab-086304d393d2",
+              "name": "body.nombre_archivo_origen",
+              "value": "={{ $json.body.nombre_archivo_origen }}",
+              "type": "string"
+            },
+            {
+              "id": "3c10c67d-0835-4438-838b-5a06ea8a0f8f",
+              "name": "body.plataforma",
+              "value": "={{ $json.body.plataforma }}",
+              "type": "string"
+            },
+            {
+              "id": "6027b500-cf02-4893-9cad-2a3fbc4372f0",
+              "name": "error.message",
+              "value": "={{ $json.error.message }}",
+              "type": "string"
+            },
+            {
+              "id": "926122e3-cc83-4375-bed7-1119c4a3bb5b",
+              "name": "error.code",
+              "value": "={{ $json.error.code }}",
+              "type": "string"
+            },
+            {
+              "id": "ec79bc7b-ca64-4ed5-b59b-c137bb86b12c",
+              "name": "error.status",
+              "value": "={{ $json.error.status }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -432,
+        192
+      ],
+      "id": "43557592-aa20-4cf6-8e9a-4b8cad8ecd95",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "function parseAxiosStyleMessage(msg) {\n  if (typeof msg !== 'string' || !msg.trim()) {\n    return { httpStatus: null, codigo: null, mensajeNegocio: null, parseOk: false };\n  }\n\n  const m = msg.match(/^(\\d+)\\s*-\\s*\"([\\s\\S]*)\"\\s*$/);\n  if (!m) {\n    return { httpStatus: null, codigo: null, mensajeNegocio: null, parseOk: false };\n  }\n\n  const httpStatus = Number(m[1], 10);\n  let inner = m[2];\n  inner = inner.replace(/\\\\\"/g, '\"').replace(/\\\\n/g, '\\n').trim();\n\n  try {\n    const body = JSON.parse(inner);\n    const err = body?.error;\n    return {\n      httpStatus,\n      codigo: err?.codigo ?? null,\n      mensajeNegocio: err?.mensaje ?? null,\n      parseOk: true,\n    };\n  } catch {\n    return { httpStatus, codigo: null, mensajeNegocio: null, parseOk: false };\n  }\n}\n\nreturn $input.all().map((item) => {\n  const msg = item.json.error?.message;\n  const parsed = parseAxiosStyleMessage(msg);\n\n  const tituloCorreo = parsed.mensajeNegocio\n    ? `No se pudo verificar el archivo`\n    : `Error al verificar el archivo`;\n\n  const resumen =\n    parsed.mensajeNegocio ||\n    'Ocurrió un problema al procesar la solicitud. El equipo técnico puede revisar el detalle en n8n.';\n\n  return {\n    json: {\n      ...item.json,\n      alerta_verificacion: {\n        titulo: tituloCorreo,\n        resumen_usuario: resumen,\n        codigo_api: parsed.codigo,\n        http_status: parsed.httpStatus,\n        parse_ok: parsed.parseOk,\n      },\n    },\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -448,
+        512
+      ],
+      "id": "2963fc3b-a44f-4148-935a-9009766a7bbf",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a65d6342-1633-4b1d-b836-e02c045cb19a",
+              "name": "data.nombre_archivo_origen",
+              "value": "={{ $json.data.nombre_archivo_origen }}",
+              "type": "string"
+            },
+            {
+              "id": "79441693-ff71-41fa-a7ae-51aaadca1298",
+              "name": "error.message",
+              "value": "={{ $json.error.message }}",
+              "type": "string"
+            },
+            {
+              "id": "5258a42d-303f-4f6f-8ce3-2b76e6d3aaf2",
+              "name": "error.status",
+              "value": "={{ $json.error.status }}",
+              "type": "number"
+            },
+            {
+              "id": "bcd89d07-4f42-4f9d-b438-401569c04c30",
+              "name": "error.code",
+              "value": "={{ $json.error.code }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        16,
+        192
+      ],
+      "id": "805fcc00-5042-43dc-981d-b8061f3c81e6",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "jsCode": "function parseAxiosStyleMessage(msg) {\n  if (typeof msg !== 'string' || !msg.trim()) {\n    return { httpStatus: null, codigo: null, mensajeNegocio: null, parseOk: false };\n  }\n\n  const m = msg.match(/^(\\d+)\\s*-\\s*\"([\\s\\S]*)\"\\s*$/);\n  if (!m) {\n    return { httpStatus: null, codigo: null, mensajeNegocio: null, parseOk: false };\n  }\n\n  const httpStatus = Number(m[1], 10);\n  let inner = m[2];\n  inner = inner.replace(/\\\\\"/g, '\"').replace(/\\\\n/g, '\\n').trim();\n\n  try {\n    const body = JSON.parse(inner);\n    const err = body?.error;\n    return {\n      httpStatus,\n      codigo: err?.codigo ?? null,\n      mensajeNegocio: err?.mensaje ?? null,\n      parseOk: true,\n    };\n  } catch {\n    return { httpStatus, codigo: null, mensajeNegocio: null, parseOk: false };\n  }\n}\n\nreturn $input.all().map((item) => {\n  const msg = item.json.error?.message;\n  const parsed = parseAxiosStyleMessage(msg);\n\n  const tituloCorreo = parsed.mensajeNegocio\n    ? `No se pudo verificar el archivo`\n    : `Error al verificar el archivo`;\n\n  const resumen =\n    parsed.mensajeNegocio ||\n    'Ocurrió un problema al procesar la solicitud. El equipo técnico puede revisar el detalle en n8n.';\n\n  return {\n    json: {\n      ...item.json,\n      alerta_verificacion: {\n        titulo: tituloCorreo,\n        resumen_usuario: resumen,\n        codigo_api: parsed.codigo,\n        http_status: parsed.httpStatus,\n        parse_ok: parsed.parseOk,\n      },\n    },\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        512
+      ],
+      "id": "202df4d7-c0cc-4cfd-8940-12ff57657dcf",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "79441693-ff71-41fa-a7ae-51aaadca1298",
+              "name": "error.message",
+              "value": "={{ $json.error.message }}",
+              "type": "string"
+            },
+            {
+              "id": "5258a42d-303f-4f6f-8ce3-2b76e6d3aaf2",
+              "name": "error.status",
+              "value": "={{ $json.error.status }}",
+              "type": "number"
+            },
+            {
+              "id": "bcd89d07-4f42-4f9d-b438-401569c04c30",
+              "name": "error.code",
+              "value": "={{ $json.error.code }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        224
+      ],
+      "id": "464306de-9121-4fc7-ae07-420a6196f2f2",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "jsCode": "function parseAxiosStyleMessage(msg) {\n  if (typeof msg !== 'string' || !msg.trim()) {\n    return { httpStatus: null, codigo: null, mensajeNegocio: null, parseOk: false };\n  }\n\n  const m = msg.match(/^(\\d+)\\s*-\\s*\"([\\s\\S]*)\"\\s*$/);\n  if (!m) {\n    return { httpStatus: null, codigo: null, mensajeNegocio: null, parseOk: false };\n  }\n\n  const httpStatus = Number(m[1], 10);\n  let inner = m[2];\n  inner = inner.replace(/\\\\\"/g, '\"').replace(/\\\\n/g, '\\n').trim();\n\n  try {\n    const body = JSON.parse(inner);\n    const err = body?.error;\n    return {\n      httpStatus,\n      codigo: err?.codigo ?? null,\n      mensajeNegocio: err?.mensaje ?? null,\n      parseOk: true,\n    };\n  } catch {\n    return { httpStatus, codigo: null, mensajeNegocio: null, parseOk: false };\n  }\n}\n\nreturn $input.all().map((item) => {\n  const msg = item.json.error?.message;\n  const parsed = parseAxiosStyleMessage(msg);\n\n  const tituloCorreo = parsed.mensajeNegocio\n    ? `No se pudo verificar el archivo`\n    : `Error al verificar el archivo`;\n\n  const resumen =\n    parsed.mensajeNegocio ||\n    'Ocurrió un problema al procesar la solicitud. El equipo técnico puede revisar el detalle en n8n.';\n\n  return {\n    json: {\n      ...item.json,\n      alerta_verificacion: {\n        titulo: tituloCorreo,\n        resumen_usuario: resumen,\n        codigo_api: parsed.codigo,\n        http_status: parsed.httpStatus,\n        parse_ok: parsed.parseOk,\n      },\n    },\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        224
+      ],
+      "id": "aac0e238-8209-43f2-9858-6b04e35dac4b",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SVC_METRIC_PROCESSOR_URL_CALCULAR }}",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "archivo_id",
+              "value": "={{ $('SentimentPredictResultados').item.json.data.archivo_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1168,
+        -80
+      ],
+      "id": "dadec007-f981-4cca-8486-319fd69cebc7",
+      "name": "MetricProcessor",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "79441693-ff71-41fa-a7ae-51aaadca1298",
+              "name": "error.message",
+              "value": "={{ $json.error.message }}",
+              "type": "string"
+            },
+            {
+              "id": "5258a42d-303f-4f6f-8ce3-2b76e6d3aaf2",
+              "name": "error.status",
+              "value": "={{ $json.error.status }}",
+              "type": "number"
+            },
+            {
+              "id": "bcd89d07-4f42-4f9d-b438-401569c04c30",
+              "name": "error.code",
+              "value": "={{ $json.error.code }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1168,
+        160
+      ],
+      "id": "0f9db6fe-d857-449e-8f02-be06bf245c20",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "jsCode": "function parseAxiosStyleMessage(msg) {\n  if (typeof msg !== 'string' || !msg.trim()) {\n    return { httpStatus: null, codigo: null, mensajeNegocio: null, parseOk: false };\n  }\n\n  const m = msg.match(/^(\\d+)\\s*-\\s*\"([\\s\\S]*)\"\\s*$/);\n  if (!m) {\n    return { httpStatus: null, codigo: null, mensajeNegocio: null, parseOk: false };\n  }\n\n  const httpStatus = Number(m[1], 10);\n  let inner = m[2];\n  inner = inner.replace(/\\\\\"/g, '\"').replace(/\\\\n/g, '\\n').trim();\n\n  try {\n    const body = JSON.parse(inner);\n    const err = body?.error;\n    return {\n      httpStatus,\n      codigo: err?.codigo ?? null,\n      mensajeNegocio: err?.mensaje ?? null,\n      parseOk: true,\n    };\n  } catch {\n    return { httpStatus, codigo: null, mensajeNegocio: null, parseOk: false };\n  }\n}\n\nreturn $input.all().map((item) => {\n  const msg = item.json.error?.message;\n  const parsed = parseAxiosStyleMessage(msg);\n\n  const tituloCorreo = parsed.mensajeNegocio\n    ? `No se pudo verificar el archivo`\n    : `Error al verificar el archivo`;\n\n  const resumen =\n    parsed.mensajeNegocio ||\n    'Ocurrió un problema al procesar la solicitud. El equipo técnico puede revisar el detalle en n8n.';\n\n  return {\n    json: {\n      ...item.json,\n      alerta_verificacion: {\n        titulo: tituloCorreo,\n        resumen_usuario: resumen,\n        codigo_api: parsed.codigo,\n        http_status: parsed.httpStatus,\n        parse_ok: parsed.parseOk,\n      },\n    },\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1408,
+        160
+      ],
+      "id": "2781dbee-b0df-4a3f-a54c-8d01224e059b",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $env.OLH_PIPELINE_NOTIFY_RECIPIENTS }}",
+        "subject": "=Métricas archivo  {{ $('Webhook').item.json.body.nombre_archivo_origen }}· {{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].periodo.mes }}/{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].periodo.anio }} · Score {{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.score_promedio }}",
+        "message": "=<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Métricas por período</title>\n</head>\n<body style=\"margin:0;padding:0;background:#f3f4f6;font-family:'Segoe UI',system-ui,Roboto,Helvetica,Arial,sans-serif;color:#111827;\">\n  <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#f3f4f6;padding:28px 12px;\">\n    <tr>\n      <td align=\"center\">\n        <table role=\"presentation\" width=\"640\" cellspacing=\"0\" cellpadding=\"0\" style=\"max-width:640px;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #e5e7eb;\">\n\n          <tr>\n            <td style=\"background:linear-gradient(135deg,#059669 0%,#047857 50%,#065f46 100%);padding:28px 28px 22px;color:#ecfdf5;\">\n              <p style=\"margin:0 0 8px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.9;\">Métricas calculadas</p>\n              <h1 style=\"margin:0;font-size:22px;font-weight:700;line-height:1.25;\">Resumen del último período</h1>\n              <p style=\"margin:10px 0 0;font-size:15px;opacity:0.95;\">\n                Archivo  <strong>{{ $('Webhook').item.json.body.nombre_archivo_origen }}</strong>\n                · Estado <strong>{{ $json.data.estado }}</strong>\n              </p>\n              <p style=\"margin:6px 0 0;font-size:13px;opacity:0.88;\">\n                Actualización: {{ $json.data.fecha_metricas }}\n              </p>\n            </td>\n          </tr>\n\n          <tr>\n            <td style=\"padding:22px 28px 8px;\">\n              <p style=\"margin:0;font-size:15px;line-height:1.55;color:#374151;\">\n                Período destacado:\n                <strong>{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].periodo.mes }}/{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].periodo.anio }}</strong>.\n                Score promedio\n                <strong>{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.score_promedio }}</strong>\n                sobre\n                <strong>{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.total_reviews }}</strong> reseñas.\n                {{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.cambio_pct_vs_anterior !== null && $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.cambio_pct_vs_anterior !== undefined ? 'Variación vs período anterior: **' + $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.cambio_pct_vs_anterior + '%**.' : 'Sin variación vs período anterior (primer período de la serie o dato no disponible).' }}\n              </p>\n            </td>\n          </tr>\n\n          <tr>\n            <td style=\"padding:12px 28px 8px;\">\n              <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n                <tr>\n                  <td width=\"50%\" style=\"padding:6px;vertical-align:top;\">\n                    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;\">\n                      <tr>\n                        <td style=\"padding:14px 16px;\">\n                          <p style=\"margin:0;font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;\">Score promedio</p>\n                          <p style=\"margin:6px 0 0;font-size:26px;font-weight:700;color:#047857;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.score_promedio }}</p>\n                        </td>\n                      </tr>\n                    </table>\n                  </td>\n                  <td width=\"50%\" style=\"padding:6px;vertical-align:top;\">\n                    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;\">\n                      <tr>\n                        <td style=\"padding:14px 16px;\">\n                          <p style=\"margin:0;font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;\">Δ vs anterior</p>\n                          <p style=\"margin:6px 0 0;font-size:26px;font-weight:700;color:#047857;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.cambio_pct_vs_anterior ?? '—' }}</p>\n                        </td>\n                      </tr>\n                    </table>\n                  </td>\n                </tr>\n                <tr>\n                  <td width=\"50%\" style=\"padding:6px;vertical-align:top;\">\n                    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;\">\n                      <tr>\n                        <td style=\"padding:14px 16px;\">\n                          <p style=\"margin:0;font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;\">Total reseñas</p>\n                          <p style=\"margin:6px 0 0;font-size:26px;font-weight:700;color:#111827;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.total_reviews }}</p>\n                        </td>\n                      </tr>\n                    </table>\n                  </td>\n                  <td width=\"50%\" style=\"padding:6px;vertical-align:top;\">\n                    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;\">\n                      <tr>\n                        <td style=\"padding:14px 16px;\">\n                          <p style=\"margin:0;font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;\">Sentimiento</p>\n                          <p style=\"margin:8px 0 0;font-size:13px;line-height:1.45;color:#374151;\">\n                            + {{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.reviews_positivas }} ·\n                            ~ {{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.reviews_neutras }} ·\n                            − {{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.reviews_negativas }}\n                          </p>\n                        </td>\n                      </tr>\n                    </table>\n                  </td>\n                </tr>\n              </table>\n            </td>\n          </tr>\n\n          <tr>\n            <td style=\"padding:8px 28px 8px;\">\n              <p style=\"margin:0 0 10px;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;\">Distribución del sentimiento (último período)</p>\n              <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-radius:8px;overflow:hidden;height:14px;\">\n                <tr>\n                  <td style=\"width:{{ Math.round($json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.reviews_positivas / ($json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.total_reviews || 1) * 10000) / 100 }}%;background:#10b981;height:14px;min-width:4px;\"></td>\n                  <td style=\"width:{{ Math.round($json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.reviews_neutras / ($json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.total_reviews || 1) * 10000) / 100 }}%;background:#9ca3af;height:14px;min-width:4px;\"></td>\n                  <td style=\"width:{{ Math.round($json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.reviews_negativas / ($json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.total_reviews || 1) * 10000) / 100 }}%;background:#ef4444;height:14px;min-width:4px;\"></td>\n                </tr>\n              </table>\n              <p style=\"margin:8px 0 0;font-size:12px;color:#6b7280;\">\n                Positivas {{ Math.round($json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.reviews_positivas / ($json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.total_reviews || 1) * 1000) / 10 }}% ·\n                Neutras {{ Math.round($json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.reviews_neutras / ($json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.total_reviews || 1) * 1000) / 10 }}% ·\n                Negativas {{ Math.round($json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.reviews_negativas / ($json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].global.total_reviews || 1) * 1000) / 10 }}%\n              </p>\n            </td>\n          </tr>\n\n          <tr>\n            <td style=\"padding:8px 28px 16px;\">\n              <p style=\"margin:0;font-size:12px;color:#6b7280;line-height:1.5;\">\n                <strong style=\"color:#374151;\">Serie analizada:</strong>\n                {{ $json.data.periodos.length }} períodos\n                ({{ $json.data.periodos[0].mes }}/{{ $json.data.periodos[0].anio }}\n                –\n                {{ $json.data.periodos[$json.data.periodos.length - 1].mes }}/{{ $json.data.periodos[$json.data.periodos.length - 1].anio }}).\n              </p>\n            </td>\n          </tr>\n\n          <tr>\n            <td style=\"padding:4px 28px 24px;\">\n              <p style=\"margin:0 0 12px;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;\">Alertas por tópico (último período)</p>\n              <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;\">\n                <tr style=\"background:#f9fafb;\">\n                  <th align=\"left\" style=\"padding:10px 14px;font-size:12px;color:#6b7280;font-weight:600;border-bottom:1px solid #e5e7eb;\">Tópico</th>\n                  <th align=\"right\" style=\"padding:10px 14px;font-size:12px;color:#6b7280;font-weight:600;border-bottom:1px solid #e5e7eb;\">Score</th>\n                </tr>\n                <tr>\n                  <td style=\"padding:10px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].alertas_generadas[0].topico_slug }}</td>\n                  <td align=\"right\" style=\"padding:10px 14px;font-size:14px;font-weight:600;border-bottom:1px solid #f3f4f6;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].alertas_generadas[0].score_actual }}</td>\n                </tr>\n                <tr>\n                  <td style=\"padding:10px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].alertas_generadas[1].topico_slug }}</td>\n                  <td align=\"right\" style=\"padding:10px 14px;font-size:14px;font-weight:600;border-bottom:1px solid #f3f4f6;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].alertas_generadas[1].score_actual }}</td>\n                </tr>\n                <tr>\n                  <td style=\"padding:10px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].alertas_generadas[2].topico_slug }}</td>\n                  <td align=\"right\" style=\"padding:10px 14px;font-size:14px;font-weight:600;border-bottom:1px solid #f3f4f6;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].alertas_generadas[2].score_actual }}</td>\n                </tr>\n                <tr>\n                  <td style=\"padding:10px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].alertas_generadas[3].topico_slug }}</td>\n                  <td align=\"right\" style=\"padding:10px 14px;font-size:14px;font-weight:600;border-bottom:1px solid #f3f4f6;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].alertas_generadas[3].score_actual }}</td>\n                </tr>\n                <tr>\n                  <td style=\"padding:10px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].alertas_generadas[4].topico_slug }}</td>\n                  <td align=\"right\" style=\"padding:10px 14px;font-size:14px;font-weight:600;border-bottom:1px solid #f3f4f6;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].alertas_generadas[4].score_actual }}</td>\n                </tr>\n                <tr>\n                  <td style=\"padding:10px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].alertas_generadas[5].topico_slug }}</td>\n                  <td align=\"right\" style=\"padding:10px 14px;font-size:14px;font-weight:600;border-bottom:1px solid #f3f4f6;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].alertas_generadas[5].score_actual }}</td>\n                </tr>\n                <tr>\n                  <td style=\"padding:10px 14px;font-size:14px;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].alertas_generadas[6].topico_slug }}</td>\n                  <td align=\"right\" style=\"padding:10px 14px;font-size:14px;font-weight:600;\">{{ $json.data.metricas_por_periodo[$json.data.metricas_por_periodo.length - 1].alertas_generadas[6].score_actual }}</td>\n                </tr>\n              </table>\n              \n            </td>\n          </tr>\n\n          <tr>\n            <td style=\"padding:0 28px 22px;\">\n              <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;\">\n                <tr>\n                  <td style=\"padding:14px 16px;font-size:13px;color:#065f46;line-height:1.5;\">\n                    <strong>Estado:</strong> métricas disponibles .\n                  </td>\n                </tr>\n              </table>\n            </td>\n          </tr>\n\n          <tr>\n            <td style=\"padding:14px 28px;background:#fafafa;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af;line-height:1.45;\">\n              Vista ejecutiva del último mes en la serie. Evolución mes a mes sigue en sistema / dashboard.\n            </td>\n          </tr>\n        </table>\n      </td>\n    </tr>\n  </table>\n</body>\n</html>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1616,
+        -96
+      ],
+      "id": "c320af2c-6c12-4660-b6a4-8a6990f4c3d8",
+      "name": "Success",
+      "webhookId": "42d33491-77fe-45ef-b755-9c53de0c330c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TtqDgNqmAg1F60BB",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $env.OLH_PIPELINE_NOTIFY_RECIPIENTS }}",
+        "subject": "=Error métricas — {{ $json.alerta_verificacion.codigo_api }} (HTTP {{ $json.alerta_verificacion.http_status }})",
+        "message": "=<!DOCTYPE html> <html lang=\"es\"> <head>   <meta charset=\"utf-8\" />   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />   <title>{{ $json.alerta_verificacion.titulo }}</title> </head> <body style=\"margin:0;padding:0;background-color:#f4f4f5;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1f2937;\">   <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background-color:#f4f4f5;padding:24px 12px;\">     <tr>       <td align=\"center\">         <table role=\"presentation\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" style=\"max-width:600px;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 1px 3px rgba(0,0,0,0.06);\">           <tr>             <td style=\"background:linear-gradient(135deg,#b91c1c 0%,#991b1b 100%);color:#fff;padding:22px 24px;\">               <p style=\"margin:0;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;opacity:0.9;\">Metric Calculation</p>               <h1 style=\"margin:8px 0 0;font-size:20px;font-weight:600;line-height:1.3;\">No se pudieron calcular las métricas</h1>             </td>           </tr>            <tr>             <td style=\"padding:24px 24px 8px;\">               <p style=\"margin:0;font-size:16px;line-height:1.55;color:#374151;\">                 {{ $json.alerta_verificacion.resumen_usuario }}               </p>             </td>           </tr>            <tr>             <td style=\"padding:8px 24px 20px;\">               <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb;\">                 <tr>                   <td colspan=\"2\" style=\"padding:12px 16px;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid #e5e7eb;\">                     Detalle del intento                   </td>                 </tr>                 <tr>                   <td style=\"padding:10px 16px;font-size:14px;color:#6b7280;width:42%;border-bottom:1px solid #e5e7eb;vertical-align:top;\">Endpoint</td>                   <td style=\"padding:10px 16px;font-size:14px;font-weight:500;border-bottom:1px solid #e5e7eb;\">POST /api/v1/metricas/calcular</td>                 </tr>                 <tr>                   <td style=\"padding:10px 16px;font-size:14px;color:#6b7280;border-bottom:1px solid #e5e7eb;vertical-align:top;\">Código API</td>                   <td style=\"padding:10px 16px;font-size:14px;border-bottom:1px solid #e5e7eb;\">                     <code style=\"background:#eef2ff;color:#3730a3;padding:3px 8px;border-radius:4px;font-size:13px;\">                       {{ $json.alerta_verificacion.codigo_api }}                     </code>                   </td>                 </tr>                 <tr>                   <td style=\"padding:10px 16px;font-size:14px;color:#6b7280;vertical-align:top;\">Estado HTTP</td>                   <td style=\"padding:10px 16px;font-size:14px;\">{{ $json.alerta_verificacion.http_status }}</td>                 </tr>               </table>             </td>           </tr>            <tr>             <td style=\"padding:0 24px 24px;\">               <p style=\"margin:0;font-size:13px;line-height:1.5;color:#6b7280;\">                 Para poder calcular métricas, el archivo debe haber completado la etapa previa del pipeline (identificación de tópicos). Si el archivo ya está en un estado final, puede que las métricas ya estén calculadas o que haya que revisar el orden de las etapas con el equipo técnico.               </p>             </td>           </tr>            <tr>             <td style=\"padding:14px 24px;background:#fafafa;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af;line-height:1.45;\">               Notificación automática del flujo de métricas. No respondas a este correo.             </td>           </tr>         </table>       </td>     </tr>   </table> </body> </html>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1616,
+        160
+      ],
+      "id": "cefa5e4e-5e3a-41e2-90ab-43c7e8b9453e",
+      "name": "ErrorMetricProcessor",
+      "webhookId": "b8c5236f-d38f-493f-b401-06a61140a4d4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TtqDgNqmAg1F60BB",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $env.OLH_PIPELINE_NOTIFY_RECIPIENTS }}",
+        "subject": "=OLH Hotels Notification AI - {{ $json.alerta_verificacion.titulo }} ",
+        "message": "=<!DOCTYPE html> <html lang=\"es\"> <head>   <meta charset=\"utf-8\" />   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />   <title>{{ $json.alerta_verificacion.titulo }}</title> </head> <body style=\"margin:0;padding:0;background-color:#f4f4f5;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1f2937;\">   <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background-color:#f4f4f5;padding:24px 12px;\">     <tr>       <td align=\"center\">         <table role=\"presentation\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" style=\"max-width:600px;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 1px 3px rgba(0,0,0,0.06);\">           <tr>             <td style=\"background:linear-gradient(135deg,#b91c1c 0%,#991b1b 100%);color:#fff;padding:22px 24px;\">               <p style=\"margin:0;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;opacity:0.9;\">ABSA Service</p>               <h1 style=\"margin:8px 0 0;font-size:20px;font-weight:600;line-height:1.3;\">No se pudo ejecutar ABSA</h1>             </td>           </tr>            <tr>             <td style=\"padding:24px 24px 8px;\">               <p style=\"margin:0;font-size:16px;line-height:1.55;color:#374151;\">                 {{ $json.alerta_verificacion.resumen_usuario }}               </p>             </td>           </tr>            <tr>             <td style=\"padding:8px 24px 20px;\">               <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb;\">                 <tr>                   <td colspan=\"2\" style=\"padding:12px 16px;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid #e5e7eb;\">                     Detalle del intento                   </td>                 </tr>                 <tr>                   <td style=\"padding:10px 16px;font-size:14px;color:#6b7280;width:42%;border-bottom:1px solid #e5e7eb;vertical-align:top;\">Servicio</td>                   <td style=\"padding:10px 16px;font-size:14px;font-weight:500;border-bottom:1px solid #e5e7eb;\">ABSA Service</td>                 </tr>                 <tr>                   <td style=\"padding:10px 16px;font-size:14px;color:#6b7280;width:42%;border-bottom:1px solid #e5e7eb;vertical-align:top;\">Código API</td>                   <td style=\"padding:10px 16px;font-size:14px;border-bottom:1px solid #e5e7eb;\">                     <code style=\"background:#eef2ff;color:#3730a3;padding:3px 8px;border-radius:4px;font-size:13px;\">                       {{ $json.alerta_verificacion.codigo_api }}                     </code>                   </td>                 </tr>                 <tr>                   <td style=\"padding:10px 16px;font-size:14px;color:#6b7280;vertical-align:top;\">Estado HTTP</td>                   <td style=\"padding:10px 16px;font-size:14px;\">{{ $json.alerta_verificacion.http_status }}</td>                 </tr>               </table>             </td>           </tr>            <tr>             <td style=\"padding:0 24px 24px;\">               <p style=\"margin:0;font-size:13px;line-height:1.5;color:#6b7280;\">                 Acción sugerida: validar que el archivo esté en estado <strong>predicted</strong> antes de ejecutar ABSA.               </p>             </td>           </tr>            <tr>             <td style=\"padding:14px 24px;background:#fafafa;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af;line-height:1.45;\">               Notificación automática del flujo ABSA. No respondas a este correo.             </td>           </tr>         </table>       </td>     </tr>   </table> </body> </html>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        224
+      ],
+      "id": "31229a08-e881-4754-a63c-e8cd56341f44",
+      "name": "ErrorAbsaService",
+      "webhookId": "6174e1f4-dff2-4710-9098-b51af92b4bf8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TtqDgNqmAg1F60BB",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $env.OLH_PIPELINE_NOTIFY_RECIPIENTS }}",
+        "subject": "=OLH Hotels Notification AI - {{ $json.alerta_verificacion.titulo }} — {{ $json.data.nombre_archivo_origen }}",
+        "message": "=<!DOCTYPE html> <html lang=\"es\"> <head>   <meta charset=\"utf-8\" />   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />   <title>{{ $json.alerta_verificacion.titulo }}</title> </head> <body style=\"margin:0;padding:0;background-color:#f4f4f5;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1f2937;\">   <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background-color:#f4f4f5;padding:24px 12px;\">     <tr>       <td align=\"center\">         <table role=\"presentation\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" style=\"max-width:600px;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 1px 3px rgba(0,0,0,0.06);\">           <tr>             <td style=\"background:linear-gradient(135deg,#b91c1c 0%,#991b1b 100%);color:#fff;padding:22px 24px;\">               <p style=\"margin:0;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;opacity:0.9;\">SentimentPredict</p>               <h1 style=\"margin:8px 0 0;font-size:20px;font-weight:600;line-height:1.3;\">No se pudo procesar sentimiento</h1>             </td>           </tr>            <tr>             <td style=\"padding:24px 24px 8px;\">               <p style=\"margin:0;font-size:16px;line-height:1.55;color:#374151;\">                 {{ $json.alerta_verificacion.resumen_usuario }}               </p>             </td>           </tr>            <tr>             <td style=\"padding:8px 24px 20px;\">               <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb;\">                 <tr>                   <td colspan=\"2\" style=\"padding:12px 16px;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid #e5e7eb;\">                     Detalle del intento                   </td>                 </tr>                 <tr>                   <td style=\"padding:10px 16px;font-size:14px;color:#6b7280;width:42%;border-bottom:1px solid #e5e7eb;vertical-align:top;\">Endpoint</td>                   <td style=\"padding:10px 16px;font-size:14px;font-weight:500;border-bottom:1px solid #e5e7eb;\">                     POST /api/v1/sentimiento/procesar                   </td>                 </tr>                 <tr>                   <td style=\"padding:10px 16px;font-size:14px;color:#6b7280;width:42%;border-bottom:1px solid #e5e7eb;vertical-align:top;\">Archivo</td>                   <td style=\"padding:10px 16px;font-size:14px;font-weight:500;border-bottom:1px solid #e5e7eb;word-break:break-word;\">                     {{ $json.data.nombre_archivo_origen }}                   </td>                 </tr>                 <tr>                   <td style=\"padding:10px 16px;font-size:14px;color:#6b7280;border-bottom:1px solid #e5e7eb;vertical-align:top;\">Código API</td>                   <td style=\"padding:10px 16px;font-size:14px;border-bottom:1px solid #e5e7eb;\">                     <code style=\"background:#eef2ff;color:#3730a3;padding:3px 8px;border-radius:4px;font-size:13px;\">                       {{ $json.alerta_verificacion.codigo_api }}                     </code>                   </td>                 </tr>                 <tr>                   <td style=\"padding:10px 16px;font-size:14px;color:#6b7280;vertical-align:top;\">Estado HTTP</td>                   <td style=\"padding:10px 16px;font-size:14px;\">{{ $json.alerta_verificacion.http_status }}</td>                 </tr>               </table>             </td>           </tr>            <tr>             <td style=\"padding:0 24px 24px;\">               <p style=\"margin:0;font-size:13px;line-height:1.5;color:#6b7280;\">                 Si el archivo ya fue procesado previamente, no es necesario reintentar. Si esperabas una nueva corrida, coordina con el equipo técnico.               </p>             </td>           </tr>            <tr>             <td style=\"padding:14px 24px;background:#fafafa;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af;line-height:1.45;\">               Notificación automática del flujo de SentimentPredict. No respondas a este correo.             </td>           </tr>         </table>       </td>     </tr>   </table> </body> </html>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        176,
+        512
+      ],
+      "id": "e3b66034-fdb2-4167-9cc9-e8d5a76f42d5",
+      "name": "ErrorSentimentPredict",
+      "webhookId": "3d0778dc-dac8-4cfc-8c4b-26755ca24d18",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TtqDgNqmAg1F60BB",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $env.OLH_PIPELINE_NOTIFY_RECIPIENTS }}",
+        "subject": "=OLH Hotels Notification AI - {{ $json.alerta_verificacion.titulo }} — {{ $json.body.nombre_archivo_origen }}",
+        "message": "=<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>{{ $json.alerta_verificacion.titulo }}</title>\n</head>\n<body style=\"margin:0;padding:0;background-color:#f4f4f5;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1f2937;\">\n  <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background-color:#f4f4f5;padding:24px 12px;\">\n    <tr>\n      <td align=\"center\">\n        <table role=\"presentation\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" style=\"max-width:600px;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 1px 3px rgba(0,0,0,0.06);\">\n          <tr>\n            <td style=\"background:linear-gradient(135deg,#b91c1c 0%,#991b1b 100%);color:#fff;padding:22px 24px;\">\n              <p style=\"margin:0;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;opacity:0.9;\">Verificación de archivos</p>\n              <h1 style=\"margin:8px 0 0;font-size:20px;font-weight:600;line-height:1.3;\">{{ $json.alerta_verificacion.titulo }}</h1>\n            </td>\n          </tr>\n          <tr>\n            <td style=\"padding:24px 24px 8px;\">\n              <p style=\"margin:0;font-size:16px;line-height:1.55;color:#374151;\">\n                {{ $json.alerta_verificacion.resumen_usuario }}\n              </p>\n            </td>\n          </tr>\n          <tr>\n            <td style=\"padding:8px 24px 20px;\">\n              <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb;\">\n                <tr>\n                  <td colspan=\"2\" style=\"padding:12px 16px;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid #e5e7eb;\">\n                    Detalle del intento\n                  </td>\n                </tr>\n                <tr>\n                  <td style=\"padding:10px 16px;font-size:14px;color:#6b7280;width:42%;border-bottom:1px solid #e5e7eb;vertical-align:top;\">Archivo</td>\n                  <td style=\"padding:10px 16px;font-size:14px;font-weight:500;border-bottom:1px solid #e5e7eb;word-break:break-word;\">{{ $json.body.nombre_archivo_origen }}</td>\n                </tr>\n                <tr>\n                  <td style=\"padding:10px 16px;font-size:14px;color:#6b7280;border-bottom:1px solid #e5e7eb;vertical-align:top;\">Plataforma</td>\n                  <td style=\"padding:10px 16px;font-size:14px;border-bottom:1px solid #e5e7eb;\">{{ $json.body.plataforma }}</td>\n                </tr>\n                <tr>\n                  <td style=\"padding:10px 16px;font-size:14px;color:#6b7280;border-bottom:1px solid #e5e7eb;vertical-align:top;\">Código</td>\n                  <td style=\"padding:10px 16px;font-size:14px;border-bottom:1px solid #e5e7eb;\"><code style=\"background:#eef2ff;color:#3730a3;padding:3px 8px;border-radius:4px;font-size:13px;\">{{ $json.alerta_verificacion.codigo_api }}</code></td>\n                </tr>\n                <tr>\n                  <td style=\"padding:10px 16px;font-size:14px;color:#6b7280;vertical-align:top;\">Estado HTTP</td>\n                  <td style=\"padding:10px 16px;font-size:14px;\">{{ $json.alerta_verificacion.http_status }}</td>\n                </tr>\n              </table>\n            </td>\n          </tr>\n          <tr>\n            <td style=\"padding:0 24px 24px;\">\n              <p style=\"margin:0;font-size:13px;line-height:1.5;color:#6b7280;\">\n                Si necesitás volver a procesar este archivo, coordiná con el equipo técnico o revisá el estado en el sistema antes de reintentar.\n              </p>\n            </td>\n          </tr>\n          <tr>\n            <td style=\"padding:14px 24px;background:#fafafa;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af;line-height:1.45;\">\n              Notificación automática del flujo de verificación. No respondas a este correo.\n            </td>\n          </tr>\n        </table>\n      </td>\n    </tr>\n  </table>\n</body>\n</html>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -288,
+        512
+      ],
+      "id": "309bf4ef-c30d-43e2-a4a9-f3fe84040a4b",
+      "name": "ErrorVerificationCleaner",
+      "webhookId": "d73df9db-7298-465e-ab93-333ac346edf8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TtqDgNqmAg1F60BB",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "VerificationCleanner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VerificationCleanner": {
+      "main": [
+        [
+          {
+            "node": "SentimentPredict",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SentimentPredict": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "SentimentPredictResultados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "ABSAService",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SentimentPredictResultados": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ABSAService": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "ABSAServiceSincronizar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "MetricProcessor",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ABSAServiceSincronizar": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "ErrorVerificationCleaner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "ErrorSentimentPredict",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "ErrorAbsaService",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MetricProcessor": {
+      "main": [
+        [
+          {
+            "node": "Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "ErrorMetricProcessor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Success": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "9bc9219c-d4b7-4f69-895e-92d2ed0dbb13",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "09fbdfdf0cd38478feed47996a705ed59498c339c3865fe3fa6dd160c074b14b"
+  },
+  "id": "vVDF1ozchJ9XaEec",
+  "tags": []
+}

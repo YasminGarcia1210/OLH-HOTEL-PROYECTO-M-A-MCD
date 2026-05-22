@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Join Hoteles OLH - Sentiment Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,700&amp;family=Manrope:wght@300;400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary": "#402d00",
+            "surface-container": "#1d1f27",
+            "on-background": "#e1e2ed",
+            "tertiary-fixed": "#6ffbbe",
+            "tertiary-fixed-dim": "#4edea3",
+            "secondary-container": "#3e495d",
+            "on-tertiary-fixed-variant": "#005236",
+            "surface-dim": "#11131b",
+            "error": "#ffb4ab",
+            "on-primary-fixed-variant": "#5c4300",
+            "outline": "#9a8f7d",
+            "secondary-fixed-dim": "#bcc7de",
+            "surface-container-lowest": "#0c0e15",
+            "on-secondary-fixed-variant": "#3c475a",
+            "on-surface": "#e1e2ed",
+            "surface-container-low": "#191b23",
+            "on-primary-fixed": "#261a00",
+            "on-tertiary-fixed": "#002113",
+            "on-error": "#690005",
+            "surface-container-high": "#272a32",
+            "on-tertiary": "#003824",
+            "inverse-primary": "#795900",
+            "on-secondary-fixed": "#111c2d",
+            "inverse-on-surface": "#2e3038",
+            "outline-variant": "#4e4637",
+            "on-secondary-container": "#aeb9d0",
+            "inverse-surface": "#e1e2ed",
+            "on-error-container": "#ffdad6",
+            "on-secondary": "#263143",
+            "surface-variant": "#32343d",
+            "on-surface-variant": "#d2c5b1",
+            "primary-fixed": "#ffdea0",
+            "primary": "#f2c35f",
+            "primary-fixed-dim": "#eec05c",
+            "on-primary-container": "#563e00",
+            "surface-tint": "#eec05c",
+            "tertiary-container": "#2bc58c",
+            "surface-container-highest": "#32343d",
+            "secondary-fixed": "#d8e3fb",
+            "background": "#11131b",
+            "surface": "#11131b",
+            "primary-container": "#d4a847",
+            "surface-bright": "#373941",
+            "tertiary": "#52e2a6",
+            "secondary": "#bcc7de",
+            "error-container": "#93000a",
+            "on-tertiary-container": "#004c32"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "fontFamily": {
+            "headline": ["Noto Serif"],
+            "body": ["Manrope"],
+            "label": ["Inter"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .glass-effect {
+      background: rgba(29, 31, 39, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .ambient-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(242, 195, 95, 0.05) 0%, rgba(17, 19, 27, 0) 70%);
+      pointer-events: none;
+    }
+    .input-focus-line {
+      transition: width 0.3s ease;
+    }
+    input:focus + .input-focus-line {
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+<!-- Ambient Background Accents -->
+<div class="ambient-glow -top-48 -left-48"></div>
+<div class="ambient-glow -bottom-48 -right-48"></div>
+<!-- Main Registration Container -->
+<main class="w-full max-w-[480px] px-6 relative z-10">
+<!-- Branding -->
+<div class="text-center mb-10">
+<h1 class="font-headline italic text-4xl text-primary tracking-tight mb-2">Hoteles OLH</h1>
+<p class="font-label uppercase tracking-[0.2em] text-[0.625rem] text-on-surface-variant/60">The Nocturnal Intelligence Suite</p>
+</div>
+<!-- Registration Card -->
+<div class="glass-effect rounded-xl p-10 shadow-[0px_12px_32px_rgba(225,226,237,0.04)] border border-outline-variant/10">
+<header class="mb-8">
+<h2 class="font-headline text-2xl text-on-background mb-1">Create Account</h2>
+<p class="text-on-surface-variant text-sm font-light">Join the sentiment intelligence network.</p>
+</header>
+<form class="space-y-6">
+<!-- Email Field -->
+<div class="relative group">
+<label class="font-label uppercase tracking-[0.1em] text-[0.6875rem] text-on-surface-variant/80 block mb-2">Email Address</label>
+<input class="w-full bg-surface-container-low border-0 border-b-2 border-outline-variant/20 px-0 py-3 text-on-surface focus:ring-0 placeholder:text-on-surface-variant/30 transition-all duration-300" placeholder="executive@olh-hotels.com" type="email"/>
+<div class="input-focus-line absolute bottom-0 left-0 h-[2px] w-0 bg-primary group-focus-within:w-full transition-all"></div>
+</div>
+<!-- Password Field -->
+<div class="relative group">
+<label class="font-label uppercase tracking-[0.1em] text-[0.6875rem] text-on-surface-variant/80 block mb-2">Security Key</label>
+<input class="w-full bg-surface-container-low border-0 border-b-2 border-outline-variant/20 px-0 py-3 text-on-surface focus:ring-0 placeholder:text-on-surface-variant/30 transition-all duration-300" placeholder="••••••••" type="password"/>
+<div class="input-focus-line absolute bottom-0 left-0 h-[2px] w-0 bg-primary group-focus-within:w-full transition-all"></div>
+</div>
+<!-- Hotel Branch Selection -->
+<div class="relative group">
+<label class="font-label uppercase tracking-[0.1em] text-[0.6875rem] text-on-surface-variant/80 block mb-2">Hotel Branch</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low border-0 border-b-2 border-outline-variant/20 px-0 py-3 text-on-surface focus:ring-0 appearance-none cursor-pointer">
+<option disabled="" selected="">Select Destination</option>
+<option>OLH Madrid Palace</option>
+<option>OLH Barcelona Heights</option>
+<option>OLH Marbella Sanctuary</option>
+<option>OLH London Mayfair</option>
+</select>
+<span class="material-symbols-outlined absolute right-0 top-3 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+<div class="input-focus-line absolute bottom-0 left-0 h-[2px] w-0 bg-primary group-focus-within:w-full transition-all"></div>
+</div>
+<!-- Terms Agreement -->
+<div class="flex items-center gap-3 pt-2">
+<input class="w-4 h-4 rounded bg-surface-container-highest border-outline-variant/30 text-primary focus:ring-offset-surface focus:ring-primary/20" id="terms" type="checkbox"/>
+<label class="text-xs text-on-surface-variant font-light" for="terms">I agree to the <span class="text-primary/80 cursor-pointer hover:underline">Intelligence Access Protocols</span></label>
+</div>
+<!-- CTA Button -->
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary font-semibold rounded shadow-lg hover:shadow-primary/10 active:scale-[0.98] transition-all duration-200 mt-4" type="submit">
+          Create Account
+        </button>
+</form>
+<!-- Footer Action -->
+<footer class="mt-8 pt-8 border-t border-outline-variant/10 text-center">
+<p class="text-sm text-on-surface-variant font-light">
+          Already verified? 
+          <a class="text-primary font-medium hover:underline ml-1" href="#">Login to Suite</a>
+</p>
+</footer>
+</div>
+<!-- Decorative Image / Brand Element -->
+<div class="mt-12 flex justify-center opacity-40">
+<div class="relative w-32 h-32 flex items-center justify-center">
+<!-- Sentiment Pulse Effect -->
+<div class="absolute inset-0 bg-tertiary/10 blur-2xl rounded-full scale-110 animate-pulse"></div>
+<img alt="OLH Brand Emblem" class="w-16 h-16 object-contain grayscale brightness-150 contrast-125" data-alt="Minimalist gold architectural logo of a boutique hotel brand on a deep navy background, moody atmosphere, cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWB5lSUH1_BJksLqMufH8t40VNdLTUkIxXyhr_i1C2evVqp9P48E8625SMXsy5pUMLICTRL7iDtU-vYsA_aefQ8vjzRL6looUXWQlcTxHSngpHpl07xm5yoL6qYSJ5c6lv87E-hfSuXjmxNMNfvJC2kRsZ23craUc6UtLmmhINlvYQDDk_xr7W6cb3D0jYHdYDU5GtKvo7QQ5LlR3RQGUC3Hs-uTXQw8DD7LE1XqolPVSQsNUjwrlcogeFSJS3lsaaZEKtDgMMArU"/>
+</div>
+</div>
+</main>
+<!-- Legal Footer -->
+<footer class="absolute bottom-8 w-full text-center px-6">
+<div class="font-label text-[0.625rem] text-on-surface-variant/40 tracking-[0.2em] flex justify-center gap-6">
+<span>PRIVACY POLICY</span>
+<span>SYSTEM STATUS: OPTIMAL</span>
+<span>V 2.4.0</span>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,71 @@
+# Plantilla para: az containerapp create --yaml @container-app.reuse-first.template.yaml
+# o: az containerapp update --name <APP_NAME> -g <RG> --yaml @container-app.reuse-first.template.yaml
+# Reemplazá <...>. No commitees secretos; usá az containerapp secret set.
+---
+kind: containerapp
+location: <LOCATION>
+name: absa-service
+resourceGroup: <RESOURCE_GROUP_NAME>
+type: Microsoft.App/containerApps
+properties:
+  managedEnvironmentId: <MANAGED_ENVIRONMENT_RESOURCE_ID>
+  configuration:
+    activeRevisionsMode: Single
+    ingress:
+      external: true
+      targetPort: 5003
+      transport: Auto
+    secrets: []
+  template:
+    scale:
+      minReplicas: 2
+      maxReplicas: 2
+    containers:
+      - name: api
+        image: <ACR_NAME>.azurecr.io/absa-service:<IMAGE_TAG>
+        resources:
+          cpu: 2.0
+          memory: 4.0Gi
+        env:
+          - name: PORT
+            value: "5003"
+          - name: FLASK_ENV
+            value: production
+          - name: FLASK_DEBUG
+            value: "false"
+          - name: DB_POOL_MIN
+            value: "1"
+          - name: DB_POOL_MAX
+            value: "10"
+          # Por defecto deberta: arranca sin claves de LLM (modelos HF en primer request / arranque).
+          # Para backend llm, ajustá ABSA_MODEL_BACKEND, LLM_PROVIDER y secretos vía guía o az update.
+          - name: ABSA_MODEL_BACKEND
+            value: deberta
+          - name: SECRET_KEY
+            secretRef: secret-key
+          - name: DATABASE_URL
+            secretRef: database-url
+        probes:
+          - type: Startup
+            httpGet:
+              path: /health
+              port: 5003
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            failureThreshold: 40
+            timeoutSeconds: 10
+          - type: Liveness
+            httpGet:
+              path: /health
+              port: 5003
+            periodSeconds: 30
+            failureThreshold: 3
+            timeoutSeconds: 10
+          - type: Readiness
+            httpGet:
+              path: /health
+              port: 5003
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 10

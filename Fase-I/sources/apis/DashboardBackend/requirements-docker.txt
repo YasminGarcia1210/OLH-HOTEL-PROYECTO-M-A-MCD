@@ -1,0 +1,13 @@
+# Runtime para imagen Docker/Podman. `metricas_read` se instala desde COPY en el Dockerfile.
+# PyJWT (dist PyJWT, import jwt) ≠ paquete PyPI "jwt". Versiones fijas: FJE >=4.8 importa
+# jwt.types.Options y es sensible al paquete equivocado; 4.7.1 + PyJWT 2.9.x es estable.
+gunicorn>=23.0.0
+flask==3.1.0
+flask-cors==5.0.0
+python-dotenv==1.0.1
+psycopg2-binary==2.9.10
+azure-storage-blob==12.24.0
+PyJWT==2.9.0
+bcrypt==4.3.0
+flask-jwt-extended==4.7.1
+requests==2.32.3

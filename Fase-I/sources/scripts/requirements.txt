@@ -1,0 +1,27 @@
+# Pipeline de limpieza de reviews de hoteles
+# Instalar con: pip install -r requirements.txt
+
+# Procesamiento de datos
+pandas>=2.3.3
+
+# Detección de encoding
+chardet>=7.3.0
+
+# Emojis
+emoji>=2.15.0
+
+# Limpieza de HTML
+beautifulsoup4>=4.14.3
+
+# Detección de idioma
+lingua-language-detector>=2.2.0
+
+# Deduplicación fuzzy
+rapidfuzz>=3.14.3
+
+# Tokenización BERT
+transformers>=5.3.0
+
+# NER para anonimización de nombres propios
+spacy>=3.8.13
+# Modelo de español: python -m spacy download es_core_news_sm

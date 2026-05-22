@@ -1,0 +1,67 @@
+import logging
+
+from flask import Flask, jsonify
+from flask_cors import CORS
+
+from config import Config
+from db import init_pool
+from routes.sentimiento import sentimiento_bp
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    CORS(app)
+
+    init_pool(Config)
+
+    app.register_blueprint(sentimiento_bp)
+
+    @app.route("/health", methods=["GET"])
+    def health():
+        return jsonify({
+            "ok": True,
+            "service": "sentiment-prediction",
+            "version": "1.0.0",
+            "status": "up",
+        })
+
+    @app.errorhandler(404)
+    def not_found(e):
+        return jsonify({
+            "ok": False,
+            "data": None,
+            "error": {"codigo": "RUTA_NO_ENCONTRADA", "mensaje": str(e)},
+        }), 404
+
+    @app.errorhandler(405)
+    def method_not_allowed(e):
+        return jsonify({
+            "ok": False,
+            "data": None,
+            "error": {"codigo": "METODO_NO_PERMITIDO", "mensaje": str(e)},
+        }), 405
+
+    @app.errorhandler(500)
+    def internal_error(e):
+        return jsonify({
+            "ok": False,
+            "data": None,
+            "error": {
+                "codigo": "ERROR_INTERNO",
+                "mensaje": "Error inesperado en el servidor",
+            },
+        }), 500
+
+    return app
+
+
+if __name__ == "__main__":
+    application = create_app()
+    application.run(host="0.0.0.0", port=Config.PORT, debug=Config.DEBUG)

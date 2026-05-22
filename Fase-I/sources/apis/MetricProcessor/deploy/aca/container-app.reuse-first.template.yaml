@@ -1,0 +1,77 @@
+# Plantilla para: az containerapp create --yaml @container-app.reuse-first.template.yaml
+# o: az containerapp update --name <APP_NAME> -g <RG> --yaml @container-app.reuse-first.template.yaml
+# Reemplazá <...>. No commitees secretos; usá az containerapp secret set.
+---
+kind: containerapp
+location: <LOCATION>
+name: metric-processor
+resourceGroup: <RESOURCE_GROUP_NAME>
+type: Microsoft.App/containerApps
+properties:
+  managedEnvironmentId: <MANAGED_ENVIRONMENT_RESOURCE_ID>
+  configuration:
+    activeRevisionsMode: Single
+    ingress:
+      external: true
+      targetPort: 5004
+      transport: Auto
+    secrets: []
+  template:
+    scale:
+      minReplicas: 2
+      maxReplicas: 2
+    containers:
+      - name: api
+        image: <ACR_NAME>.azurecr.io/metric-processor:<IMAGE_TAG>
+        resources:
+          cpu: 1.0
+          memory: 2.0Gi
+        env:
+          - name: PORT
+            value: "5004"
+          - name: FLASK_ENV
+            value: production
+          - name: FLASK_DEBUG
+            value: "false"
+          - name: DB_HOST
+            value: <DB_HOST>
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_NAME
+            value: <DB_NAME>
+          - name: DB_USER
+            value: <DB_USER>
+          - name: DB_SSLMODE
+            value: require
+          - name: DB_POOL_MIN
+            value: "1"
+          - name: DB_POOL_MAX
+            value: "10"
+          - name: SECRET_KEY
+            secretRef: secret-key
+          - name: DB_PASSWORD
+            secretRef: db-password
+        probes:
+          - type: Startup
+            httpGet:
+              path: /health
+              port: 5004
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 12
+            timeoutSeconds: 5
+          - type: Liveness
+            httpGet:
+              path: /health
+              port: 5004
+            periodSeconds: 30
+            failureThreshold: 3
+            timeoutSeconds: 5
+          - type: Readiness
+            httpGet:
+              path: /health
+              port: 5004
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 5

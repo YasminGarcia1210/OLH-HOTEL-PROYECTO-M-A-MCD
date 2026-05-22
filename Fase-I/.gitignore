@@ -1,0 +1,100 @@
+# ── Editor / IDE ──────────────────────────────────────────────
+.history
+.vscode
+.idea
+*.suo
+*.user
+
+# ── Sistema operativo ─────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# ── Archivos temporales ───────────────────────────────────────
+.tmp*
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# ── Python ────────────────────────────────────────────────────
+.venv
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── Jupyter Notebooks ─────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── Variables de entorno y secretos ──────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+credentials.json
+
+# ── Node.js / Vite (pipeline/) ────────────────────────────────
+node_modules/
+pipeline/dist/
+pipeline/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*pysentimiento
+pnpm-debug.log*
+.pnpm-store/
+
+# ── Datos (archivos pesados de ML/dataset) ────────────────────
+# Los CSV limpios/procesados no se versionan; sí se versiona el raw mínimo
+#sources/data/*.csv
+#sources/data/*.parquet
+sources/data/*.pkl
+sources/data/*.pickle
+*.h5
+*.hdf5
+*.npy
+*.npz
+
+# ── Modelos entrenados ────────────────────────────────────────
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+!sources/sentimentAnalysis/p91/model.safetensors
+!sources/apis/SentimentPrediction/models/**/*.safetensors
+models/
+!sources/apis/SentimentPrediction/models/
+!sources/apis/SentimentPrediction/models/**/*
+
+# ── Logs ──────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Reportes generados automáticamente ───────────────────────
+*.html.bak
+outputs/
+
+# ── Credenciales de Google Drive / claves JSON de proveedores cloud ──
+credentials.json
+tesisohlicesis-d95d5f6aeae3.json
+icesi-tesis*.json

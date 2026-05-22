@@ -1,0 +1,29 @@
+[project]
+name = "dashboardbackend"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flask==3.1.0",
+    "flask-cors==5.0.0",
+    "python-dotenv==1.0.1",
+    "psycopg2-binary==2.9.10",
+    "azure-storage-blob==12.24.0",
+    "metricas-read",
+    "PyJWT==2.9.0",
+    "bcrypt==4.3.0",
+    "flask-jwt-extended==4.7.1",
+]
+
+[tool.uv.sources]
+metricas-read = { path = "../../libs/metricas_read", editable = true }
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

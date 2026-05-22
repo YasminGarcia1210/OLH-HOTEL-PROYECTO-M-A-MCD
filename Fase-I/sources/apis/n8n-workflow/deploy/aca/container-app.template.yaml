@@ -1,0 +1,22 @@
+# Fragmento de referencia: volúmenes Azure Files + contenedor n8n.
+# Uní este bloque bajo properties.template del YAML exportado con:
+#   az containerapp show -n <APP> -g <RG> -o yaml > app.yaml
+# Ajustá: storageName debe coincidir con el nombre lógico de
+#   az containerapp env storage set ... --storage-name n8n-azurefiles
+#
+# Advertencia: SQLite de n8n sobre SMB puede ser frágil; preferí PostgreSQL + 1 réplica
+# o Postgres + queue mode según docs n8n. Ver docs/DEPLOY_AZURE_ACA.md
+#
+# properties:
+#   template:
+#     volumes:
+#       - name: n8n-user-data
+#         storageType: AzureFile
+#         storageName: n8n-azurefiles
+#     containers:
+#       - name: n8n
+#         image: <acr>.azurecr.io/n8n-olh-pipeline:1.0.0
+#         volumeMounts:
+#           - volumeName: n8n-user-data
+#             mountPath: /home/node/.n8n
+#         env: ... (ver guía)

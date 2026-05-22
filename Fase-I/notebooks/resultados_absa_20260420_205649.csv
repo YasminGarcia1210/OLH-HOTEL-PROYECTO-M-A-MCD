@@ -1,0 +1,278 @@
+review_id,tipo,topico,sentimiento,score,fragmento,tokens_in,tokens_out
+15955,fijo,instalaciones,positivo,0.82,Pues [PERSONA] con el agua caliente.,470,56
+13205,fijo,instalaciones,positivo,0.85,Honestamente [PERSONA] con el agua caliente.,472,58
+13665,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana.,475,55
+12236,fijo,servicio,positivo,0.82,Buena experiencia en general lo recomiendo.,476,93
+12236,fijo,instalaciones,negativo,0.9,No habia agua caliente en la mañana.,476,93
+14790,fijo,servicio,positivo,0.95,La recepcion fue muy cordial.,475,92
+14790,fijo,instalaciones,negativo,0.9,sin embargo problemas con el agua caliente.,475,92
+16933,fijo,ubicacion,positivo,0.93,Excelente ubicación cerca a todo,473,89
+16933,fijo,instalaciones,negativo,0.88,pero problemas con el agua caliente,473,89
+15197,fijo,habitacion,positivo,0.92,El colchon era comodisimo.,478,92
+15197,fijo,instalaciones,negativo,0.85,pproblemas con el agua caliente,478,92
+14449,fijo,servicio,positivo,0.9,Buen servicio de habitaciones.,476,88
+14449,fijo,instalaciones,negativo,0.95,no habia agua caliente en la mañana.,476,88
+11924,fijo,desayuno-comida,negativo,0.86,con el agua caliente y la comida se demorro bastante.,479,60
+11759,fijo,instalaciones,positivo,0.86,Me parrecio un hotel muy completo.,477,99
+11759,fijo,instalaciones,negativo,0.93,No habia agua caliente en la mañana.,477,99
+16435,fijo,instalaciones,positivo,0.82,Pues [PERSONA] con el agua caliente.,470,56
+12639,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana.,468,55
+16374,fijo,instalaciones,positivo,0.92,Lapiscina estaba muy bien.,478,100
+16374,fijo,instalaciones,negativo,0.88,pero la verdad no habia agua caliente en la mañana.,478,100
+12370,fijo,ubicacion,positivo,0.93,Excelente ubicación cerca a todo.,475,91
+12370,fijo,instalaciones,negativo,0.86,Aunque igual problemas con el agua calliente.,475,91
+14042,fijo,instalaciones,neutro,0.86,El wifi funcionaba bien. igualproblemas con el agua caliente.,474,106
+14042,fijo,instalaciones,negativo,0.82,igualproblemas con el agua caliente.,474,106
+13136,fijo,instalaciones,negativo,0.92,Habia mucho ruido en la noche,477,96
+13136,fijo,instalaciones,negativo,0.9,y problemas con el agua calliente.,477,96
+11613,fijo,instalaciones,negativo,0.92,no habia agua caliente en la mañana,477,55
+11617,fijo,instalaciones,positivo,0.86,Muy bonitas las aeeas comunes.,476,98
+11617,fijo,instalaciones,negativo,0.9,la verdad problemas con el agua caliente.,476,98
+15017,fijo,habitacion,positivo,0.92,Las camas eran cómodas,476,90
+15017,fijo,instalaciones,negativo,0.86,no habia agua caliente en la mañana,476,90
+13025,fijo,limpieza,positivo,0.85,Habitacion espaciosa y limpiia.,479,131
+13025,fijo,habitacion,positivo,0.8,Habitacion espaciosa y limpiia.,479,131
+13025,dinamico,Agua caliente / disponibilidad,negativo,0.9,Sin embargo no habia agua caliente en la mañana,479,131
+16006,fijo,instalaciones,negativo,0.86,Demasiado ruido externo,483,143
+16006,fijo,desayuno-comida,negativo,0.9,el desayuno no fue lo esperrado,483,143
+16006,fijo,instalaciones,negativo,0.88,nohabia agua caliente een la mañana.,483,143
+15920,fijo,instalaciones,positivo,0.86,El wifi funcionaba bien.,475,96
+15920,fijo,instalaciones,positivo,0.82,[PERSONA] con el agua caliente.,475,96
+15433,fijo,servicio,positivo,0.86,El check in fuee rapido.,477,94
+15433,fijo,instalaciones,negativo,0.9,sin embargo no habia agua caliente en la mañana.,477,94
+14991,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana,470,55
+14123,fijo,servicio,positivo,0.95,El personal fue muyamable.,475,92
+14123,fijo,instalaciones,negativo,0.9,No habia agua caliente en la mañana.,475,92
+12725,fijo,ubicacion,positivo,0.92,Muy bien ubicado cerca al centro,478,91
+12725,fijo,instalaciones,negativo,0.9,no habia agua caliente enla mañana,478,91
+13830,fijo,servicio,positivo,0.92,El personal fue amable,474,91
+13830,fijo,instalaciones,negativo,0.86,aunque no habia agua caliente en la mañana,474,91
+14172,fijo,habitacion,positivo,0.92,El colchon era comodisimo.,475,91
+14172,fijo,instalaciones,negativo,0.86,Problemascon el agua caliente.,475,91
+16138,fijo,instalaciones,positivo,0.86,El wifi funcionaba bien.,474,96
+16138,fijo,instalaciones,negativo,0.9,No habia agua caliente en la mañana,474,96
+13623,fijo,instalaciones,negativo,0.92,Demasiado ruido externo y problemas con el agua caliente.,472,59
+17022,fijo,servicio,positivo,0.86,Buena experiencia en generaallo recomiendo,476,93
+17022,fijo,instalaciones,negativo,0.84,aunque igual problemas con el agua caliente,476,93
+14089,fijo,instalaciones,negativo,0.9,pero problemas con el agua caliente.,475,97
+14089,fijo,instalaciones,positivo,0.82,Ambiente teanquilo y agradable.,475,97
+16739,fijo,limpieza,positivo,0.95,La habitacion estaba limpia,473,125
+16739,fijo,instalaciones,negativo,0.86,igual problemas con el agua caliente,473,125
+16739,fijo,habitacion,positivo,0.78,La habitacion estaba limpia,473,125
+16118,fijo,instalaciones,negativo,0.86,aunque no habia agua caliente en la mañana,476,98
+16118,fijo,precio-valor,positivo,0.81,Cumple con lo que promete.,476,98
+16716,fijo,servicio,positivo,0.98,El personal super amable y atento,475,92
+16716,fijo,instalaciones,negativo,0.85,aunque problemAs con el agua caliente,475,92
+12147,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana.,468,55
+16533,fijo,instalaciones,positivo,0.85,Honestamente [PERSONA] con el agua caliente.,472,58
+13403,fijo,ubicacion,positivo,0.93,Muy bien ubicado cerca al centro,477,93
+13403,fijo,instalaciones,negativo,0.86,igual problemas con elagua caliEnte,477,93
+13141,fijo,instalaciones,positivo,0.86,Buenas unstalaciones en generaal.,479,101
+13141,fijo,instalaciones,negativo,0.93,pero la verdad no habia agua caliente en la manana,479,101
+14748,fijo,instalaciones,negativo,0.92,No habia agua caliente en la manana.,471,55
+13020,fijo,limpieza,positivo,0.92,Habitacion espaciosa y limpia.,475,123
+13020,fijo,habitacion,positivo,0.88,Habitacion espaciosa y limpia.,475,123
+13020,fijo,servicio,negativo,0.81,Aunque igual problemas con elagua caliente.,475,123
+16887,fijo,instalaciones,negativo,0.92,Problemass con el agua caliente y el parqueadero era muy pequeno,476,61
+13544,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana.,470,55
+15820,fijo,servicio,positivo,0.92,El personal fue amable.,473,90
+15820,fijo,instalaciones,negativo,0.86,Eso sí problemas con el agua caliente.,473,90
+14017,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana.,469,55
+12657,fijo,limpieza,positivo,0.92,La habitacion estaba limpia,480,127
+12657,fijo,habitacion,negativo,0.86,habia humedad en el cuarto,480,127
+12657,fijo,instalaciones,negativo,0.84,problemas con el agua caliente,480,127
+12043,fijo,instalaciones,negativo,0.92,no habia agua caliente en la mañana,476,96
+12043,fijo,instalaciones,positivo,0.85,El parqueadero fue util,476,96
+15822,fijo,instalaciones,negativo,0.9,Problemas con el agua caliente.,467,54
+15550,fijo,servicio,positivo,0.95,La atencion fue excelente.,474,91
+15550,fijo,instalaciones,negativo,0.9,No habia agua caliente en la mañana.,474,91
+12422,fijo,instalaciones,positivo,0.85,La verdad [PERSONA] con el agua caliente.,471,57
+15599,fijo,instalaciones,positivo,0.85,La verdad [PERSONA] con el agua caliente.,471,57
+15147,fijo,servicio,positivo,0.92,Me gusto el servicio.,472,89
+15147,fijo,instalaciones,negativo,0.86,aunque problemas con el agua caliente.,472,89
+13741,fijo,servicio,negativo,0.86,el servicio. No habia agua caliente en la mañana.,475,53
+14415,fijo,limpieza,positivo,0.93,Las toallas y ropa de cama limpias,483,98
+14415,fijo,instalaciones,negativo,0.86,no habia agua caliEnte enla mañana,483,98
+12515,fijo,habitacion,positivo,0.92,Las camas eran comodas.,478,107
+12515,fijo,instalaciones,negativo,0.86,aunque igual no habia agua calirnte en la mañana.,478,107
+11719,fijo,servicio,positivo,0.95,El personal super amable y atento.,475,93
+11719,dinamico,Problemas con el agua caliente,negativo,0.92,Eso si problemas con el agua caliente.,475,93
+16741,fijo,servicio,positivo,0.95,El personal fue muy amable.,474,91
+16741,fijo,instalaciones,negativo,0.85,Aunque igual problemas con el agua caliente.,474,91
+16821,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana.,470,55
+16699,fijo,instalaciones,positivo,0.86,El wifi funcionaba bien.,474,96
+16699,fijo,instalaciones,negativo,0.9,No habia agua caliente en la mañana.,474,96
+16491,fijo,precio-valor,positivo,0.92,Buena relacion calidad precio,473,95
+16491,fijo,instalaciones,negativo,0.85,aunque problemas con el agua caliente,473,95
+14655,fijo,instalaciones,negativo,0.92,Eso sí problemas con el agua caliente.,473,93
+14655,fijo,instalaciones,positivo,0.84,Ambiente tranquilo y agradable.,473,93
+11646,fijo,instalaciones,negativo,0.92,no habia agua caliente en la mañana,474,97
+11646,fijo,instalaciones,negativo,0.85,Demasiado ruido externo,474,97
+14346,fijo,ubicacion,positivo,0.95,La ubicacion es muy buena,475,89
+14346,dinamico,Agua caliente,negativo,0.9,aunque igual problemas com el agua caliente,475,89
+13134,fijo,instalaciones,negativo,0.92,Pues La tv no funcionaba bien y no habia agua caliente en la mañana.,476,107
+13134,fijo,instalaciones,negativo,0.88,no habia agua caliente en la mañana.,476,107
+11756,fijo,limpieza,positivo,0.92,La hhabitacionestaba limpia,479,96
+11756,fijo,instalaciones,negativo,0.86,pero problrmas con el agua caaliente,479,96
+15279,fijo,limpieza,negativo,0.92,Honestamente La limpieza podria mejorar,474,93
+15279,fijo,instalaciones,negativo,0.85,y problemas con el agua caliente.,474,93
+14977,fijo,instalaciones,positivo,0.82,Pues [PERSONA] con el agua caliente.,470,56
+13491,fijo,instalaciones,positivo,0.86,El wifi funcionaba bien.,474,96
+13491,fijo,instalaciones,negativo,0.9,No habia agua caliente en la mañana.,474,96
+12722,fijo,instalaciones,neutro,0.86,El wifi funcionaba bien. sin embargo nohabia agua caliente en la mañana.,477,65
+16357,fijo,instalaciones,positivo,0.86,El wifi funcionaba bien.,473,95
+16357,fijo,instalaciones,negativo,0.9,Problemass con el agua caliente.,473,95
+15912,fijo,instalaciones,positivo,0.85,La verdad [PERSONA] con el agua caliente.,471,61
+13699,fijo,instalaciones,positivo,0.85,con el agua caliEnte.,472,54
+12844,dinamico,Agua caliente,negativo,0.92,Sin embargo problemas con el agua caliiente.,476,88
+12844,dinamico,Calidad general,positivo,0.81,Todo estuvo bien en general.,476,88
+12047,fijo,ubicacion,positivo,0.95,Excelente ubicacion cerca a todo.,475,91
+12047,fijo,instalaciones,negativo,0.9,sin embargo problemas con el agua caliente.,475,91
+16882,fijo,instalaciones,positivo,0.82,Pues [PERSONA] con el agua caliente.,470,56
+14052,fijo,instalaciones,positivo,0.86,Me parecio un hotel muy completo. [PERSONA] con el agua caliente.,477,63
+13859,fijo,habitacion,positivo,0.86,Las camas eran cómodas,475,91
+13859,fijo,instalaciones,negativo,0.9,pero no habia agua caliente en la mañana,475,91
+13927,fijo,desayuno-comida,negativo,0.86,con el agua caliente y la comida se demoro bastante.,479,102
+13927,fijo,instalaciones,neutro,0.81,con el agua caliente,479,102
+12168,fijo,desayuno-comida,positivo,0.92,El restaurante del hotel estuvo rico.,476,99
+12168,fijo,instalaciones,negativo,0.86,aunque no habia agua caliente en la mañana,476,99
+16962,fijo,instalaciones,negativo,0.9,Problemascon el agua caluente.,469,56
+16173,fijo,instalaciones,neutro,0.86,"El parqueadero fue util, la verdad problemas con el agua caliente.",474,105
+16173,fijo,instalaciones,negativo,0.9,problemas con el agua caliente.,474,105
+16169,fijo,instalaciones,positivo,0.82,con el agua caliente.,469,51
+12864,fijo,limpieza,positivo,0.85,Las toallas y roopa de cama limpias.,481,94
+12864,dinamico,Agua caliente / Problemas con el agua caliente,negativo,0.9,problemas con el agua caliente,481,94
+16172,fijo,limpieza,positivo,0.98,Limpieza impecable.,474,92
+16172,fijo,instalaciones,negativo,0.9,Pero la verdad problemas con el agua caliente.,474,92
+14665,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana.,468,55
+12761,fijo,instalaciones,negativo,0.92,no habia agua caliente en la mañana,476,90
+12761,fijo,habitacion,positivo,0.86,Las camas eran comodas.,476,90
+16034,fijo,instalaciones,positivo,0.85,La verdad [PERSONA] con el agua caliente.,471,57
+15365,fijo,instalaciones,positivo,0.86,"Buenas instalaciones en general, eso si peoblemas con el agua caliente.",475,107
+15365,fijo,instalaciones,negativo,0.9,eso si peoblemas con el agua caliente.,475,107
+13280,fijo,precio-valor,positivo,0.92,Buena relacióncalidaddprecio.,477,99
+13280,fijo,instalaciones,negativo,0.85,aunque problemas con el agua ccaliente.,477,99
+16103,fijo,instalaciones,positivo,0.82,Honestamente [PERSONA] con el agua calliente.,473,59
+15441,fijo,servicio,positivo,0.92,Me gusto el servicio,474,90
+15441,fijo,instalaciones,negativo,0.86,no habia agua caliente en la mañana,474,90
+13890,fijo,instalaciones,positivo,0.82,Pues [PERSONA] con el agua caliente.,470,56
+11967,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana.,470,55
+13545,fijo,instalaciones,negativo,0.92,Aunque nohabia agua caliente en la mañana.,476,98
+13545,fijo,instalaciones,positivo,0.85,El wifi funcionaba bien.,476,98
+16402,fijo,ubicacion,positivo,0.95,Excelente ubicacion cerca a todo.,478,94
+16402,fijo,instalaciones,negativo,0.88,aunque igual no habia agua caliente en la mañanna.,478,94
+12478,fijo,ubicacion,positivo,0.95,La ubicación es muy buena.,473,89
+12478,fijo,instalaciones,negativo,0.9,pero problemas con el agua caliente.,473,89
+16569,fijo,instalaciones,positivo,0.86,Honestamente [PERSONA] con el agua caliente.,472,58
+14837,fijo,limpieza,positivo,0.95,La habutación estaba limpia.,476,89
+14837,fijo,servicio,neutro,0.82,[PERSONA] con el agua caliente.,476,89
+12175,fijo,instalaciones,positivo,0.86,La verdad [PERSONA] con el agua caliente.,471,61
+15263,fijo,instalaciones,negativo,0.92,no habia agua caliente en la mañana,476,96
+15263,fijo,instalaciones,positivo,0.84,El parqueadero fue util,476,96
+12565,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana.,468,55
+12848,fijo,ubicacion,positivo,0.92,Buena ubicacion para moverse por la ciudad.,479,95
+12848,fijo,instalaciones,negativo,0.88,No habia agua caliente en la mañana.,479,95
+15971,fijo,limpieza,positivo,0.95,La habitación estaba limpia.,475,92
+15971,fijo,instalaciones,negativo,0.88,aunque igual no habia agua caliente en la mañana.,475,92
+14104,fijo,desayuno-comida,negativo,0.88,y poca variedad en el desayuno.,475,100
+14104,dinamico,Agua caliente / disponibilidad,negativo,0.92,Pues No habia agua caliente en la manana,475,100
+12118,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana.,471,55
+13425,fijo,ubicacion,positivo,0.92,Burna ubicacion para moverse por la ciudaad,481,97
+13425,fijo,instalaciones,negativo,0.86,eso sí problemas con elagua caliente,481,97
+12631,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana.,475,55
+13742,fijo,instalaciones,negativo,0.92,pero la verdad no habia agua caliente en la mañana.,477,93
+13742,fijo,ubicacion,positivo,0.81,El parqueadero fue util.,477,93
+15081,fijo,precio-valor,negativo,0.92,El precio era algo elevado para lo que ofrece,478,102
+15081,fijo,instalaciones,negativo,0.86,y no habia agua caliente enla mañana,478,102
+15672,fijo,instalaciones,positivo,0.82,Pues [PERSONA] con el agua caliente.,470,60
+13955,fijo,ubicacion,positivo,0.95,La ubicacion es muy buena.,475,91
+13955,fijo,instalaciones,negativo,0.9,No habia agua caliente en la mañana.,475,91
+13657,fijo,instalaciones,positivo,0.82,Pues [PERSONA] con el agua caliente.,470,56
+11879,fijo,instalaciones,positivo,0.86,La verdad [PERSONA] con el agua caliente.,471,57
+16752,dinamico,Agua caliente / Problemas con el agua caliente,negativo,0.9,Eso sí problemas con el agua caliente.,477,54
+12683,fijo,ubicacion,positivo,0.92,La ubicacion es muy buena.,478,95
+12683,fijo,instalaciones,negativo,0.86,Aunque no hsbia agua caliente [PERSONA].,478,95
+16718,fijo,instalaciones,negativo,0.86,Sin embargo problemas con el agua caliente.,474,97
+16718,fijo,desayuno-comida,positivo,0.92,El desayuno estuvo muy rico.,474,97
+16881,fijo,instalaciones,positivo,0.35,Todo esttuvo bien en geneeral.,477,107
+16881,dinamico,Agua caliente / Problemas con el agua caliente,negativo,0.9,La verdad problemas con el agua caliente. Todo esttuvo bien en geneeral.,477,107
+16522,fijo,instalaciones,negativo,0.92,El ascensor tardaba mucho y problemas con el agua caliente.,473,60
+12354,fijo,limpieza,positivo,0.95,La habitación estaba limpia,473,90
+12354,fijo,instalaciones,negativo,0.9,eso sí problemas con el agua caliente,473,90
+11956,fijo,instalaciones,positivo,0.86,El wifi funcionaba bien. eso sí problemss con el agua caliente.,475,106
+11956,fijo,instalaciones,negativo,0.9,eso sí problemss con el agua caliente.,475,106
+14363,fijo,instalaciones,positivo,0.82,Pues [PERSONA] con el agua caliente.,470,56
+15277,fijo,servicio,positivo,0.95,La recepcion fue muy cordial.,476,93
+15277,fijo,instalaciones,negativo,0.9,aunque no habia agua caliente en la mañana.,476,93
+16635,fijo,servicio,positivo,0.93,El personsl hizo todo lo posiblle por ayudar.,480,97
+16635,fijo,instalaciones,negativo,0.86,eso si problemas con el agua caliente.,480,97
+15885,fijo,instalaciones,negativo,0.9,HonestamenteProblemass con el agua caliente.,470,57
+13466,fijo,ubicacion,positivo,0.95,La ubicacion es muy buena,475,83
+13466,dinamico,Agua caliente,negativo,0.9,sin embargo problemas con el agua caliente,475,83
+14129,fijo,servicio,positivo,0.86,El check in fue rapido.,473,90
+14129,fijo,instalaciones,negativo,0.84,Aunque problemascon el agua caliente.,473,90
+16148,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana.,479,55
+11615,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana.,468,55
+12116,fijo,servicio,positivo,0.95,El personal fue muy amable.,474,91
+12116,fijo,instalaciones,negativo,0.9,No habia agua caliente en la mañana.,474,91
+14633,dinamico,Agua caliente,negativo,0.92,No habia agua caliente en la mañana.,468,47
+13349,fijo,servicio,negativo,0.92,En recepcion se demoraron demasiado,478,94
+13349,fijo,instalaciones,negativo,0.88,no habia agua caliente en la mañana,478,94
+14112,fijo,servicio,positivo,0.93,El personal fue muy amable.,476,91
+14112,fijo,instalaciones,negativo,0.86,no habia agua caliente en la mañana.,476,91
+14783,fijo,instalaciones,negativo,0.86,Aunque igual no habia agua caliente en la mañana.,476,98
+14783,fijo,instalaciones,positivo,0.55,Todo estuvo bien en general.,476,98
+13929,fijo,instalaciones,positivo,0.85,La verdad [PERSONA] con el agua caliente.,471,57
+14811,fijo,limpieza,positivo,0.95,La habitación estaba limpia.,473,90
+14811,fijo,instalaciones,negativo,0.9,sin embargo problemas con el agua caliente.,473,90
+14938,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana,475,98
+14938,fijo,instalaciones,negativo,0.84,el parqueadero era muy pequeño.,475,98
+13901,fijo,instalaciones,negativo,0.92,no habia aguacaliente en la mañana,475,98
+13901,fijo,instalaciones,negativo,0.85,Demasiado ruido externo,475,98
+12081,fijo,precio-valor,neutro,0.62,relacionn calidad precio. No habia agua caliente en la mañana.,477,106
+12081,fijo,instalaciones,negativo,0.9,No habia agua caliente en la mañana.,477,106
+13932,fijo,precio-valor,positivo,0.82,justo por lo queofrece.,480,99
+13932,fijo,instalaciones,negativo,0.9,eso sí problemas con el aguua caliente.,480,99
+16085,fijo,limpieza,positivo,0.95,La habitación estaba limpia.,473,90
+16085,fijo,instalaciones,negativo,0.85,aunque igual problemas con el agua caliente.,473,90
+16507,fijo,instalaciones,positivo,0.85,Honestamente [PERSONA] con el agua caliente.,472,58
+15236,fijo,servicio,negativo,0.86,La atenCion pudo ser mejor,477,94
+15236,fijo,instalaciones,negativo,0.9,no habia agua caliente en la mañana,477,94
+12633,fijo,servicio,positivo,0.92,Me gusto el servicio.,472,81
+12633,dinamico,Agua caliente,negativo,0.85,aunque problemas con el agua caliente.,472,81
+13933,fijo,instalaciones,negativo,0.92,no habia agua caliente en la mañana,481,55
+16778,fijo,servicio,positivo,0.62,Buena experiencia en general lo recomiendo.,478,95
+16778,fijo,instalaciones,negativo,0.9,eso si no habia agua caliente en la mañana.,478,95
+15846,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañanaa.,470,56
+12417,fijo,ubicacion,positivo,0.9,Muy bien ubicado cerca al centro.,484,135
+12417,dinamico,Agua caliente,negativo,0.92,Aunque no habia agua caliente en la mañana,484,135
+12417,dinamico,Ruido / aislamiento acústico,negativo,0.86,se escuchaba todo del pasillo,484,135
+16231,fijo,instalaciones,negativo,0.92,No habia agua caliente en la mañana.,470,55
+14226,fijo,servicio,positivo,0.86,El check in fue rapido.,475,92
+14226,fijo,instalaciones,negativo,0.9,No habia aguacaliente en la mañana.,475,92
+14962,fijo,instalaciones,negativo,0.92,La verdad no habua agua caliente en la mañana.,476,92
+14962,fijo,habitacion,positivo,0.85,El cuarto era amplio,476,92
+12070,fijo,instalaciones,positivo,0.85,Me parecio un hotel muy completo.,478,98
+12070,dinamico,Agua caliente,negativo,0.92,La verdad no habia agua caliente en la mañana.,478,98
+13299,fijo,ubicacion,positivo,0.95,La ubicacion es muy buena.,477,91
+13299,fijo,instalaciones,negativo,0.9,no habia agua caliente en la mañana.,477,91
+16160,fijo,instalaciones,positivo,0.82,Pues [PERSONA] con el agua caliente.,470,56
+14227,fijo,instalaciones,negativo,0.92,Nohabia agua caliente en la mañana,473,57
+15312,fijo,servicio,positivo,0.92,Buen servicio de habitaciones.,473,90
+15312,fijo,instalaciones,negativo,0.88,la verdad problemas con el agua caliente.,473,90
+11828,fijo,servicio,positivo,0.93,El personal hizo todo lo posible por ayudar.,478,94
+11828,fijo,instalaciones,negativo,0.86,No habia agua caliente en la mañana.,478,94
+14764,fijo,instalaciones,positivo,0.86,Honestamente [PERSONA] con el agua caliente.,472,62
+13192,fijo,instalaciones,positivo,0.82,La verdad [PERSONA] con el agua caliente.,471,57
+14916,fijo,limpieza,positivo,0.92,Habitacion espaciossa y limpia.,476,129
+14916,fijo,habitacion,positivo,0.88,Habitacion espaciossa y limpia.,476,129
+14916,fijo,instalaciones,negativo,0.86,Aunque no habia agua caliente en la mañana.,476,129
+14739,dinamico,Agua caliente,negativo,0.92,No habia agua caliente en la mañana,475,98
+14739,dinamico,Estado de los muebles / deterioro,negativo,0.84,los muebles estaban algo deteriorados,475,98
+14028,fijo,habitacion,positivo,0.92,Muy buena vista desde la habitacion.,479,95
+14028,fijo,instalaciones,negativo,0.88,pero la verdad no habia agua caliente en la mañana.,479,95
+13197,fijo,instalaciones,negativo,0.9,pero la verdad problemas con el agua caliennte.,478,58
+13577,fijo,limpieza,positivo,0.92,Habitacion espaciosa y limpia.,475,128
+13577,fijo,habitacion,positivo,0.88,Habitacion espaciosa y limpia.,475,128
+13577,fijo,instalaciones,negativo,0.86,No habia agua caliente en la mañana.,475,128
+15337,fijo,instalaciones,positivo,0.85,Pues [PERSONA] con el agua caliente.,470,56

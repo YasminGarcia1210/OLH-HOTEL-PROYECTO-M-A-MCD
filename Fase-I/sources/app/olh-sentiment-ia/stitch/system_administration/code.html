@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings | Hoteles OLH Sentiment Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@300;400;600;800&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#402d00",
+                    "surface-container": "#1d1f27",
+                    "on-background": "#e1e2ed",
+                    "tertiary-fixed": "#6ffbbe",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "secondary-container": "#3e495d",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "surface-dim": "#11131b",
+                    "error": "#ffb4ab",
+                    "on-primary-fixed-variant": "#5c4300",
+                    "outline": "#9a8f7d",
+                    "secondary-fixed-dim": "#bcc7de",
+                    "surface-container-lowest": "#0c0e15",
+                    "on-secondary-fixed-variant": "#3c475a",
+                    "on-surface": "#e1e2ed",
+                    "surface-container-low": "#191b23",
+                    "on-primary-fixed": "#261a00",
+                    "on-tertiary-fixed": "#002113",
+                    "on-error": "#690005",
+                    "surface-container-high": "#272a32",
+                    "on-tertiary": "#003824",
+                    "inverse-primary": "#795900",
+                    "on-secondary-fixed": "#111c2d",
+                    "inverse-on-surface": "#2e3038",
+                    "outline-variant": "#4e4637",
+                    "on-secondary-container": "#aeb9d0",
+                    "inverse-surface": "#e1e2ed",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary": "#263143",
+                    "surface-variant": "#32343d",
+                    "on-surface-variant": "#d2c5b1",
+                    "primary-fixed": "#ffdea0",
+                    "primary": "#f2c35f",
+                    "primary-fixed-dim": "#eec05c",
+                    "on-primary-container": "#563e00",
+                    "surface-tint": "#eec05c",
+                    "tertiary-container": "#2bc58c",
+                    "surface-container-highest": "#32343d",
+                    "secondary-fixed": "#d8e3fb",
+                    "background": "#11131b",
+                    "surface": "#11131b",
+                    "primary-container": "#d4a847",
+                    "surface-bright": "#373941",
+                    "tertiary": "#52e2a6",
+                    "secondary": "#bcc7de",
+                    "error-container": "#93000a",
+                    "on-tertiary-container": "#004c32"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; background-color: #11131b; color: #e1e2ed; }
+        .glass-card {
+            background: rgba(29, 31, 39, 0.6);
+            backdrop-filter: blur(20px);
+        }
+        .sentiment-glow-critical {
+            filter: blur(60px);
+            background: rgba(147, 0, 10, 0.15);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #f2c35f 0%, #d4a847 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#0c0e15] flex flex-col border-r border-[#32343d]/10 z-50">
+<div class="p-8">
+<h1 class="text-lg font-headline text-primary mb-1">Sentiment AI</h1>
+<p class="font-label uppercase tracking-[0.1em] text-[0.6875rem] text-[#e1e2ed]/40">Intelligence Suite</p>
+</div>
+<nav class="flex-1 mt-4">
+<div class="mb-8">
+<a class="flex items-center gap-4 px-6 py-4 text-[#e1e2ed]/40 hover:bg-[#11131b] hover:text-[#e1e2ed] transition-all group" href="#">
+<span class="material-symbols-outlined transition-all group-hover:translate-x-1">dashboard</span>
+<span class="font-label uppercase tracking-[0.1em] text-[0.6875rem]">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-[#e1e2ed]/40 hover:bg-[#11131b] hover:text-[#e1e2ed] transition-all group" href="#">
+<span class="material-symbols-outlined transition-all group-hover:translate-x-1">analytics</span>
+<span class="font-label uppercase tracking-[0.1em] text-[0.6875rem]">Reviews</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-[#e1e2ed]/40 hover:bg-[#11131b] hover:text-[#e1e2ed] transition-all group" href="#">
+<span class="material-symbols-outlined transition-all group-hover:translate-x-1">cloud_upload</span>
+<span class="font-label uppercase tracking-[0.1em] text-[0.6875rem]">Upload</span>
+</a>
+<!-- Active Tab: Settings -->
+<a class="flex items-center gap-4 px-6 py-4 text-[#f2c35f] bg-[#1d1f27] border-r-2 border-[#f2c35f] group" href="#">
+<span class="material-symbols-outlined transition-all group-hover:translate-x-1">settings</span>
+<span class="font-label uppercase tracking-[0.1em] text-[0.6875rem]">Settings</span>
+</a>
+</div>
+<div class="px-6 mt-10">
+<button class="w-full primary-gradient text-on-primary font-bold py-3 px-4 rounded-md flex items-center justify-center gap-2 text-sm shadow-[0px_12px_32px_rgba(242,195,95,0.1)]">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>New Analysis</span>
+</button>
+</div>
+</nav>
+<div class="mt-auto border-t border-[#32343d]/10 pb-8">
+<a class="flex items-center gap-4 px-6 py-4 text-[#e1e2ed]/40 hover:bg-[#11131b] hover:text-[#e1e2ed] transition-all group" href="#">
+<span class="material-symbols-outlined transition-all group-hover:translate-x-1">help</span>
+<span class="font-label uppercase tracking-[0.1em] text-[0.6875rem]">Support</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-[#e1e2ed]/40 hover:bg-[#11131b] hover:text-[#e1e2ed] transition-all group" href="#">
+<span class="material-symbols-outlined transition-all group-hover:translate-x-1">logout</span>
+<span class="font-label uppercase tracking-[0.1em] text-[0.6875rem]">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen bg-surface">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-8 w-full sticky top-0 z-40 h-16 bg-[#11131b] shadow-[0px_12px_32px_rgba(225,226,237,0.04)] tonal-shift bg-[#1d1f27]">
+<div class="flex items-center gap-2">
+<span class="font-headline italic text-xl text-[#f2c35f]">Hoteles OLH</span>
+<span class="text-on-surface-variant/40 text-sm ml-4">Administration / System Parameters</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-[#f2c35f] cursor-pointer transition-colors duration-300">search</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-[#f2c35f] cursor-pointer transition-colors duration-300">notifications</span>
+<img alt="User Profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant/20" data-alt="Professional headshot of a senior executive male in a dark suit with soft studio lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtBbJSmnEejyTUwCq_yvBqdCT0QoYiJellgi6BhP7BVMAXOToJGny107E6jsMFbrcV7sPKe4xGc0jLUScFisjzbnrHhOuoH6vF2KLRSU-NngxJa0gcfQgTiQ8JFX9Co-el676IWKp928fGKS4_BG1MJv3VX5vDzhDdVvDDrsnEJQUObADulpcz7afjgDF-KtWyDfUErf6rAkLOp31JXUhjg1hZ4zzsLwORurpovV4M-jH46_aYerB1PZBLace1DJcsb2FHVYkHoHE"/>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-12 max-w-6xl mx-auto relative">
+<!-- Decorative Glow -->
+<div class="absolute -top-20 -right-20 w-96 h-96 sentiment-glow-critical rounded-full pointer-events-none opacity-30"></div>
+<div class="mb-12">
+<h2 class="text-4xl font-headline font-bold text-on-surface mb-2">System Administration</h2>
+<p class="text-on-surface-variant text-lg max-w-2xl">Refine the neural logic governing your sentiment analysis and manage institutional access controls.</p>
+</div>
+<!-- Bento Grid Settings -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Section 1: Sentiment Thresholds -->
+<section class="col-span-12 lg:col-span-7 surface-container p-8 rounded-xl relative overflow-hidden">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="text-xl font-headline text-primary mb-1">Sentiment Thresholds</h3>
+<p class="font-label text-xs uppercase tracking-widest text-on-surface-variant/60">Algorithm Parameters</p>
+</div>
+<span class="material-symbols-outlined text-primary/40 text-4xl">tune</span>
+</div>
+<div class="space-y-8">
+<div>
+<div class="flex justify-between items-center mb-4">
+<label class="text-sm font-semibold flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span> Critical Alert Trigger
+                                </label>
+<span class="text-primary font-mono text-sm">≤ 25%</span>
+</div>
+<input class="w-full h-1 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary" max="100" min="0" type="range" value="25"/>
+<p class="text-[0.6875rem] text-on-surface-variant/60 mt-2 italic">Define the negative score percentage that triggers an immediate executive alert.</p>
+</div>
+<div>
+<div class="flex justify-between items-center mb-4">
+<label class="text-sm font-semibold flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> Exceptional Performance
+                                </label>
+<span class="text-primary font-mono text-sm">≥ 85%</span>
+</div>
+<input class="w-full h-1 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary" max="100" min="0" type="range" value="85"/>
+<p class="text-[0.6875rem] text-on-surface-variant/60 mt-2 italic">Minimum positive sentiment score to categorize a review as a benchmark success.</p>
+</div>
+<div class="pt-4 border-t border-outline-variant/10 flex justify-end">
+<button class="text-on-surface-variant hover:text-primary text-sm font-bold flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-base">save</span> SAVE THRESHOLDS
+                            </button>
+</div>
+</div>
+</section>
+<!-- Section 2: Topic Taxonomy -->
+<section class="col-span-12 lg:col-span-5 surface-container p-8 rounded-xl">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="text-xl font-headline text-primary mb-1">Topic Taxonomy</h3>
+<p class="font-label text-xs uppercase tracking-widest text-on-surface-variant/60">Classification Rules</p>
+</div>
+<span class="material-symbols-outlined text-primary/40 text-4xl">category</span>
+</div>
+<div class="space-y-4">
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-on-surface text-xs flex items-center gap-2 border border-outline-variant/10">
+                                Culinary Experience <span class="material-symbols-outlined text-xs cursor-pointer">close</span>
+</span>
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-on-surface text-xs flex items-center gap-2 border border-outline-variant/10">
+                                Guest Loyalty <span class="material-symbols-outlined text-xs cursor-pointer">close</span>
+</span>
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-on-surface text-xs flex items-center gap-2 border border-outline-variant/10">
+                                Spa &amp; Wellness <span class="material-symbols-outlined text-xs cursor-pointer">close</span>
+</span>
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-on-surface text-xs flex items-center gap-2 border border-outline-variant/10">
+                                Staff Integrity <span class="material-symbols-outlined text-xs cursor-pointer">close</span>
+</span>
+</div>
+<div class="mt-8">
+<label class="text-[0.6875rem] font-label uppercase tracking-widest text-on-surface-variant/60 mb-2 block">Add New Category</label>
+<div class="flex gap-2">
+<input class="flex-1 bg-surface-container-low border-b-2 border-outline-variant focus:border-primary border-t-0 border-x-0 outline-none px-0 text-sm py-2" placeholder="e.g. Concierge Efficiency" type="text"/>
+<button class="primary-gradient text-on-primary p-2 rounded-md">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: User Governance -->
+<section class="col-span-12 surface-container-low p-8 rounded-xl border border-outline-variant/5">
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
+<div>
+<h3 class="text-xl font-headline text-primary mb-1">User Governance</h3>
+<p class="font-label text-xs uppercase tracking-widest text-on-surface-variant/60">Access &amp; Roles Management</p>
+</div>
+<button class="bg-surface-container-highest text-on-surface px-6 py-2 rounded-md text-sm border border-primary/20 hover:bg-primary/10 transition-colors flex items-center gap-2 self-start">
+<span class="material-symbols-outlined text-sm">person_add</span> INVITE MEMBER
+                        </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="border-b border-outline-variant/10">
+<tr>
+<th class="pb-4 font-label text-[0.6875rem] uppercase tracking-widest text-on-surface-variant/60">Identity</th>
+<th class="pb-4 font-label text-[0.6875rem] uppercase tracking-widest text-on-surface-variant/60">Authorization</th>
+<th class="pb-4 font-label text-[0.6875rem] uppercase tracking-widest text-on-surface-variant/60">Intelligence Access</th>
+<th class="pb-4 font-label text-[0.6875rem] uppercase tracking-widest text-on-surface-variant/60 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<tr class="group hover:bg-surface-container/30 transition-colors">
+<td class="py-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-headline text-primary italic border border-primary/20">JP</div>
+<div>
+<p class="text-sm font-semibold">Julianna Pierce</p>
+<p class="text-xs text-on-surface-variant/60">j.pierce@hotelesolh.com</p>
+</div>
+</div>
+</td>
+<td class="py-6">
+<span class="px-3 py-1 rounded-full text-[0.6rem] font-bold uppercase tracking-tighter bg-primary/10 text-primary border border-primary/20">System Admin</span>
+</td>
+<td class="py-6">
+<p class="text-xs text-on-surface-variant">Global Access: All Regions</p>
+</td>
+<td class="py-6 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container/30 transition-colors">
+<td class="py-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center font-headline text-secondary italic border border-secondary/20">MR</div>
+<div>
+<p class="text-sm font-semibold">Marcus Rivera</p>
+<p class="text-xs text-on-surface-variant/60">m.rivera@hotelesolh.com</p>
+</div>
+</div>
+</td>
+<td class="py-6">
+<span class="px-3 py-1 rounded-full text-[0.6rem] font-bold uppercase tracking-tighter bg-surface-container-highest text-on-surface-variant border border-outline-variant/10">Regional Analyst</span>
+</td>
+<td class="py-6">
+<p class="text-xs text-on-surface-variant">Madrid &amp; Barcelona Luxury Suites</p>
+</td>
+<td class="py-6 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container/30 transition-colors">
+<td class="py-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center font-headline text-tertiary italic border border-tertiary/20">EL</div>
+<div>
+<p class="text-sm font-semibold">Elena Larsson</p>
+<p class="text-xs text-on-surface-variant/60">e.larsson@hotelesolh.com</p>
+</div>
+</div>
+</td>
+<td class="py-6">
+<span class="px-3 py-1 rounded-full text-[0.6rem] font-bold uppercase tracking-tighter bg-surface-container-highest text-on-surface-variant border border-outline-variant/10">Editor</span>
+</td>
+<td class="py-6">
+<p class="text-xs text-on-surface-variant">Guest Experience Content</p>
+</td>
+<td class="py-6 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Section 4: Maintenance & Export -->
+<section class="col-span-12 lg:col-span-4 glass-card p-8 rounded-xl border border-outline-variant/10">
+<h3 class="text-lg font-headline text-on-surface mb-6">Data Stewardship</h3>
+<div class="space-y-4">
+<button class="w-full flex items-center justify-between p-4 bg-surface-container hover:bg-surface-container-highest rounded-lg transition-colors group">
+<span class="text-sm">Export Intelligence Map</span>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">download</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 bg-surface-container hover:bg-surface-container-highest rounded-lg transition-colors group">
+<span class="text-sm">Cleanse Redundant Metadata</span>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">mop</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 bg-surface-container hover:bg-surface-container-highest rounded-lg transition-colors group">
+<span class="text-sm">System Logs (API 2.4)</span>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">history</span>
+</button>
+</div>
+</section>
+<section class="col-span-12 lg:col-span-8 surface-container-highest p-8 rounded-xl flex items-center gap-8 border border-primary/10">
+<div class="flex-shrink-0 w-24 h-24 rounded-2xl overflow-hidden shadow-2xl">
+<img alt="AI Pulse" class="w-full h-full object-cover" data-alt="Abstract 3D data visualization of neon blue and gold particles flowing in a dark digital void, representing neural network processing" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR_3G21yMzUW_0cbOw9o-mZ0yN3teAOYLB80AK9o8lcmHbkzjxCtvX-ZYz6Jn4V2L4nJXDjFbbEApnMwSUVYvVMjmPnfgvWTAFsDVWP-lr5kiubLPrIH1brNBGbz7Jh1hmPqZMbrrQnzcf6Ven5hGZyPEnxlwvHecJaDcnDZIq6O5a5-rvx03V4VcAgPexacrfeXeI3K4mMI8xIcSSeETPHrhsJ9DXSGIaOzvvniTNSUfExTd75aN0RbuPv0OTNMaTfq56vWN5oZM"/>
+</div>
+<div>
+<h4 class="text-primary font-headline text-xl mb-2">Real-time Intelligence Status</h4>
+<p class="text-sm text-on-surface/80 leading-relaxed mb-4">The Sentiment AI engine is currently operating at 99.4% precision across all 14 global properties. Parameters updated 2 hours ago by System Admin.</p>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="text-[0.6875rem] font-label uppercase tracking-widest">Active Engine</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-[0.6875rem] font-label uppercase tracking-widest">v4.2 Stable</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Action Bar -->
+<div class="mt-12 pt-8 border-t border-outline-variant/10 flex justify-between items-center">
+<p class="text-xs text-on-surface-variant/40 uppercase tracking-widest">Last Configuration Audit: 12 OCT 2023</p>
+<div class="flex gap-4">
+<button class="px-8 py-3 rounded-md text-sm font-bold text-on-surface-variant hover:text-on-surface transition-colors">DISCARD CHANGES</button>
+<button class="px-10 py-3 rounded-md text-sm font-bold primary-gradient text-on-primary shadow-lg active:scale-95 transition-all">COMMIT ALL SETTINGS</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

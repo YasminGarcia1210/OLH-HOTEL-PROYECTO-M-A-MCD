@@ -1,0 +1,60 @@
+# Plantilla para: az containerapp create --yaml @container-app.template.yaml
+# Reemplazá los marcadores <...> antes de aplicar. No commitees secretos.
+---
+kind: containerapp
+location: <LOCATION>
+name: dashboard-backend
+resourceGroup: <RESOURCE_GROUP_NAME>
+type: Microsoft.App/containerApps
+properties:
+  managedEnvironmentId: <MANAGED_ENVIRONMENT_RESOURCE_ID>
+  configuration:
+    activeRevisionsMode: Single
+    ingress:
+      external: true
+      targetPort: 5002
+      transport: Auto
+    # Registro ACR: configurá registries + identidad o usuario admin (ver docs/DEPLOY_AZURE_ACA.md).
+    # Secretos: preferí `az containerapp secret set` en lugar de listarlos aquí.
+    secrets: []
+  template:
+    scale:
+      minReplicas: 0
+      maxReplicas: 5
+    containers:
+      - name: api
+        image: <ACR_NAME>.azurecr.io/dashboard-backend:1.0.0
+        resources:
+          cpu: 0.5
+          memory: 1.0Gi
+        env:
+          - name: PORT
+            value: "5002"
+          - name: FLASK_ENV
+            value: production
+          - name: FLASK_DEBUG
+            value: "false"
+        probes:
+          - type: Startup
+            httpGet:
+              path: /health
+              port: 5002
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 30
+            timeoutSeconds: 5
+          - type: Liveness
+            httpGet:
+              path: /health
+              port: 5002
+            periodSeconds: 30
+            failureThreshold: 3
+            timeoutSeconds: 5
+          - type: Readiness
+            httpGet:
+              path: /health
+              port: 5002
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 5

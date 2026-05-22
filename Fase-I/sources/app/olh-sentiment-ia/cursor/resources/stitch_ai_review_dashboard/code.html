@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aureum Intelligence - Reviews Explorer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#004c32",
+                    "surface-container-highest": "#32343d",
+                    "surface-container-high": "#272a32",
+                    "primary-fixed": "#ffdea0",
+                    "surface-variant": "#32343d",
+                    "error-container": "#93000a",
+                    "on-surface-variant": "#d2c5b1",
+                    "on-background": "#e1e2ed",
+                    "background": "#11131b",
+                    "on-secondary-fixed": "#111c2d",
+                    "on-primary-fixed-variant": "#5c4300",
+                    "secondary-container": "#3e495d",
+                    "outline": "#9a8f7d",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "surface-container-lowest": "#0c0e15",
+                    "surface-dim": "#11131b",
+                    "secondary": "#bcc7de",
+                    "inverse-on-surface": "#2e3038",
+                    "secondary-fixed": "#d8e3fb",
+                    "on-surface": "#e1e2ed",
+                    "surface-tint": "#eec05c",
+                    "primary-fixed-dim": "#eec05c",
+                    "primary-container": "#d4a847",
+                    "error": "#ffb4ab",
+                    "surface-bright": "#373941",
+                    "on-error": "#690005",
+                    "inverse-surface": "#e1e2ed",
+                    "on-primary-container": "#563e00",
+                    "on-secondary-fixed-variant": "#3c475a",
+                    "on-secondary": "#263143",
+                    "on-tertiary-fixed": "#002113",
+                    "tertiary": "#52e2a6",
+                    "inverse-primary": "#795900",
+                    "surface-container-low": "#191b23",
+                    "surface-container": "#1d1f27",
+                    "outline-variant": "#4e4637",
+                    "primary": "#f2c35f",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "secondary-fixed-dim": "#bcc7de",
+                    "on-tertiary": "#003824",
+                    "tertiary-container": "#2bc58c",
+                    "on-primary": "#402d00",
+                    "on-error-container": "#ffdad6",
+                    "surface": "#11131b",
+                    "on-secondary-container": "#aeb9d0",
+                    "tertiary-fixed": "#6ffbbe",
+                    "on-primary-fixed": "#261a00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "serif": ["Noto Serif", "serif"],
+                    "sans": ["Manrope", "sans-serif"],
+                    "label": ["Inter", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        background-color: #11131b;
+        color: #e1e2ed;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+</head>
+<body class="font-sans antialiased">
+<!-- Sidebar Navigation Shell -->
+<aside class="h-screen w-72 left-0 top-0 fixed bg-[#0c0e15] flex flex-col py-8 px-4 space-y-6 z-40 hidden md:flex">
+<div class="px-4 mb-4">
+<h1 class="font-serif text-[#f2c35f] text-xl font-bold tracking-tight">Hoteles OLH</h1>
+<p class="font-sans text-xs tracking-widest uppercase text-[#e1e2ed]/40">Prestige Analytics</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Active Tab: Reviews Explorer -->
+<a class="flex items-center px-4 py-3 text-[#f2c35f] border-r-2 border-[#f2c35f] bg-gradient-to-r from-[#f2c35f]/10 to-transparent transition-all group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="manage_search">manage_search</span>
+<span class="font-sans text-sm tracking-widest uppercase">Reviews Explorer</span>
+</a>
+<a class="flex items-center px-4 py-3 text-[#e1e2ed]/40 hover:bg-[#1d1f27] hover:text-[#e1e2ed] transition-all cursor-pointer group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
+<span class="font-sans text-sm tracking-widest uppercase">Dashboard</span>
+</a>
+<a class="flex items-center px-4 py-3 text-[#e1e2ed]/40 hover:bg-[#1d1f27] hover:text-[#e1e2ed] transition-all cursor-pointer group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="psychology">psychology</span>
+<span class="font-sans text-sm tracking-widest uppercase">Topic Analysis</span>
+</a>
+<a class="flex items-center px-4 py-3 text-[#e1e2ed]/40 hover:bg-[#1d1f27] hover:text-[#e1e2ed] transition-all cursor-pointer group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="insights">insights</span>
+<span class="font-sans text-sm tracking-widest uppercase">Sentiment Pulse</span>
+</a>
+<a class="flex items-center px-4 py-3 text-[#e1e2ed]/40 hover:bg-[#1d1f27] hover:text-[#e1e2ed] transition-all cursor-pointer group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="analytics">analytics</span>
+<span class="font-sans text-sm tracking-widest uppercase">Reports</span>
+</a>
+</nav>
+<div class="px-4 mt-auto mb-6">
+<button class="w-full bg-gradient-to-br from-[#f2c35f] to-[#d4a847] text-[#402d00] font-bold py-3 rounded-xl active:scale-95 transition-transform flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="auto_awesome">auto_awesome</span>
+                Generate Insight
+            </button>
+</div>
+<div class="space-y-1 pt-4 border-t border-[#1d1f27]/50">
+<a class="flex items-center px-4 py-2 text-[#e1e2ed]/40 hover:text-[#e1e2ed] transition-all" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="help">help</span>
+<span class="font-sans text-xs tracking-widest uppercase">Support</span>
+</a>
+<a class="flex items-center px-4 py-2 text-[#e1e2ed]/40 hover:text-[#e1e2ed] transition-all" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="account_circle">account_circle</span>
+<span class="font-sans text-xs tracking-widest uppercase">Account</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-72 min-h-screen relative">
+<!-- TopAppBar -->
+<header class="bg-[#11131b]/80 backdrop-blur-xl fixed top-0 right-0 left-0 md:left-72 z-50 h-20 px-8 flex justify-between items-center shadow-[0px_12px_32px_rgba(225,226,237,0.04)]">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-serif font-bold text-[#f2c35f] italic">Aureum Intelligence</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group hidden sm:block">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#e1e2ed]/40" data-icon="search">search</span>
+<input class="bg-[#1d1f27] border-b-2 border-transparent focus:border-[#f2c35f] text-sm py-2 pl-10 pr-4 w-64 rounded-t-lg outline-none transition-all placeholder-[#e1e2ed]/30" placeholder="Global search..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-[#e1e2ed]/60 hover:text-[#f2c35f] transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-[#e1e2ed]/60 hover:text-[#f2c35f] transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-10 w-10 rounded-full border border-[#f2c35f]/20 overflow-hidden ml-2">
+<img class="h-full w-full object-cover" data-alt="professional portrait of a luxury hotel executive with sharp attire and focused expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJxEnc7e6CszElYMY_daAgF7ZBpQxn3130cyEQGg9OF6cW76DmrUL38h7HRs8k1pURCAWUjQjokMALng6rYKviSGZwmUu_QHyds1qyl02hDpUJyNG1s2RSqLbHWSgKA5FFzTVDc2zLMKrj1tUBw2E58xXwTqVq4vBoIKWm2ihoUkRGOn1TrPNotbT-Sk4g_okLSyDyKndyTgpXXAWhaICdn41d9OTDpjreuo90mWciwlfZ2oApz3RqveM4a1uW-7sqchA7W9Daok0"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="pt-28 px-8 pb-12">
+<!-- Page Header -->
+<div class="mb-10 max-w-5xl">
+<h2 class="text-4xl md:text-5xl font-serif text-[#e1e2ed] tracking-tight font-bold mb-2">Reviews Explorer</h2>
+<p class="text-[#e1e2ed]/60 font-sans text-lg">Explore guest sentiment and thematic breakdown across all prestige locations.</p>
+</div>
+<!-- Filter Bar -->
+<section class="bg-[#1d1f27] rounded-xl p-6 mb-8 flex flex-wrap items-end gap-6 shadow-sm">
+<div class="flex-1 min-w-[200px]">
+<label class="block font-label text-[10px] uppercase tracking-widest text-[#f2c35f] mb-2 font-bold">Date Range</label>
+<div class="bg-[#191b23] flex items-center px-3 py-2.5 rounded border-b-2 border-transparent focus-within:border-[#f2c35f] transition-all cursor-pointer">
+<span class="material-symbols-outlined text-sm mr-2 text-[#e1e2ed]/40" data-icon="calendar_today">calendar_today</span>
+<span class="text-sm text-[#e1e2ed]/80">Last 30 Days</span>
+<span class="material-symbols-outlined text-sm ml-auto text-[#e1e2ed]/40" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<div class="flex-1 min-w-[240px]">
+<label class="block font-label text-[10px] uppercase tracking-widest text-[#f2c35f] mb-2 font-bold">Sentiment Filters</label>
+<div class="flex gap-2">
+<button class="bg-tertiary-container/10 border border-tertiary-container/30 text-tertiary px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Positive
+                        </button>
+<button class="bg-[#e1e2ed]/5 border border-[#e1e2ed]/10 text-[#e1e2ed]/60 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-white/20"></span> Neutral
+                        </button>
+<button class="bg-error-container/20 border border-error-container/40 text-error px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Critical
+                        </button>
+</div>
+</div>
+<div class="flex-[1.5] min-w-[300px]">
+<label class="block font-label text-[10px] uppercase tracking-widest text-[#f2c35f] mb-2 font-bold">Topics &amp; Themes</label>
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+<span class="bg-surface-container-highest text-[#e1e2ed]/80 px-3 py-1.5 rounded text-xs whitespace-nowrap">Service</span>
+<span class="bg-surface-container-highest text-[#e1e2ed]/80 px-3 py-1.5 rounded text-xs whitespace-nowrap">Amenities</span>
+<span class="bg-surface-container-highest text-[#e1e2ed]/80 px-3 py-1.5 rounded text-xs whitespace-nowrap">Noise Level</span>
+<span class="bg-surface-container-highest text-[#e1e2ed]/80 px-3 py-1.5 rounded text-xs whitespace-nowrap">WiFi</span>
+<span class="bg-primary-container/20 border border-primary/20 text-primary px-3 py-1.5 rounded text-xs whitespace-nowrap">+4 More</span>
+</div>
+</div>
+<button class="bg-[#191b23] text-[#f2c35f] hover:bg-[#32343d] transition-colors p-2.5 rounded h-[42px] flex items-center gap-2 px-6 font-bold text-sm">
+<span class="material-symbols-outlined text-base" data-icon="filter_list">filter_list</span>
+                    Apply
+                </button>
+</section>
+<!-- Reviews List (Vertical Feed) -->
+<div class="space-y-6 max-w-6xl mx-auto">
+<!-- Review Card 1 -->
+<article class="bg-[#1d1f27] rounded-xl overflow-hidden shadow-[0px_12px_32px_rgba(225,226,237,0.02)] border-l-4 border-tertiary">
+<div class="p-8">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-low p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="hotel_class">hotel_class</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<p class="font-serif text-lg font-bold">Excellent Stay in the Master Suite</p>
+<span class="text-[#e1e2ed]/30 text-xs">•</span>
+<span class="text-[#e1e2ed]/40 text-xs font-label">Oct 12, 2023</span>
+</div>
+<div class="flex items-center gap-2">
+<img class="h-4 w-4 opacity-70" data-alt="minimalist booking logo icon in monochromatic style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbIeOb7kWMqfXtpTjc_9_VSxSFZDf-p4to8tEztnKFdBOU82fkt_jEOuIfWrjDaMuYJcSm63ZiIPD32jOKQ9ZPiQoudoVWSBN6bcLs0Y12OlSopwgV1ORJvpAYxgwg2WJ-8li35vOUHO2qhsEl1oqyI-9g0JECuz1TlQoRpvOAkx0jAjobrXQ5HUhq_hP-7UUNCu1U_6gtv0a8MzP69H_gbbkCdlCDsgo5aMmZj2XSGgp2aOhtZISxRbL3P_rjD-DdLbVuGU3YZok"/>
+<span class="text-xs text-[#e1e2ed]/40">Source: Booking.com</span>
+</div>
+</div>
+</div>
+<div class="bg-tertiary-container/20 px-4 py-2 rounded-full border border-tertiary/20">
+<span class="text-tertiary font-bold text-sm">94% Excellent</span>
+</div>
+</div>
+<div class="mb-8">
+<p class="text-[#e1e2ed]/80 leading-relaxed font-sans text-base">
+                                "Our stay was absolutely magnificent from the moment we arrived. The concierge service went above and beyond to secure a private dining reservation for our anniversary. The suite was immaculate and offered the most breathtaking views of the coastline. However, we did notice the WiFi was slightly inconsistent in the far corner of the living room, though manageable for light browsing. We would highly recommend this property for anyone seeking true luxury and personalized care."
+                            </p>
+</div>
+<div class="pt-6 border-t border-[#32343d]/50 flex flex-wrap gap-3">
+<div class="flex items-center bg-[#191b23] px-3 py-1.5 rounded-lg border border-[#32343d]">
+<span class="text-[10px] uppercase font-bold text-[#e1e2ed]/40 mr-2">Service</span>
+<span class="text-tertiary text-xs font-bold">98%</span>
+</div>
+<div class="flex items-center bg-[#191b23] px-3 py-1.5 rounded-lg border border-[#32343d]">
+<span class="text-[10px] uppercase font-bold text-[#e1e2ed]/40 mr-2">WiFi</span>
+<span class="text-primary text-xs font-bold">62%</span>
+</div>
+<div class="flex items-center bg-[#191b23] px-3 py-1.5 rounded-lg border border-[#32343d]">
+<span class="text-[10px] uppercase font-bold text-[#e1e2ed]/40 mr-2">Location</span>
+<span class="text-tertiary text-xs font-bold">92%</span>
+</div>
+<div class="flex items-center bg-[#191b23] px-3 py-1.5 rounded-lg border border-[#32343d]">
+<span class="text-[10px] uppercase font-bold text-[#e1e2ed]/40 mr-2">Suite Comfort</span>
+<span class="text-tertiary text-xs font-bold">100%</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Review Card 2 -->
+<article class="bg-[#1d1f27] rounded-xl overflow-hidden shadow-[0px_12px_32px_rgba(225,226,237,0.02)] border-l-4 border-error">
+<div class="p-8">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-low p-2 rounded-lg">
+<span class="material-symbols-outlined text-[#e1e2ed]/40" data-icon="work">work</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<p class="font-serif text-lg font-bold">Business Trip Disappointment</p>
+<span class="text-[#e1e2ed]/30 text-xs">•</span>
+<span class="text-[#e1e2ed]/40 text-xs font-label">Oct 10, 2023</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-xs text-[#e1e2ed]/40" data-icon="travel_explore">travel_explore</span>
+<span class="text-xs text-[#e1e2ed]/40">Source: TripAdvisor</span>
+</div>
+</div>
+</div>
+<div class="bg-error-container/20 px-4 py-2 rounded-full border border-error/20">
+<span class="text-error font-bold text-sm">32% Critical</span>
+</div>
+</div>
+<div class="mb-8">
+<p class="text-[#e1e2ed]/80 leading-relaxed font-sans text-base">
+                                "For a hotel at this price point, I expected a peaceful night's sleep. Unfortunately, the noise from the street construction was unbearable starting from 6 AM. I requested a room change, but was told the hotel was at full capacity. The gym equipment was also out of order during my entire 3-day stay. On a positive note, the breakfast was varied and high quality, but it doesn't compensate for the lack of rest."
+                            </p>
+</div>
+<div class="pt-6 border-t border-[#32343d]/50 flex flex-wrap gap-3">
+<div class="flex items-center bg-[#191b23] px-3 py-1.5 rounded-lg border border-[#32343d]">
+<span class="text-[10px] uppercase font-bold text-[#e1e2ed]/40 mr-2">Noise</span>
+<span class="text-error text-xs font-bold">12%</span>
+</div>
+<div class="flex items-center bg-[#191b23] px-3 py-1.5 rounded-lg border border-[#32343d]">
+<span class="text-[10px] uppercase font-bold text-[#e1e2ed]/40 mr-2">Gym</span>
+<span class="text-error text-xs font-bold">0%</span>
+</div>
+<div class="flex items-center bg-[#191b23] px-3 py-1.5 rounded-lg border border-[#32343d]">
+<span class="text-[10px] uppercase font-bold text-[#e1e2ed]/40 mr-2">Breakfast</span>
+<span class="text-tertiary text-xs font-bold">88%</span>
+</div>
+<div class="flex items-center bg-[#191b23] px-3 py-1.5 rounded-lg border border-[#32343d]">
+<span class="text-[10px] uppercase font-bold text-[#e1e2ed]/40 mr-2">Front Desk</span>
+<span class="text-primary text-xs font-bold">45%</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Review Card 3 -->
+<article class="bg-[#1d1f27] rounded-xl overflow-hidden shadow-[0px_12px_32px_rgba(225,226,237,0.02)] border-l-4 border-primary">
+<div class="p-8">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-low p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="spa">spa</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<p class="font-serif text-lg font-bold">Relaxing Spa Weekend</p>
+<span class="text-[#e1e2ed]/30 text-xs">•</span>
+<span class="text-[#e1e2ed]/40 text-xs font-label">Oct 08, 2023</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-xs text-[#e1e2ed]/40" data-icon="star">star</span>
+<span class="text-xs text-[#e1e2ed]/40">Source: Internal Survey</span>
+</div>
+</div>
+</div>
+<div class="bg-primary-container/20 px-4 py-2 rounded-full border border-primary/20">
+<span class="text-primary font-bold text-sm">76% Good</span>
+</div>
+</div>
+<div class="mb-8">
+<p class="text-[#e1e2ed]/80 leading-relaxed font-sans text-base">
+                                "The spa treatments were world-class and the therapists are clearly experts in their field. We spent most of our time at the pool area which was very serene. The only downside was the check-in process which felt a bit rushed and impersonal for a boutique hotel experience. Once we were settled, however, everything was quite lovely."
+                            </p>
+</div>
+<div class="pt-6 border-t border-[#32343d]/50 flex flex-wrap gap-3">
+<div class="flex items-center bg-[#191b23] px-3 py-1.5 rounded-lg border border-[#32343d]">
+<span class="text-[10px] uppercase font-bold text-[#e1e2ed]/40 mr-2">Spa</span>
+<span class="text-tertiary text-xs font-bold">96%</span>
+</div>
+<div class="flex items-center bg-[#191b23] px-3 py-1.5 rounded-lg border border-[#32343d]">
+<span class="text-[10px] uppercase font-bold text-[#e1e2ed]/40 mr-2">Check-in</span>
+<span class="text-error text-xs font-bold">34%</span>
+</div>
+<div class="flex items-center bg-[#191b23] px-3 py-1.5 rounded-lg border border-[#32343d]">
+<span class="text-[10px] uppercase font-bold text-[#e1e2ed]/40 mr-2">Pool</span>
+<span class="text-tertiary text-xs font-bold">90%</span>
+</div>
+</div>
+</div>
+</article>
+</div>
+</div>
+<!-- Sentiment "Pulse" Floating Accent -->
+<div class="fixed bottom-12 right-12 w-64 h-64 bg-tertiary/5 rounded-full blur-[100px] pointer-events-none"></div>
+</main>
+<!-- Mobile Navigation Shell -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0c0e15] border-t border-[#1d1f27] flex items-center justify-around z-50">
+<a class="flex flex-col items-center justify-center gap-1 text-[#e1e2ed]/40" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] uppercase tracking-tighter">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-[#f2c35f]" href="#">
+<span class="material-symbols-outlined" data-icon="manage_search">manage_search</span>
+<span class="text-[10px] uppercase tracking-tighter">Reviews</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-[#e1e2ed]/40" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="text-[10px] uppercase tracking-tighter">Insights</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-[#e1e2ed]/40" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="text-[10px] uppercase tracking-tighter">Profile</span>
+</a>
+</nav>
+</body></html>
