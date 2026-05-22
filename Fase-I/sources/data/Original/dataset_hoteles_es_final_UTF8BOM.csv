@@ -1,0 +1,751 @@
+﻿hotel,ciudad,fecha,texto,rating,sentimiento
+Vista Real,Madrid,2023-03-05,El baño estaba sucio al llegar.,4.7,negativo
+Luna Park,San Sebastián,2023-10-20,Demasiado ruido durante la noche.,4.0,negativo
+Brisa Marina,Bilbao,2023-04-02,Desayuno espectacular y personal muy atento.,8.6,positivo
+Bahía Palace,San Sebastián,2023-04-26,Falta de mantenimiento en las instalaciones.,5.4,negativo
+Oasis Beach,Granada,2023-01-09,Muy buena ubicación y excelente limpieza.,9.0,positivo
+Costa Mar,Salamanca,2023-08-24,Muy buena ubicación y excelente limpieza.,7.6,positivo
+Costa Mar,Málaga,2023-12-25,Personal poco atento y recepción caótica.,5.1,negativo
+Brisa Marina,Granada,2023-09-23,Falta de mantenimiento en las instalaciones.,4.8,negativo
+Mar y Montaña,Sevilla,2023-05-21,Servicio amable. Volvería sin dudarlo.,9.3,positivo
+Bahía Palace,San Sebastián,2023-09-13,Demasiado ruido durante la noche.,5.8,negativo
+Bahía Palace,Valencia,2023-05-01,El baño estaba sucio al llegar.,4.0,negativo
+Oasis Beach,San Sebastián,2023-02-26,Precio elevado para la calidad ofrecida.,4.1,negativo
+Puerto Dorado,San Sebastián,2023-01-11,Personal poco atento y recepción caótica.,4.8,negativo
+Playa Azul,San Sebastián,2023-12-05,Falta de mantenimiento en las instalaciones.,4.0,negativo
+Hotel Sol,San Sebastián,2023-09-25,Relación calidad-precio excelente.,9.5,positivo
+Oasis Beach,San Sebastián,2023-03-14,Demasiado ruido durante la noche.,4.5,negativo
+Vista Real,Valencia,2023-07-09,Relación calidad-precio excelente.,9.7,positivo
+Costa Mar,Málaga,2023-03-04,El baño estaba sucio al llegar.,4.3,negativo
+Mar y Montaña,Málaga,2023-12-17,Precio elevado para la calidad ofrecida.,5.4,negativo
+Bahía Palace,Zaragoza,2023-02-26,Muy buena ubicación y excelente limpieza.,8.9,positivo
+Brisa Marina,Salamanca,2023-03-04,Personal poco atento y recepción caótica.,4.6,negativo
+Luna Park,Madrid,2023-02-25,El baño estaba sucio al llegar.,5.3,negativo
+Playa Azul,Málaga,2023-04-04,El baño estaba sucio al llegar.,4.1,negativo
+Puerto Dorado,Zaragoza,2023-04-14,Desayuno espectacular y personal muy atento.,9.4,positivo
+Oasis Beach,Barcelona,2023-02-25,Relación calidad-precio excelente.,8.6,positivo
+Hotel Sol,Barcelona,2023-09-09,Relación calidad-precio excelente.,7.0,positivo
+Mar y Montaña,Salamanca,2023-06-28,Relación calidad-precio excelente.,9.3,positivo
+Vista Real,Valencia,2023-04-24,Muy buena ubicación y excelente limpieza.,7.8,positivo
+Puerto Dorado,Barcelona,2023-03-17,Personal poco atento y recepción caótica.,5.2,negativo
+Brisa Marina,Málaga,2023-02-06,Falta de mantenimiento en las instalaciones.,5.2,negativo
+Playa Azul,Salamanca,2023-04-24,El baño estaba sucio al llegar.,5.4,negativo
+Mar y Montaña,Granada,2023-12-28,Relación calidad-precio excelente.,8.8,positivo
+Costa Mar,Sevilla,2023-10-19,Precio elevado para la calidad ofrecida.,5.1,negativo
+Luna Park,Sevilla,2023-06-01,Demasiado ruido durante la noche.,4.8,negativo
+Mar y Montaña,Sevilla,2023-03-13,Servicio amable. Volvería sin dudarlo.,9.2,positivo
+Oasis Beach,Sevilla,2023-07-03,Personal poco atento y recepción caótica.,5.9,negativo
+Brisa Marina,Madrid,2023-01-05,Personal poco atento y recepción caótica.,4.3,negativo
+Mar y Montaña,Valencia,2023-10-26,El baño estaba sucio al llegar.,5.7,negativo
+Luna Park,Barcelona,2023-02-18,Demasiado ruido durante la noche.,4.7,negativo
+Bahía Palace,Sevilla,2023-09-13,Demasiado ruido durante la noche.,4.1,negativo
+Mar y Montaña,Valencia,2023-03-15,Muy buena ubicación y excelente limpieza.,9.3,positivo
+Brisa Marina,Sevilla,2023-10-23,Demasiado ruido durante la noche.,5.8,negativo
+Bahía Palace,Sevilla,2023-08-21,Demasiado ruido durante la noche.,5.4,negativo
+Luna Park,Sevilla,2023-02-03,El baño estaba sucio al llegar.,4.8,negativo
+Vista Real,Valencia,2023-07-08,Servicio amable. Volvería sin dudarlo.,9.8,positivo
+Brisa Marina,Madrid,2023-04-12,Precio elevado para la calidad ofrecida.,5.8,negativo
+Costa Mar,Málaga,2023-03-18,Servicio amable. Volvería sin dudarlo.,7.7,positivo
+Hotel Sol,Málaga,2023-12-17,Precio elevado para la calidad ofrecida.,5.5,negativo
+Mar y Montaña,Valencia,2023-07-08,Muy buena ubicación y excelente limpieza.,8.0,positivo
+Vista Real,Bilbao,2023-08-21,Desayuno espectacular y personal muy atento.,9.7,positivo
+Luna Park,Valencia,2023-03-03,Desayuno espectacular y personal muy atento.,8.6,positivo
+Brisa Marina,San Sebastián,2023-04-13,El baño estaba sucio al llegar.,5.7,negativo
+Puerto Dorado,Zaragoza,2023-04-01,Precio elevado para la calidad ofrecida.,4.3,negativo
+Costa Mar,Barcelona,2023-01-23,Demasiado ruido durante la noche.,5.9,negativo
+Puerto Dorado,Zaragoza,2023-11-11,Personal poco atento y recepción caótica.,5.1,negativo
+Mar y Montaña,Málaga,2023-07-04,Desayuno espectacular y personal muy atento.,9.4,positivo
+Mar y Montaña,Salamanca,2023-04-23,Relación calidad-precio excelente.,7.8,positivo
+Oasis Beach,Valencia,2023-02-13,Relación calidad-precio excelente.,7.6,positivo
+Luna Park,Sevilla,2023-07-21,Precio elevado para la calidad ofrecida.,6.0,negativo
+Vista Real,Salamanca,2023-09-23,Falta de mantenimiento en las instalaciones.,4.5,negativo
+Vista Real,Salamanca,2023-04-01,Desayuno espectacular y personal muy atento.,7.8,positivo
+Bahía Palace,San Sebastián,2023-08-08,El baño estaba sucio al llegar.,4.7,negativo
+Oasis Beach,Valencia,2023-10-14,Precio elevado para la calidad ofrecida.,5.6,negativo
+Vista Real,Bilbao,2023-08-01,Precio elevado para la calidad ofrecida.,4.5,negativo
+Mar y Montaña,Granada,2023-11-04,Demasiado ruido durante la noche.,4.7,negativo
+Vista Real,Sevilla,2023-11-28,Muy buena ubicación y excelente limpieza.,8.0,positivo
+Luna Park,San Sebastián,2023-11-05,Servicio amable. Volvería sin dudarlo.,8.5,positivo
+Luna Park,San Sebastián,2023-02-27,Desayuno espectacular y personal muy atento.,8.1,positivo
+Puerto Dorado,Bilbao,2023-04-12,Servicio amable. Volvería sin dudarlo.,7.7,positivo
+Bahía Palace,Barcelona,2023-02-10,El baño estaba sucio al llegar.,5.5,negativo
+Vista Real,Valencia,2023-04-27,Desayuno espectacular y personal muy atento.,9.0,positivo
+Oasis Beach,Málaga,2023-03-20,Precio elevado para la calidad ofrecida.,4.8,negativo
+Playa Azul,Granada,2023-10-04,Muy buena ubicación y excelente limpieza.,8.7,positivo
+Playa Azul,Zaragoza,2023-03-09,Demasiado ruido durante la noche.,5.2,negativo
+Mar y Montaña,Zaragoza,2023-12-20,Servicio amable. Volvería sin dudarlo.,9.3,positivo
+Playa Azul,Sevilla,2023-10-24,Demasiado ruido durante la noche.,5.6,negativo
+Luna Park,Madrid,2023-07-19,Demasiado ruido durante la noche.,4.2,negativo
+Oasis Beach,San Sebastián,2023-04-26,Habitaciones muy cómodas y tranquilas.,8.0,positivo
+Vista Real,Zaragoza,2023-02-07,Muy buena ubicación y excelente limpieza.,8.1,positivo
+Vista Real,Salamanca,2023-10-23,Precio elevado para la calidad ofrecida.,4.5,negativo
+Luna Park,Barcelona,2023-06-23,El baño estaba sucio al llegar.,5.3,negativo
+Hotel Sol,Granada,2023-01-28,Falta de mantenimiento en las instalaciones.,4.5,negativo
+Bahía Palace,San Sebastián,2023-03-20,Desayuno espectacular y personal muy atento.,9.6,positivo
+Playa Azul,Salamanca,2023-11-26,El baño estaba sucio al llegar.,4.3,negativo
+Bahía Palace,Valencia,2023-11-20,Falta de mantenimiento en las instalaciones.,4.7,negativo
+Puerto Dorado,Bilbao,2023-09-08,Personal poco atento y recepción caótica.,4.5,negativo
+Mar y Montaña,Granada,2023-11-10,Relación calidad-precio excelente.,7.6,positivo
+Vista Real,Valencia,2023-10-19,Muy buena ubicación y excelente limpieza.,8.1,positivo
+Mar y Montaña,Bilbao,2023-03-17,Servicio amable. Volvería sin dudarlo.,9.8,positivo
+Mar y Montaña,Sevilla,2023-10-09,Relación calidad-precio excelente.,8.1,positivo
+Puerto Dorado,Zaragoza,2023-06-02,Servicio amable. Volvería sin dudarlo.,9.5,positivo
+Luna Park,Granada,2023-04-05,Habitaciones muy cómodas y tranquilas.,7.0,positivo
+Puerto Dorado,Salamanca,2023-11-21,Demasiado ruido durante la noche.,4.1,negativo
+Hotel Sol,Sevilla,2023-09-27,Falta de mantenimiento en las instalaciones.,5.6,negativo
+Vista Real,Sevilla,2023-04-24,Muy buena ubicación y excelente limpieza.,8.4,positivo
+Oasis Beach,Granada,2023-09-06,Personal poco atento y recepción caótica.,5.1,negativo
+Puerto Dorado,Sevilla,2023-09-21,El baño estaba sucio al llegar.,6.0,negativo
+Oasis Beach,Valencia,2023-03-04,Desayuno espectacular y personal muy atento.,7.7,positivo
+Vista Real,Valencia,2023-08-22,Habitaciones muy cómodas y tranquilas.,7.9,positivo
+Playa Azul,Madrid,2023-07-13,Muy buena ubicación y excelente limpieza.,7.2,positivo
+Mar y Montaña,Barcelona,2023-09-20,Muy buena ubicación y excelente limpieza.,7.2,positivo
+Costa Mar,Valencia,2023-09-17,Relación calidad-precio excelente.,8.6,positivo
+Playa Azul,Barcelona,2023-01-01,Demasiado ruido durante la noche.,4.1,negativo
+Mar y Montaña,Granada,2023-10-16,Precio elevado para la calidad ofrecida.,4.1,negativo
+Playa Azul,Salamanca,2023-10-09,Demasiado ruido durante la noche.,4.7,negativo
+Costa Mar,Bilbao,2023-07-07,Falta de mantenimiento en las instalaciones.,5.2,negativo
+Mar y Montaña,Sevilla,2023-04-04,Servicio amable. Volvería sin dudarlo.,9.6,positivo
+Luna Park,Zaragoza,2023-11-16,Demasiado ruido durante la noche.,5.7,negativo
+Costa Mar,Bilbao,2023-07-22,Servicio amable. Volvería sin dudarlo.,8.8,positivo
+Oasis Beach,Granada,2023-11-06,Personal poco atento y recepción caótica.,4.4,negativo
+Oasis Beach,Barcelona,2023-04-17,Muy buena ubicación y excelente limpieza.,8.0,positivo
+Brisa Marina,Barcelona,2023-11-19,Habitaciones muy cómodas y tranquilas.,8.3,positivo
+Oasis Beach,Málaga,2023-05-12,Muy buena ubicación y excelente limpieza.,7.3,positivo
+Hotel Sol,Madrid,2023-11-07,Muy buena ubicación y excelente limpieza.,9.5,positivo
+Puerto Dorado,Bilbao,2023-06-06,Muy buena ubicación y excelente limpieza.,7.9,positivo
+Vista Real,Zaragoza,2023-01-26,Precio elevado para la calidad ofrecida.,5.2,negativo
+Brisa Marina,Barcelona,2023-04-20,Habitaciones muy cómodas y tranquilas.,7.5,positivo
+Mar y Montaña,Valencia,2023-04-20,Precio elevado para la calidad ofrecida.,5.4,negativo
+Playa Azul,Sevilla,2023-10-23,El baño estaba sucio al llegar.,4.2,negativo
+Bahía Palace,Barcelona,2023-03-26,Demasiado ruido durante la noche.,5.4,negativo
+Puerto Dorado,Salamanca,2023-12-14,Muy buena ubicación y excelente limpieza.,9.4,positivo
+Brisa Marina,Zaragoza,2023-10-13,Demasiado ruido durante la noche.,4.8,negativo
+Brisa Marina,Zaragoza,2023-12-05,Muy buena ubicación y excelente limpieza.,7.7,positivo
+Mar y Montaña,Zaragoza,2023-01-07,El baño estaba sucio al llegar.,5.4,negativo
+Brisa Marina,Málaga,2023-08-03,Precio elevado para la calidad ofrecida.,5.1,negativo
+Oasis Beach,Valencia,2023-05-24,Personal poco atento y recepción caótica.,5.0,negativo
+Vista Real,Sevilla,2023-02-19,Personal poco atento y recepción caótica.,5.8,negativo
+Luna Park,Salamanca,2023-09-03,Personal poco atento y recepción caótica.,4.2,negativo
+Bahía Palace,Málaga,2023-01-20,Precio elevado para la calidad ofrecida.,5.0,negativo
+Luna Park,Málaga,2023-08-26,Servicio amable. Volvería sin dudarlo.,9.4,positivo
+Puerto Dorado,Madrid,2023-09-19,Personal poco atento y recepción caótica.,4.1,negativo
+Brisa Marina,Sevilla,2023-06-03,Personal poco atento y recepción caótica.,5.2,negativo
+Costa Mar,Málaga,2023-06-16,Demasiado ruido durante la noche.,5.9,negativo
+Luna Park,Málaga,2023-12-18,Desayuno espectacular y personal muy atento.,7.1,positivo
+Puerto Dorado,Madrid,2023-12-28,Precio elevado para la calidad ofrecida.,5.4,negativo
+Luna Park,Zaragoza,2023-10-17,Muy buena ubicación y excelente limpieza.,8.7,positivo
+Bahía Palace,Zaragoza,2023-01-04,Personal poco atento y recepción caótica.,4.2,negativo
+Costa Mar,Salamanca,2023-04-15,Muy buena ubicación y excelente limpieza.,8.6,positivo
+Vista Real,Bilbao,2023-11-05,Servicio amable. Volvería sin dudarlo.,9.6,positivo
+Playa Azul,Zaragoza,2023-12-17,Falta de mantenimiento en las instalaciones.,5.4,negativo
+Puerto Dorado,Valencia,2023-05-21,Relación calidad-precio excelente.,7.1,positivo
+Playa Azul,Salamanca,2023-02-22,Demasiado ruido durante la noche.,5.9,negativo
+Vista Real,Zaragoza,2023-10-28,Falta de mantenimiento en las instalaciones.,5.6,negativo
+Puerto Dorado,Granada,2023-12-22,Falta de mantenimiento en las instalaciones.,4.1,negativo
+Oasis Beach,Madrid,2023-06-28,Servicio amable. Volvería sin dudarlo.,9.0,positivo
+Vista Real,Barcelona,2023-06-08,Falta de mantenimiento en las instalaciones.,5.0,negativo
+Costa Mar,Madrid,2023-10-21,Servicio amable. Volvería sin dudarlo.,9.8,positivo
+Playa Azul,Salamanca,2023-01-08,Relación calidad-precio excelente.,9.7,positivo
+Vista Real,Madrid,2023-11-19,Habitaciones muy cómodas y tranquilas.,9.2,positivo
+Playa Azul,Valencia,2023-03-27,Demasiado ruido durante la noche.,5.7,negativo
+Bahía Palace,Sevilla,2023-08-04,El baño estaba sucio al llegar.,5.7,negativo
+Luna Park,Bilbao,2023-08-03,Muy buena ubicación y excelente limpieza.,8.2,positivo
+Luna Park,Málaga,2023-03-06,Precio elevado para la calidad ofrecida.,5.0,negativo
+Vista Real,Madrid,2023-09-21,Precio elevado para la calidad ofrecida.,5.5,negativo
+Puerto Dorado,Málaga,2023-07-17,Servicio amable. Volvería sin dudarlo.,7.8,positivo
+Hotel Sol,Zaragoza,2023-08-01,Servicio amable. Volvería sin dudarlo.,8.3,positivo
+Luna Park,Salamanca,2023-10-11,Desayuno espectacular y personal muy atento.,9.3,positivo
+Hotel Sol,San Sebastián,2023-06-26,Servicio amable. Volvería sin dudarlo.,7.8,positivo
+Brisa Marina,Sevilla,2023-04-13,Precio elevado para la calidad ofrecida.,5.9,negativo
+Brisa Marina,San Sebastián,2023-08-24,Personal poco atento y recepción caótica.,4.7,negativo
+Oasis Beach,Barcelona,2023-04-28,Habitaciones muy cómodas y tranquilas.,8.0,positivo
+Luna Park,Barcelona,2023-10-19,Relación calidad-precio excelente.,7.1,positivo
+Costa Mar,Madrid,2023-02-09,Muy buena ubicación y excelente limpieza.,7.4,positivo
+Mar y Montaña,Madrid,2023-09-25,Servicio amable. Volvería sin dudarlo.,7.3,positivo
+Mar y Montaña,Salamanca,2023-11-04,Precio elevado para la calidad ofrecida.,4.2,negativo
+Mar y Montaña,Zaragoza,2023-09-12,Desayuno espectacular y personal muy atento.,9.6,positivo
+Bahía Palace,Granada,2023-07-13,Precio elevado para la calidad ofrecida.,4.7,negativo
+Bahía Palace,San Sebastián,2023-03-23,El baño estaba sucio al llegar.,5.5,negativo
+Playa Azul,Valencia,2023-12-05,Demasiado ruido durante la noche.,5.8,negativo
+Puerto Dorado,Bilbao,2023-01-07,Desayuno espectacular y personal muy atento.,9.0,positivo
+Luna Park,Granada,2023-07-12,Muy buena ubicación y excelente limpieza.,8.2,positivo
+Oasis Beach,San Sebastián,2023-10-21,Personal poco atento y recepción caótica.,4.5,negativo
+Hotel Sol,Madrid,2023-03-26,Servicio amable. Volvería sin dudarlo.,9.5,positivo
+Puerto Dorado,Madrid,2023-03-01,Personal poco atento y recepción caótica.,5.0,negativo
+Playa Azul,Sevilla,2023-02-09,Demasiado ruido durante la noche.,4.2,negativo
+Puerto Dorado,Valencia,2023-09-19,Precio elevado para la calidad ofrecida.,5.5,negativo
+Bahía Palace,Sevilla,2023-03-07,Servicio amable. Volvería sin dudarlo.,7.3,positivo
+Oasis Beach,Barcelona,2023-11-01,Demasiado ruido durante la noche.,6.0,negativo
+Vista Real,Granada,2023-12-11,Demasiado ruido durante la noche.,6.0,negativo
+Bahía Palace,Barcelona,2023-03-27,Falta de mantenimiento en las instalaciones.,4.5,negativo
+Puerto Dorado,Barcelona,2023-10-14,Relación calidad-precio excelente.,7.6,positivo
+Luna Park,Madrid,2023-05-11,El baño estaba sucio al llegar.,4.9,negativo
+Luna Park,Bilbao,2023-03-25,Demasiado ruido durante la noche.,4.6,negativo
+Hotel Sol,Málaga,2023-12-01,Demasiado ruido durante la noche.,4.2,negativo
+Mar y Montaña,Barcelona,2023-10-14,Personal poco atento y recepción caótica.,4.4,negativo
+Hotel Sol,Zaragoza,2023-10-07,Habitaciones muy cómodas y tranquilas.,8.4,positivo
+Luna Park,Bilbao,2023-06-01,Demasiado ruido durante la noche.,5.4,negativo
+Puerto Dorado,Málaga,2023-06-23,Demasiado ruido durante la noche.,4.9,negativo
+Hotel Sol,Sevilla,2023-12-09,Habitaciones muy cómodas y tranquilas.,7.2,positivo
+Mar y Montaña,Zaragoza,2023-11-21,Relación calidad-precio excelente.,7.8,positivo
+Playa Azul,Salamanca,2023-07-07,Habitaciones muy cómodas y tranquilas.,8.9,positivo
+Mar y Montaña,Granada,2023-04-26,Muy buena ubicación y excelente limpieza.,9.4,positivo
+Vista Real,Bilbao,2023-08-15,Precio elevado para la calidad ofrecida.,4.1,negativo
+Bahía Palace,Salamanca,2023-06-06,Relación calidad-precio excelente.,7.9,positivo
+Luna Park,Barcelona,2023-11-05,Personal poco atento y recepción caótica.,5.6,negativo
+Vista Real,Salamanca,2023-05-28,Habitaciones muy cómodas y tranquilas.,7.8,positivo
+Playa Azul,Granada,2023-02-11,Relación calidad-precio excelente.,7.3,positivo
+Vista Real,Valencia,2023-07-03,Relación calidad-precio excelente.,9.5,positivo
+Vista Real,San Sebastián,2023-01-08,Desayuno espectacular y personal muy atento.,7.4,positivo
+Vista Real,San Sebastián,2023-08-23,Falta de mantenimiento en las instalaciones.,4.7,negativo
+Brisa Marina,Barcelona,2023-07-04,Relación calidad-precio excelente.,9.7,positivo
+Oasis Beach,Salamanca,2023-04-09,El baño estaba sucio al llegar.,5.4,negativo
+Playa Azul,Sevilla,2023-11-24,Desayuno espectacular y personal muy atento.,8.1,positivo
+Costa Mar,Granada,2023-10-15,El baño estaba sucio al llegar.,5.5,negativo
+Luna Park,Málaga,2023-09-03,Falta de mantenimiento en las instalaciones.,4.4,negativo
+Mar y Montaña,Bilbao,2023-09-12,Desayuno espectacular y personal muy atento.,8.8,positivo
+Vista Real,Sevilla,2023-01-22,Falta de mantenimiento en las instalaciones.,5.6,negativo
+Brisa Marina,Bilbao,2023-05-07,Habitaciones muy cómodas y tranquilas.,9.3,positivo
+Costa Mar,Valencia,2023-08-25,Falta de mantenimiento en las instalaciones.,4.5,negativo
+Puerto Dorado,San Sebastián,2023-05-27,Personal poco atento y recepción caótica.,5.7,negativo
+Puerto Dorado,Salamanca,2023-12-12,El baño estaba sucio al llegar.,4.4,negativo
+Bahía Palace,Barcelona,2023-08-04,Servicio amable. Volvería sin dudarlo.,9.7,positivo
+Luna Park,Zaragoza,2023-07-28,Personal poco atento y recepción caótica.,4.7,negativo
+Playa Azul,Barcelona,2023-01-26,Falta de mantenimiento en las instalaciones.,5.7,negativo
+Vista Real,Granada,2023-02-25,Servicio amable. Volvería sin dudarlo.,7.4,positivo
+Luna Park,Zaragoza,2023-08-26,Personal poco atento y recepción caótica.,5.4,negativo
+Brisa Marina,Málaga,2023-03-24,Precio elevado para la calidad ofrecida.,5.4,negativo
+Puerto Dorado,Valencia,2023-11-04,Personal poco atento y recepción caótica.,5.3,negativo
+Oasis Beach,Zaragoza,2023-05-01,Muy buena ubicación y excelente limpieza.,9.6,positivo
+Luna Park,Málaga,2023-04-04,Falta de mantenimiento en las instalaciones.,5.4,negativo
+Oasis Beach,Salamanca,2023-11-22,Falta de mantenimiento en las instalaciones.,4.3,negativo
+Bahía Palace,San Sebastián,2023-07-03,Precio elevado para la calidad ofrecida.,5.1,negativo
+Mar y Montaña,Granada,2023-07-13,Demasiado ruido durante la noche.,5.0,negativo
+Hotel Sol,Málaga,2023-10-05,Relación calidad-precio excelente.,7.9,positivo
+Brisa Marina,Valencia,2023-10-07,El baño estaba sucio al llegar.,5.3,negativo
+Playa Azul,Granada,2023-06-03,Demasiado ruido durante la noche.,4.2,negativo
+Puerto Dorado,Sevilla,2023-06-26,Personal poco atento y recepción caótica.,5.8,negativo
+Puerto Dorado,Madrid,2023-07-04,Relación calidad-precio excelente.,8.6,positivo
+Bahía Palace,Bilbao,2023-05-25,Personal poco atento y recepción caótica.,5.6,negativo
+Luna Park,Granada,2023-03-20,Servicio amable. Volvería sin dudarlo.,7.4,positivo
+Luna Park,Valencia,2023-01-03,Personal poco atento y recepción caótica.,4.8,negativo
+Puerto Dorado,Barcelona,2023-07-17,Falta de mantenimiento en las instalaciones.,5.5,negativo
+Puerto Dorado,Bilbao,2023-06-20,Demasiado ruido durante la noche.,5.7,negativo
+Luna Park,San Sebastián,2023-02-08,Precio elevado para la calidad ofrecida.,5.2,negativo
+Luna Park,Bilbao,2023-04-18,Muy buena ubicación y excelente limpieza.,8.7,positivo
+Brisa Marina,Málaga,2023-09-10,Personal poco atento y recepción caótica.,4.4,negativo
+Costa Mar,Madrid,2023-07-16,Falta de mantenimiento en las instalaciones.,4.7,negativo
+Vista Real,Bilbao,2023-08-26,Desayuno espectacular y personal muy atento.,8.0,positivo
+Luna Park,Valencia,2023-04-13,Falta de mantenimiento en las instalaciones.,5.8,negativo
+Hotel Sol,Granada,2023-10-14,Precio elevado para la calidad ofrecida.,4.6,negativo
+Vista Real,Sevilla,2023-08-01,Habitaciones muy cómodas y tranquilas.,7.4,positivo
+Mar y Montaña,Bilbao,2023-06-14,El baño estaba sucio al llegar.,4.9,negativo
+Hotel Sol,Zaragoza,2023-09-03,Desayuno espectacular y personal muy atento.,9.3,positivo
+Oasis Beach,Bilbao,2023-01-27,El baño estaba sucio al llegar.,5.4,negativo
+Vista Real,Granada,2023-07-10,Muy buena ubicación y excelente limpieza.,8.9,positivo
+Costa Mar,Zaragoza,2023-11-26,Relación calidad-precio excelente.,9.7,positivo
+Costa Mar,San Sebastián,2023-01-04,El baño estaba sucio al llegar.,4.8,negativo
+Brisa Marina,Málaga,2023-03-14,Relación calidad-precio excelente.,9.0,positivo
+Puerto Dorado,Granada,2023-06-27,Precio elevado para la calidad ofrecida.,5.2,negativo
+Playa Azul,Granada,2023-05-26,Servicio amable. Volvería sin dudarlo.,8.5,positivo
+Hotel Sol,Madrid,2023-06-26,Servicio amable. Volvería sin dudarlo.,8.4,positivo
+Playa Azul,Salamanca,2023-10-17,Demasiado ruido durante la noche.,4.4,negativo
+Playa Azul,Madrid,2023-04-26,Servicio amable. Volvería sin dudarlo.,9.5,positivo
+Costa Mar,Sevilla,2023-02-17,Falta de mantenimiento en las instalaciones.,4.2,negativo
+Bahía Palace,Sevilla,2023-07-28,Personal poco atento y recepción caótica.,4.4,negativo
+Vista Real,Valencia,2023-01-24,Servicio amable. Volvería sin dudarlo.,7.7,positivo
+Brisa Marina,Salamanca,2023-01-17,Muy buena ubicación y excelente limpieza.,8.4,positivo
+Oasis Beach,San Sebastián,2023-01-17,Habitaciones muy cómodas y tranquilas.,8.8,positivo
+Playa Azul,Salamanca,2023-06-08,Falta de mantenimiento en las instalaciones.,5.2,negativo
+Puerto Dorado,Valencia,2023-11-18,Desayuno espectacular y personal muy atento.,8.9,positivo
+Costa Mar,Granada,2023-08-06,Precio elevado para la calidad ofrecida.,5.0,negativo
+Vista Real,Bilbao,2023-02-16,Precio elevado para la calidad ofrecida.,4.5,negativo
+Luna Park,Madrid,2023-01-27,Falta de mantenimiento en las instalaciones.,4.8,negativo
+Mar y Montaña,San Sebastián,2023-01-10,Habitaciones muy cómodas y tranquilas.,9.8,positivo
+Hotel Sol,Valencia,2023-05-05,Relación calidad-precio excelente.,8.9,positivo
+Oasis Beach,Barcelona,2023-07-10,Servicio amable. Volvería sin dudarlo.,8.5,positivo
+Hotel Sol,Bilbao,2023-12-18,Personal poco atento y recepción caótica.,5.0,negativo
+Puerto Dorado,Barcelona,2023-02-02,Muy buena ubicación y excelente limpieza.,8.7,positivo
+Oasis Beach,San Sebastián,2023-07-16,Relación calidad-precio excelente.,8.3,positivo
+Oasis Beach,Barcelona,2023-10-23,Desayuno espectacular y personal muy atento.,7.8,positivo
+Vista Real,Málaga,2023-05-01,Relación calidad-precio excelente.,8.6,positivo
+Vista Real,Zaragoza,2023-04-27,El baño estaba sucio al llegar.,4.4,negativo
+Puerto Dorado,Sevilla,2023-11-03,Muy buena ubicación y excelente limpieza.,7.1,positivo
+Oasis Beach,Valencia,2023-11-21,Muy buena ubicación y excelente limpieza.,9.1,positivo
+Bahía Palace,Sevilla,2023-07-06,Relación calidad-precio excelente.,9.2,positivo
+Mar y Montaña,Sevilla,2023-10-05,Falta de mantenimiento en las instalaciones.,5.8,negativo
+Brisa Marina,Valencia,2023-05-04,Habitaciones muy cómodas y tranquilas.,7.7,positivo
+Hotel Sol,Sevilla,2023-03-26,Muy buena ubicación y excelente limpieza.,8.9,positivo
+Hotel Sol,Sevilla,2023-11-22,El baño estaba sucio al llegar.,4.8,negativo
+Brisa Marina,Sevilla,2023-08-28,Demasiado ruido durante la noche.,5.9,negativo
+Brisa Marina,Sevilla,2023-01-03,El baño estaba sucio al llegar.,4.0,negativo
+Oasis Beach,Salamanca,2023-03-26,Desayuno espectacular y personal muy atento.,8.6,positivo
+Brisa Marina,Granada,2023-08-12,Servicio amable. Volvería sin dudarlo.,9.5,positivo
+Hotel Sol,Málaga,2023-05-21,Falta de mantenimiento en las instalaciones.,4.8,negativo
+Luna Park,Zaragoza,2023-08-11,Demasiado ruido durante la noche.,6.0,negativo
+Hotel Sol,Zaragoza,2023-02-02,Desayuno espectacular y personal muy atento.,9.2,positivo
+Costa Mar,Sevilla,2023-04-02,Relación calidad-precio excelente.,7.0,positivo
+Luna Park,Zaragoza,2023-02-11,Demasiado ruido durante la noche.,5.3,negativo
+Hotel Sol,Sevilla,2023-03-21,Demasiado ruido durante la noche.,4.1,negativo
+Luna Park,Bilbao,2023-05-20,Precio elevado para la calidad ofrecida.,5.3,negativo
+Puerto Dorado,Sevilla,2023-06-28,Desayuno espectacular y personal muy atento.,8.4,positivo
+Costa Mar,Málaga,2023-08-10,Demasiado ruido durante la noche.,4.5,negativo
+Playa Azul,Valencia,2023-12-08,Demasiado ruido durante la noche.,4.3,negativo
+Costa Mar,Valencia,2023-06-03,Relación calidad-precio excelente.,8.8,positivo
+Vista Real,Málaga,2023-03-03,El baño estaba sucio al llegar.,4.0,negativo
+Bahía Palace,Salamanca,2023-03-28,Personal poco atento y recepción caótica.,5.5,negativo
+Bahía Palace,Valencia,2023-09-08,Relación calidad-precio excelente.,9.5,positivo
+Playa Azul,Zaragoza,2023-03-14,El baño estaba sucio al llegar.,4.5,negativo
+Oasis Beach,Sevilla,2023-07-15,Demasiado ruido durante la noche.,4.4,negativo
+Vista Real,San Sebastián,2023-01-18,Muy buena ubicación y excelente limpieza.,8.0,positivo
+Puerto Dorado,Valencia,2023-05-28,Habitaciones muy cómodas y tranquilas.,8.8,positivo
+Brisa Marina,Sevilla,2023-04-04,Desayuno espectacular y personal muy atento.,8.2,positivo
+Vista Real,San Sebastián,2023-08-06,Falta de mantenimiento en las instalaciones.,5.9,negativo
+Playa Azul,Salamanca,2023-06-23,Demasiado ruido durante la noche.,4.7,negativo
+Costa Mar,Sevilla,2023-01-11,Precio elevado para la calidad ofrecida.,4.5,negativo
+Hotel Sol,Valencia,2023-12-09,Desayuno espectacular y personal muy atento.,8.8,positivo
+Hotel Sol,Madrid,2023-12-01,Servicio amable. Volvería sin dudarlo.,9.3,positivo
+Playa Azul,Barcelona,2023-05-25,El baño estaba sucio al llegar.,6.0,negativo
+Hotel Sol,Valencia,2023-07-13,Personal poco atento y recepción caótica.,5.7,negativo
+Mar y Montaña,Madrid,2023-11-05,Falta de mantenimiento en las instalaciones.,4.3,negativo
+Oasis Beach,Salamanca,2023-10-05,Precio elevado para la calidad ofrecida.,4.3,negativo
+Hotel Sol,Sevilla,2023-02-15,Habitaciones muy cómodas y tranquilas.,7.4,positivo
+Mar y Montaña,San Sebastián,2023-10-03,El baño estaba sucio al llegar.,4.0,negativo
+Luna Park,Sevilla,2023-08-15,Muy buena ubicación y excelente limpieza.,7.1,positivo
+Playa Azul,San Sebastián,2023-01-25,Falta de mantenimiento en las instalaciones.,5.1,negativo
+Oasis Beach,Sevilla,2023-11-14,Personal poco atento y recepción caótica.,4.8,negativo
+Oasis Beach,Madrid,2023-08-25,Falta de mantenimiento en las instalaciones.,5.1,negativo
+Playa Azul,Zaragoza,2023-10-19,Personal poco atento y recepción caótica.,5.0,negativo
+Hotel Sol,Valencia,2023-12-07,Falta de mantenimiento en las instalaciones.,5.9,negativo
+Brisa Marina,Valencia,2023-02-11,Precio elevado para la calidad ofrecida.,4.7,negativo
+Costa Mar,Granada,2023-06-10,El baño estaba sucio al llegar.,4.1,negativo
+Mar y Montaña,Málaga,2023-12-28,Desayuno espectacular y personal muy atento.,9.1,positivo
+Oasis Beach,Málaga,2023-10-02,Precio elevado para la calidad ofrecida.,5.0,negativo
+Bahía Palace,Barcelona,2023-04-20,Desayuno espectacular y personal muy atento.,7.6,positivo
+Puerto Dorado,Granada,2023-05-13,Precio elevado para la calidad ofrecida.,4.7,negativo
+Vista Real,Granada,2023-01-10,Muy buena ubicación y excelente limpieza.,8.5,positivo
+Puerto Dorado,Sevilla,2023-03-05,Personal poco atento y recepción caótica.,4.5,negativo
+Costa Mar,Zaragoza,2023-12-28,Relación calidad-precio excelente.,8.7,positivo
+Playa Azul,Sevilla,2023-10-16,Relación calidad-precio excelente.,7.3,positivo
+Costa Mar,Salamanca,2023-08-10,Servicio amable. Volvería sin dudarlo.,7.7,positivo
+Costa Mar,San Sebastián,2023-05-05,Relación calidad-precio excelente.,7.2,positivo
+Mar y Montaña,Zaragoza,2023-10-12,Muy buena ubicación y excelente limpieza.,8.5,positivo
+Vista Real,Málaga,2023-04-20,Precio elevado para la calidad ofrecida.,4.3,negativo
+Hotel Sol,Sevilla,2023-09-19,Falta de mantenimiento en las instalaciones.,5.9,negativo
+Luna Park,Bilbao,2023-08-18,El baño estaba sucio al llegar.,4.8,negativo
+Playa Azul,Málaga,2023-03-16,Demasiado ruido durante la noche.,4.4,negativo
+Puerto Dorado,Granada,2023-01-21,Habitaciones muy cómodas y tranquilas.,9.5,positivo
+Oasis Beach,San Sebastián,2023-03-03,El baño estaba sucio al llegar.,4.3,negativo
+Puerto Dorado,Barcelona,2023-06-25,Precio elevado para la calidad ofrecida.,4.5,negativo
+Oasis Beach,Salamanca,2023-12-15,Servicio amable. Volvería sin dudarlo.,9.0,positivo
+Hotel Sol,Barcelona,2023-07-19,Demasiado ruido durante la noche.,4.9,negativo
+Oasis Beach,San Sebastián,2023-09-28,El baño estaba sucio al llegar.,4.1,negativo
+Mar y Montaña,San Sebastián,2023-08-14,Falta de mantenimiento en las instalaciones.,4.5,negativo
+Costa Mar,Bilbao,2023-05-19,Personal poco atento y recepción caótica.,4.9,negativo
+Luna Park,San Sebastián,2023-12-22,Desayuno espectacular y personal muy atento.,7.3,positivo
+Puerto Dorado,Valencia,2023-04-18,Falta de mantenimiento en las instalaciones.,4.3,negativo
+Hotel Sol,Valencia,2023-01-24,Falta de mantenimiento en las instalaciones.,4.6,negativo
+Puerto Dorado,Madrid,2023-08-08,Personal poco atento y recepción caótica.,4.7,negativo
+Bahía Palace,Sevilla,2023-05-26,Relación calidad-precio excelente.,7.5,positivo
+Oasis Beach,Málaga,2023-11-21,Habitaciones muy cómodas y tranquilas.,7.4,positivo
+Vista Real,Zaragoza,2023-12-20,Servicio amable. Volvería sin dudarlo.,9.5,positivo
+Bahía Palace,Salamanca,2023-01-07,Servicio amable. Volvería sin dudarlo.,7.9,positivo
+Playa Azul,San Sebastián,2023-07-28,Personal poco atento y recepción caótica.,4.1,negativo
+Luna Park,Sevilla,2023-09-19,Muy buena ubicación y excelente limpieza.,7.9,positivo
+Playa Azul,Salamanca,2023-07-02,Muy buena ubicación y excelente limpieza.,9.7,positivo
+Costa Mar,Sevilla,2023-11-06,Relación calidad-precio excelente.,8.9,positivo
+Brisa Marina,Zaragoza,2023-07-11,El baño estaba sucio al llegar.,4.9,negativo
+Hotel Sol,Salamanca,2023-12-15,Servicio amable. Volvería sin dudarlo.,7.6,positivo
+Puerto Dorado,Granada,2023-12-16,Personal poco atento y recepción caótica.,6.0,negativo
+Costa Mar,Bilbao,2023-07-10,Habitaciones muy cómodas y tranquilas.,7.4,positivo
+Playa Azul,Barcelona,2023-03-13,Habitaciones muy cómodas y tranquilas.,8.7,positivo
+Vista Real,Granada,2023-07-15,Desayuno espectacular y personal muy atento.,8.8,positivo
+Hotel Sol,Valencia,2023-10-10,El baño estaba sucio al llegar.,5.5,negativo
+Hotel Sol,Salamanca,2023-11-28,Habitaciones muy cómodas y tranquilas.,9.0,positivo
+Mar y Montaña,Madrid,2023-07-13,Servicio amable. Volvería sin dudarlo.,9.5,positivo
+Hotel Sol,San Sebastián,2023-12-02,Desayuno espectacular y personal muy atento.,7.3,positivo
+Mar y Montaña,Valencia,2023-01-18,Precio elevado para la calidad ofrecida.,4.5,negativo
+Luna Park,Málaga,2023-09-20,Desayuno espectacular y personal muy atento.,7.1,positivo
+Brisa Marina,Sevilla,2023-12-26,Servicio amable. Volvería sin dudarlo.,9.2,positivo
+Playa Azul,Barcelona,2023-10-03,Habitaciones muy cómodas y tranquilas.,8.0,positivo
+Brisa Marina,Barcelona,2023-10-22,Demasiado ruido durante la noche.,4.6,negativo
+Hotel Sol,Valencia,2023-10-01,Precio elevado para la calidad ofrecida.,5.3,negativo
+Playa Azul,Barcelona,2023-08-01,Personal poco atento y recepción caótica.,5.2,negativo
+Bahía Palace,Barcelona,2023-06-20,Relación calidad-precio excelente.,9.8,positivo
+Bahía Palace,Valencia,2023-04-24,Precio elevado para la calidad ofrecida.,4.3,negativo
+Costa Mar,Bilbao,2023-12-16,Muy buena ubicación y excelente limpieza.,7.6,positivo
+Brisa Marina,San Sebastián,2023-05-05,El baño estaba sucio al llegar.,4.6,negativo
+Bahía Palace,Málaga,2023-01-08,Demasiado ruido durante la noche.,5.1,negativo
+Playa Azul,Salamanca,2023-06-07,Muy buena ubicación y excelente limpieza.,7.0,positivo
+Vista Real,Valencia,2023-02-09,Falta de mantenimiento en las instalaciones.,4.4,negativo
+Oasis Beach,Valencia,2023-01-12,Demasiado ruido durante la noche.,5.1,negativo
+Mar y Montaña,Madrid,2023-09-06,Falta de mantenimiento en las instalaciones.,4.8,negativo
+Oasis Beach,Granada,2023-07-05,Desayuno espectacular y personal muy atento.,7.6,positivo
+Oasis Beach,Granada,2023-10-03,Desayuno espectacular y personal muy atento.,8.4,positivo
+Oasis Beach,Bilbao,2023-06-04,Habitaciones muy cómodas y tranquilas.,7.7,positivo
+Oasis Beach,Zaragoza,2023-06-09,Demasiado ruido durante la noche.,4.4,negativo
+Vista Real,Málaga,2023-05-19,Falta de mantenimiento en las instalaciones.,5.8,negativo
+Playa Azul,San Sebastián,2023-01-16,Desayuno espectacular y personal muy atento.,9.6,positivo
+Bahía Palace,Zaragoza,2023-12-16,El baño estaba sucio al llegar.,5.3,negativo
+Brisa Marina,Sevilla,2023-05-08,Servicio amable. Volvería sin dudarlo.,8.8,positivo
+Brisa Marina,Madrid,2023-03-03,Relación calidad-precio excelente.,9.2,positivo
+Vista Real,Zaragoza,2023-01-18,Servicio amable. Volvería sin dudarlo.,7.3,positivo
+Costa Mar,Salamanca,2023-04-05,Muy buena ubicación y excelente limpieza.,9.4,positivo
+Mar y Montaña,San Sebastián,2023-12-05,Personal poco atento y recepción caótica.,4.3,negativo
+Mar y Montaña,Sevilla,2023-05-01,Precio elevado para la calidad ofrecida.,4.1,negativo
+Hotel Sol,Málaga,2023-05-24,Personal poco atento y recepción caótica.,5.7,negativo
+Mar y Montaña,San Sebastián,2023-01-17,Precio elevado para la calidad ofrecida.,6.0,negativo
+Brisa Marina,Madrid,2023-12-19,Falta de mantenimiento en las instalaciones.,4.2,negativo
+Puerto Dorado,San Sebastián,2023-12-13,Demasiado ruido durante la noche.,5.3,negativo
+Mar y Montaña,Salamanca,2023-06-15,Servicio amable. Volvería sin dudarlo.,9.4,positivo
+Playa Azul,Granada,2023-07-17,Habitaciones muy cómodas y tranquilas.,8.6,positivo
+Brisa Marina,Granada,2023-02-14,Personal poco atento y recepción caótica.,4.5,negativo
+Mar y Montaña,Zaragoza,2023-11-27,El baño estaba sucio al llegar.,4.8,negativo
+Bahía Palace,Málaga,2023-02-12,Precio elevado para la calidad ofrecida.,5.6,negativo
+Puerto Dorado,San Sebastián,2023-10-15,Personal poco atento y recepción caótica.,4.0,negativo
+Bahía Palace,Bilbao,2023-12-16,Habitaciones muy cómodas y tranquilas.,9.6,positivo
+Oasis Beach,Salamanca,2023-02-20,El baño estaba sucio al llegar.,4.5,negativo
+Brisa Marina,Granada,2023-02-11,Demasiado ruido durante la noche.,5.6,negativo
+Playa Azul,Madrid,2023-09-28,Servicio amable. Volvería sin dudarlo.,9.1,positivo
+Vista Real,Valencia,2023-02-16,Precio elevado para la calidad ofrecida.,5.9,negativo
+Costa Mar,Sevilla,2023-02-06,Relación calidad-precio excelente.,8.9,positivo
+Luna Park,San Sebastián,2023-08-02,Muy buena ubicación y excelente limpieza.,9.1,positivo
+Hotel Sol,Salamanca,2023-04-05,Servicio amable. Volvería sin dudarlo.,8.5,positivo
+Puerto Dorado,Sevilla,2023-09-22,Muy buena ubicación y excelente limpieza.,9.7,positivo
+Brisa Marina,Madrid,2023-06-14,Demasiado ruido durante la noche.,4.5,negativo
+Vista Real,Sevilla,2023-03-28,Servicio amable. Volvería sin dudarlo.,8.7,positivo
+Playa Azul,Madrid,2023-03-05,Relación calidad-precio excelente.,9.7,positivo
+Costa Mar,Sevilla,2023-03-28,Muy buena ubicación y excelente limpieza.,8.7,positivo
+Playa Azul,San Sebastián,2023-01-23,Muy buena ubicación y excelente limpieza.,8.9,positivo
+Bahía Palace,Granada,2023-03-20,Precio elevado para la calidad ofrecida.,4.3,negativo
+Brisa Marina,Valencia,2023-01-17,Desayuno espectacular y personal muy atento.,8.9,positivo
+Oasis Beach,Zaragoza,2023-02-09,Desayuno espectacular y personal muy atento.,7.0,positivo
+Oasis Beach,Valencia,2023-06-16,Habitaciones muy cómodas y tranquilas.,9.4,positivo
+Puerto Dorado,Barcelona,2023-11-17,Precio elevado para la calidad ofrecida.,4.3,negativo
+Brisa Marina,Valencia,2023-04-08,Desayuno espectacular y personal muy atento.,8.2,positivo
+Hotel Sol,Bilbao,2023-01-22,Demasiado ruido durante la noche.,4.8,negativo
+Oasis Beach,Málaga,2023-11-04,Personal poco atento y recepción caótica.,4.8,negativo
+Bahía Palace,Valencia,2023-08-23,Muy buena ubicación y excelente limpieza.,7.3,positivo
+Brisa Marina,Barcelona,2023-05-10,Demasiado ruido durante la noche.,4.0,negativo
+Vista Real,Barcelona,2023-04-12,Desayuno espectacular y personal muy atento.,7.4,positivo
+Playa Azul,Sevilla,2023-10-04,El baño estaba sucio al llegar.,5.1,negativo
+Costa Mar,Barcelona,2023-02-15,Relación calidad-precio excelente.,7.7,positivo
+Hotel Sol,Málaga,2023-10-19,Demasiado ruido durante la noche.,5.0,negativo
+Hotel Sol,Granada,2023-12-14,Personal poco atento y recepción caótica.,4.7,negativo
+Oasis Beach,Barcelona,2023-02-23,Desayuno espectacular y personal muy atento.,7.8,positivo
+Bahía Palace,Salamanca,2023-04-11,Habitaciones muy cómodas y tranquilas.,8.1,positivo
+Bahía Palace,Madrid,2023-09-22,Precio elevado para la calidad ofrecida.,5.5,negativo
+Hotel Sol,Granada,2023-04-11,Personal poco atento y recepción caótica.,4.8,negativo
+Brisa Marina,Salamanca,2023-05-26,Precio elevado para la calidad ofrecida.,4.2,negativo
+Hotel Sol,Valencia,2023-09-24,Precio elevado para la calidad ofrecida.,5.2,negativo
+Bahía Palace,Málaga,2023-08-04,El baño estaba sucio al llegar.,5.0,negativo
+Hotel Sol,Sevilla,2023-05-27,El baño estaba sucio al llegar.,5.5,negativo
+Hotel Sol,Granada,2023-08-19,Falta de mantenimiento en las instalaciones.,5.3,negativo
+Bahía Palace,Málaga,2023-03-05,Muy buena ubicación y excelente limpieza.,9.6,positivo
+Puerto Dorado,Valencia,2023-08-23,Muy buena ubicación y excelente limpieza.,9.5,positivo
+Mar y Montaña,Bilbao,2023-10-06,Desayuno espectacular y personal muy atento.,9.8,positivo
+Hotel Sol,Barcelona,2023-04-10,Desayuno espectacular y personal muy atento.,7.2,positivo
+Puerto Dorado,Salamanca,2023-03-25,Muy buena ubicación y excelente limpieza.,7.6,positivo
+Bahía Palace,Bilbao,2023-04-07,Desayuno espectacular y personal muy atento.,8.1,positivo
+Brisa Marina,Madrid,2023-02-12,Precio elevado para la calidad ofrecida.,4.6,negativo
+Hotel Sol,San Sebastián,2023-01-28,Falta de mantenimiento en las instalaciones.,5.0,negativo
+Mar y Montaña,Málaga,2023-01-21,Habitaciones muy cómodas y tranquilas.,7.5,positivo
+Puerto Dorado,San Sebastián,2023-12-10,Desayuno espectacular y personal muy atento.,7.5,positivo
+Oasis Beach,Bilbao,2023-10-11,El baño estaba sucio al llegar.,5.8,negativo
+Luna Park,Madrid,2023-07-11,Muy buena ubicación y excelente limpieza.,7.8,positivo
+Oasis Beach,Granada,2023-09-21,Servicio amable. Volvería sin dudarlo.,8.5,positivo
+Brisa Marina,Salamanca,2023-03-14,Desayuno espectacular y personal muy atento.,9.5,positivo
+Puerto Dorado,Bilbao,2023-09-06,Personal poco atento y recepción caótica.,4.5,negativo
+Luna Park,Madrid,2023-08-06,Relación calidad-precio excelente.,9.2,positivo
+Hotel Sol,Sevilla,2023-09-08,Relación calidad-precio excelente.,9.0,positivo
+Oasis Beach,Granada,2023-06-09,Desayuno espectacular y personal muy atento.,9.4,positivo
+Costa Mar,Valencia,2023-12-13,Demasiado ruido durante la noche.,4.5,negativo
+Vista Real,Salamanca,2023-12-09,Habitaciones muy cómodas y tranquilas.,7.1,positivo
+Hotel Sol,Zaragoza,2023-01-03,Habitaciones muy cómodas y tranquilas.,8.6,positivo
+Puerto Dorado,Málaga,2023-10-22,Falta de mantenimiento en las instalaciones.,4.2,negativo
+Vista Real,San Sebastián,2023-03-15,Demasiado ruido durante la noche.,6.0,negativo
+Brisa Marina,Zaragoza,2023-02-17,El baño estaba sucio al llegar.,6.0,negativo
+Bahía Palace,Valencia,2023-10-26,Personal poco atento y recepción caótica.,4.1,negativo
+Brisa Marina,Barcelona,2023-10-13,Desayuno espectacular y personal muy atento.,7.7,positivo
+Playa Azul,Málaga,2023-10-15,Habitaciones muy cómodas y tranquilas.,9.5,positivo
+Bahía Palace,Salamanca,2023-03-22,Precio elevado para la calidad ofrecida.,5.8,negativo
+Vista Real,Granada,2023-03-17,Habitaciones muy cómodas y tranquilas.,8.6,positivo
+Playa Azul,Bilbao,2023-01-14,Servicio amable. Volvería sin dudarlo.,8.9,positivo
+Playa Azul,Granada,2023-07-19,Personal poco atento y recepción caótica.,5.5,negativo
+Vista Real,Valencia,2023-03-12,Habitaciones muy cómodas y tranquilas.,8.8,positivo
+Hotel Sol,Bilbao,2023-03-16,Personal poco atento y recepción caótica.,6.0,negativo
+Playa Azul,Barcelona,2023-02-10,Falta de mantenimiento en las instalaciones.,4.6,negativo
+Bahía Palace,Barcelona,2023-02-11,Precio elevado para la calidad ofrecida.,4.2,negativo
+Oasis Beach,Salamanca,2023-09-27,Servicio amable. Volvería sin dudarlo.,7.5,positivo
+Vista Real,Barcelona,2023-05-09,Desayuno espectacular y personal muy atento.,9.5,positivo
+Playa Azul,San Sebastián,2023-03-15,Muy buena ubicación y excelente limpieza.,9.6,positivo
+Bahía Palace,Valencia,2023-04-15,Demasiado ruido durante la noche.,4.1,negativo
+Luna Park,Sevilla,2023-11-04,Demasiado ruido durante la noche.,5.5,negativo
+Luna Park,Sevilla,2023-02-22,Servicio amable. Volvería sin dudarlo.,7.8,positivo
+Costa Mar,Zaragoza,2023-06-10,Muy buena ubicación y excelente limpieza.,7.3,positivo
+Mar y Montaña,Madrid,2023-08-07,Habitaciones muy cómodas y tranquilas.,9.3,positivo
+Costa Mar,Madrid,2023-09-26,Precio elevado para la calidad ofrecida.,6.0,negativo
+Luna Park,Madrid,2023-09-14,Personal poco atento y recepción caótica.,5.6,negativo
+Costa Mar,Bilbao,2023-02-25,El baño estaba sucio al llegar.,5.6,negativo
+Costa Mar,Salamanca,2023-09-26,Desayuno espectacular y personal muy atento.,7.2,positivo
+Oasis Beach,Madrid,2023-01-07,Servicio amable. Volvería sin dudarlo.,7.2,positivo
+Playa Azul,Barcelona,2023-09-18,Muy buena ubicación y excelente limpieza.,9.0,positivo
+Hotel Sol,Sevilla,2023-05-03,Precio elevado para la calidad ofrecida.,5.9,negativo
+Bahía Palace,Sevilla,2023-01-20,Desayuno espectacular y personal muy atento.,8.6,positivo
+Oasis Beach,Valencia,2023-03-21,Habitaciones muy cómodas y tranquilas.,9.5,positivo
+Brisa Marina,Madrid,2023-02-10,Habitaciones muy cómodas y tranquilas.,9.1,positivo
+Vista Real,Salamanca,2023-12-20,Servicio amable. Volvería sin dudarlo.,8.0,positivo
+Oasis Beach,Zaragoza,2023-07-04,Demasiado ruido durante la noche.,5.6,negativo
+Mar y Montaña,San Sebastián,2023-08-25,Desayuno espectacular y personal muy atento.,9.2,positivo
+Puerto Dorado,Málaga,2023-07-02,Demasiado ruido durante la noche.,5.6,negativo
+Brisa Marina,Sevilla,2023-09-25,Muy buena ubicación y excelente limpieza.,7.3,positivo
+Brisa Marina,Zaragoza,2023-01-19,Habitaciones muy cómodas y tranquilas.,9.7,positivo
+Puerto Dorado,Salamanca,2023-05-21,El baño estaba sucio al llegar.,5.8,negativo
+Hotel Sol,Sevilla,2023-07-19,El baño estaba sucio al llegar.,4.6,negativo
+Mar y Montaña,Salamanca,2023-08-07,Muy buena ubicación y excelente limpieza.,9.4,positivo
+Vista Real,Sevilla,2023-10-12,Muy buena ubicación y excelente limpieza.,8.3,positivo
+Oasis Beach,Valencia,2023-05-24,Muy buena ubicación y excelente limpieza.,8.2,positivo
+Brisa Marina,Zaragoza,2023-08-08,Demasiado ruido durante la noche.,5.8,negativo
+Vista Real,Málaga,2023-06-04,Muy buena ubicación y excelente limpieza.,8.3,positivo
+Costa Mar,Salamanca,2023-09-02,Habitaciones muy cómodas y tranquilas.,7.5,positivo
+Hotel Sol,Barcelona,2023-01-23,Relación calidad-precio excelente.,8.4,positivo
+Oasis Beach,Madrid,2023-08-05,Servicio amable. Volvería sin dudarlo.,9.3,positivo
+Puerto Dorado,Bilbao,2023-06-24,Falta de mantenimiento en las instalaciones.,5.3,negativo
+Vista Real,Barcelona,2023-10-09,Personal poco atento y recepción caótica.,4.9,negativo
+Bahía Palace,Granada,2023-09-11,Muy buena ubicación y excelente limpieza.,9.4,positivo
+Puerto Dorado,Valencia,2023-08-11,Personal poco atento y recepción caótica.,5.2,negativo
+Mar y Montaña,Barcelona,2023-04-03,Demasiado ruido durante la noche.,5.6,negativo
+Bahía Palace,Málaga,2023-07-04,Personal poco atento y recepción caótica.,5.7,negativo
+Mar y Montaña,Sevilla,2023-05-22,Desayuno espectacular y personal muy atento.,7.3,positivo
+Bahía Palace,Málaga,2023-09-21,Desayuno espectacular y personal muy atento.,9.4,positivo
+Costa Mar,Barcelona,2023-12-24,El baño estaba sucio al llegar.,6.0,negativo
+Vista Real,Barcelona,2023-05-21,Personal poco atento y recepción caótica.,5.0,negativo
+Vista Real,Valencia,2023-09-24,El baño estaba sucio al llegar.,5.9,negativo
+Costa Mar,Granada,2023-07-17,Habitaciones muy cómodas y tranquilas.,9.7,positivo
+Bahía Palace,Barcelona,2023-04-25,Personal poco atento y recepción caótica.,4.1,negativo
+Puerto Dorado,Sevilla,2023-11-26,Servicio amable. Volvería sin dudarlo.,8.0,positivo
+Oasis Beach,Sevilla,2023-03-19,Habitaciones muy cómodas y tranquilas.,7.6,positivo
+Puerto Dorado,Madrid,2023-05-05,Falta de mantenimiento en las instalaciones.,4.9,negativo
+Brisa Marina,Málaga,2023-11-26,Servicio amable. Volvería sin dudarlo.,9.2,positivo
+Luna Park,Zaragoza,2023-09-10,Precio elevado para la calidad ofrecida.,5.8,negativo
+Vista Real,Granada,2023-03-18,Muy buena ubicación y excelente limpieza.,8.8,positivo
+Costa Mar,Madrid,2023-03-05,Falta de mantenimiento en las instalaciones.,4.2,negativo
+Mar y Montaña,Sevilla,2023-09-19,Precio elevado para la calidad ofrecida.,5.4,negativo
+Playa Azul,Granada,2023-03-27,Servicio amable. Volvería sin dudarlo.,8.2,positivo
+Hotel Sol,Bilbao,2023-05-15,Habitaciones muy cómodas y tranquilas.,8.6,positivo
+Oasis Beach,San Sebastián,2023-07-20,Desayuno espectacular y personal muy atento.,9.1,positivo
+Puerto Dorado,Málaga,2023-06-14,Habitaciones muy cómodas y tranquilas.,9.7,positivo
+Puerto Dorado,Sevilla,2023-05-17,Servicio amable. Volvería sin dudarlo.,8.9,positivo
+Costa Mar,Zaragoza,2023-12-14,Relación calidad-precio excelente.,8.6,positivo
+Brisa Marina,Madrid,2023-02-12,Relación calidad-precio excelente.,7.5,positivo
+Vista Real,Madrid,2023-05-02,Servicio amable. Volvería sin dudarlo.,9.2,positivo
+Oasis Beach,Valencia,2023-03-03,Precio elevado para la calidad ofrecida.,4.9,negativo
+Bahía Palace,Sevilla,2023-04-15,Demasiado ruido durante la noche.,5.5,negativo
+Brisa Marina,Málaga,2023-07-02,Demasiado ruido durante la noche.,4.5,negativo
+Costa Mar,Barcelona,2023-11-17,Personal poco atento y recepción caótica.,4.8,negativo
+Playa Azul,Zaragoza,2023-03-06,Desayuno espectacular y personal muy atento.,8.6,positivo
+Hotel Sol,Madrid,2023-05-18,Demasiado ruido durante la noche.,4.7,negativo
+Mar y Montaña,Málaga,2023-04-21,Desayuno espectacular y personal muy atento.,7.3,positivo
+Playa Azul,Málaga,2023-12-07,Servicio amable. Volvería sin dudarlo.,8.8,positivo
+Bahía Palace,Salamanca,2023-12-13,El baño estaba sucio al llegar.,5.9,negativo
+Luna Park,Salamanca,2023-09-28,Desayuno espectacular y personal muy atento.,8.0,positivo
+Hotel Sol,Sevilla,2023-10-05,El baño estaba sucio al llegar.,4.5,negativo
+Playa Azul,Bilbao,2023-07-23,Desayuno espectacular y personal muy atento.,8.5,positivo
+Puerto Dorado,Barcelona,2023-02-08,Servicio amable. Volvería sin dudarlo.,8.6,positivo
+Oasis Beach,Barcelona,2023-03-04,Servicio amable. Volvería sin dudarlo.,8.5,positivo
+Puerto Dorado,Granada,2023-06-21,Falta de mantenimiento en las instalaciones.,5.5,negativo
+Brisa Marina,Bilbao,2023-05-20,Demasiado ruido durante la noche.,5.0,negativo
+Vista Real,Barcelona,2023-02-17,Servicio amable. Volvería sin dudarlo.,9.6,positivo
+Mar y Montaña,San Sebastián,2023-04-17,Precio elevado para la calidad ofrecida.,4.7,negativo
+Bahía Palace,Granada,2023-09-09,Falta de mantenimiento en las instalaciones.,5.7,negativo
+Vista Real,Barcelona,2023-08-19,Desayuno espectacular y personal muy atento.,7.3,positivo
+Mar y Montaña,Valencia,2023-09-26,Muy buena ubicación y excelente limpieza.,8.1,positivo
+Mar y Montaña,Bilbao,2023-09-22,Muy buena ubicación y excelente limpieza.,7.9,positivo
+Puerto Dorado,Granada,2023-08-03,Relación calidad-precio excelente.,9.0,positivo
+Vista Real,Barcelona,2023-05-11,El baño estaba sucio al llegar.,4.2,negativo
+Mar y Montaña,Bilbao,2023-04-04,El baño estaba sucio al llegar.,4.9,negativo
+Mar y Montaña,San Sebastián,2023-07-06,Servicio amable. Volvería sin dudarlo.,7.8,positivo
+Luna Park,Granada,2023-04-14,Personal poco atento y recepción caótica.,4.1,negativo
+Vista Real,Salamanca,2023-03-27,El baño estaba sucio al llegar.,4.8,negativo
+Oasis Beach,Zaragoza,2023-10-04,Relación calidad-precio excelente.,8.2,positivo
+Brisa Marina,Sevilla,2023-12-13,Personal poco atento y recepción caótica.,4.1,negativo
+Vista Real,Barcelona,2023-08-11,Servicio amable. Volvería sin dudarlo.,8.7,positivo
+Vista Real,Sevilla,2023-09-27,Falta de mantenimiento en las instalaciones.,4.5,negativo
+Bahía Palace,Barcelona,2023-10-07,Muy buena ubicación y excelente limpieza.,7.4,positivo
+Mar y Montaña,Málaga,2023-03-18,El baño estaba sucio al llegar.,5.2,negativo
+Costa Mar,Salamanca,2023-05-13,Demasiado ruido durante la noche.,4.4,negativo
+Vista Real,Salamanca,2023-02-10,El baño estaba sucio al llegar.,5.0,negativo
+Bahía Palace,Granada,2023-06-04,El baño estaba sucio al llegar.,4.9,negativo
+Puerto Dorado,Granada,2023-08-05,El baño estaba sucio al llegar.,4.1,negativo
+Oasis Beach,Sevilla,2023-12-24,Demasiado ruido durante la noche.,4.5,negativo
+Mar y Montaña,Sevilla,2023-08-18,Muy buena ubicación y excelente limpieza.,8.2,positivo
+Puerto Dorado,Sevilla,2023-11-20,Personal poco atento y recepción caótica.,4.4,negativo
+Oasis Beach,Madrid,2023-06-06,Demasiado ruido durante la noche.,5.8,negativo
+Mar y Montaña,San Sebastián,2023-12-02,El baño estaba sucio al llegar.,4.6,negativo
+Vista Real,Sevilla,2023-11-10,Habitaciones muy cómodas y tranquilas.,7.1,positivo
+Vista Real,Málaga,2023-12-11,Muy buena ubicación y excelente limpieza.,8.3,positivo
+Hotel Sol,Barcelona,2023-01-24,Falta de mantenimiento en las instalaciones.,4.3,negativo
+Puerto Dorado,Zaragoza,2023-10-07,Falta de mantenimiento en las instalaciones.,4.7,negativo
+Luna Park,Málaga,2023-08-12,Falta de mantenimiento en las instalaciones.,4.4,negativo
+Brisa Marina,Valencia,2023-04-25,El baño estaba sucio al llegar.,5.1,negativo
+Vista Real,Málaga,2023-05-24,Desayuno espectacular y personal muy atento.,8.3,positivo
+Luna Park,Bilbao,2023-06-15,El baño estaba sucio al llegar.,5.9,negativo
+Luna Park,Granada,2023-10-24,Demasiado ruido durante la noche.,5.3,negativo
+Puerto Dorado,Bilbao,2023-10-12,Personal poco atento y recepción caótica.,4.8,negativo
+Mar y Montaña,San Sebastián,2023-08-05,El baño estaba sucio al llegar.,4.7,negativo
+Luna Park,Barcelona,2023-09-16,Servicio amable. Volvería sin dudarlo.,8.3,positivo
+Puerto Dorado,Málaga,2023-06-20,Demasiado ruido durante la noche.,5.2,negativo
+Oasis Beach,Málaga,2023-07-06,Demasiado ruido durante la noche.,5.4,negativo
+Puerto Dorado,San Sebastián,2023-08-18,Relación calidad-precio excelente.,9.8,positivo
+Bahía Palace,Zaragoza,2023-05-11,Servicio amable. Volvería sin dudarlo.,9.2,positivo
+Hotel Sol,Málaga,2023-06-27,Demasiado ruido durante la noche.,4.5,negativo
+Vista Real,Bilbao,2023-11-07,Relación calidad-precio excelente.,7.8,positivo
+Puerto Dorado,Salamanca,2023-08-22,Demasiado ruido durante la noche.,5.6,negativo
+Hotel Sol,Málaga,2023-05-22,Muy buena ubicación y excelente limpieza.,9.3,positivo
+Playa Azul,Barcelona,2023-04-24,Personal poco atento y recepción caótica.,4.8,negativo
+Costa Mar,Zaragoza,2023-10-13,Relación calidad-precio excelente.,8.3,positivo
+Hotel Sol,Zaragoza,2023-03-23,Falta de mantenimiento en las instalaciones.,5.9,negativo
+Brisa Marina,Barcelona,2023-08-03,Relación calidad-precio excelente.,8.8,positivo
+Mar y Montaña,Salamanca,2023-08-21,Personal poco atento y recepción caótica.,4.7,negativo
+Mar y Montaña,Valencia,2023-10-12,Precio elevado para la calidad ofrecida.,4.0,negativo
+Bahía Palace,Bilbao,2023-12-12,Relación calidad-precio excelente.,8.6,positivo
+Vista Real,Barcelona,2023-06-09,Desayuno espectacular y personal muy atento.,9.1,positivo
+Luna Park,Zaragoza,2023-07-20,El baño estaba sucio al llegar.,5.4,negativo
+Mar y Montaña,Zaragoza,2023-05-15,Habitaciones muy cómodas y tranquilas.,7.8,positivo
+Vista Real,Valencia,2023-10-28,Servicio amable. Volvería sin dudarlo.,9.0,positivo
+Costa Mar,San Sebastián,2023-12-28,Falta de mantenimiento en las instalaciones.,6.0,negativo
+Brisa Marina,Valencia,2023-06-19,Habitaciones muy cómodas y tranquilas.,7.9,positivo
+Hotel Sol,Sevilla,2023-04-08,Habitaciones muy cómodas y tranquilas.,8.4,positivo
+Costa Mar,San Sebastián,2023-01-01,Habitaciones muy cómodas y tranquilas.,8.7,positivo
+Playa Azul,Málaga,2023-04-06,Relación calidad-precio excelente.,7.7,positivo
+Mar y Montaña,Sevilla,2023-10-07,Relación calidad-precio excelente.,8.5,positivo
+Vista Real,Salamanca,2023-11-08,Falta de mantenimiento en las instalaciones.,5.0,negativo
+Puerto Dorado,Granada,2023-05-12,Servicio amable. Volvería sin dudarlo.,9.2,positivo
+Bahía Palace,Valencia,2023-07-15,Relación calidad-precio excelente.,7.3,positivo
+Playa Azul,Málaga,2023-09-14,Habitaciones muy cómodas y tranquilas.,7.1,positivo
+Bahía Palace,Valencia,2023-08-26,Falta de mantenimiento en las instalaciones.,4.2,negativo
+Costa Mar,Bilbao,2023-12-01,Relación calidad-precio excelente.,7.5,positivo
+Brisa Marina,Granada,2023-07-27,Servicio amable. Volvería sin dudarlo.,7.4,positivo
+Hotel Sol,San Sebastián,2023-03-20,Demasiado ruido durante la noche.,5.3,negativo
+Puerto Dorado,Valencia,2023-01-25,Desayuno espectacular y personal muy atento.,9.0,positivo
+Playa Azul,Málaga,2023-10-17,Demasiado ruido durante la noche.,5.0,negativo
+Playa Azul,Bilbao,2023-03-27,Demasiado ruido durante la noche.,4.2,negativo
+Costa Mar,Sevilla,2023-09-16,Personal poco atento y recepción caótica.,5.4,negativo
+Luna Park,Málaga,2023-09-10,El baño estaba sucio al llegar.,5.4,negativo
+Brisa Marina,Bilbao,2023-04-24,Precio elevado para la calidad ofrecida.,4.3,negativo
+Vista Real,Salamanca,2023-01-14,Precio elevado para la calidad ofrecida.,4.7,negativo
+Brisa Marina,Valencia,2023-02-11,Demasiado ruido durante la noche.,4.3,negativo
+Playa Azul,Valencia,2023-05-18,El baño estaba sucio al llegar.,5.0,negativo
+Oasis Beach,Málaga,2023-08-25,Habitaciones muy cómodas y tranquilas.,9.0,positivo
+Bahía Palace,Valencia,2023-07-01,Precio elevado para la calidad ofrecida.,5.8,negativo
+Vista Real,Salamanca,2023-11-17,El baño estaba sucio al llegar.,5.5,negativo
+Bahía Palace,Madrid,2023-04-18,Demasiado ruido durante la noche.,4.2,negativo
+Costa Mar,Barcelona,2023-07-15,Personal poco atento y recepción caótica.,5.0,negativo
+Playa Azul,Valencia,2023-09-22,Personal poco atento y recepción caótica.,4.7,negativo
+Hotel Sol,Granada,2023-10-23,Precio elevado para la calidad ofrecida.,4.9,negativo
+Puerto Dorado,Sevilla,2023-11-23,Relación calidad-precio excelente.,8.2,positivo
+Bahía Palace,Bilbao,2023-11-12,Demasiado ruido durante la noche.,4.5,negativo
+Playa Azul,Granada,2023-06-15,Habitaciones muy cómodas y tranquilas.,8.1,positivo
+Luna Park,Sevilla,2023-03-17,Personal poco atento y recepción caótica.,5.9,negativo
+Bahía Palace,Madrid,2023-01-02,Relación calidad-precio excelente.,8.3,positivo
+Oasis Beach,Barcelona,2023-05-04,Demasiado ruido durante la noche.,5.6,negativo
+Bahía Palace,Málaga,2023-02-16,Demasiado ruido durante la noche.,5.8,negativo
+Brisa Marina,Granada,2023-01-16,Falta de mantenimiento en las instalaciones.,4.2,negativo
+Vista Real,Valencia,2023-10-25,Demasiado ruido durante la noche.,5.5,negativo
+Mar y Montaña,Bilbao,2023-02-16,Desayuno espectacular y personal muy atento.,8.8,positivo
+Playa Azul,Granada,2023-07-16,Relación calidad-precio excelente.,7.3,positivo
+Brisa Marina,Málaga,2023-07-08,Muy buena ubicación y excelente limpieza.,9.0,positivo
+Oasis Beach,Valencia,2023-05-27,Falta de mantenimiento en las instalaciones.,5.3,negativo
+Vista Real,San Sebastián,2023-11-01,Habitaciones muy cómodas y tranquilas.,7.2,positivo
+Costa Mar,Salamanca,2023-09-14,Muy buena ubicación y excelente limpieza.,7.5,positivo
+Vista Real,Salamanca,2023-05-22,Personal poco atento y recepción caótica.,4.5,negativo
+Costa Mar,Valencia,2023-11-09,Desayuno espectacular y personal muy atento.,7.9,positivo
+Puerto Dorado,San Sebastián,2023-09-07,Personal poco atento y recepción caótica.,4.6,negativo
+Luna Park,Sevilla,2023-11-04,El baño estaba sucio al llegar.,4.7,negativo
+Luna Park,Málaga,2023-07-26,El baño estaba sucio al llegar.,5.0,negativo
+Playa Azul,Salamanca,2023-04-09,Personal poco atento y recepción caótica.,5.1,negativo
+Playa Azul,Valencia,2023-09-27,Desayuno espectacular y personal muy atento.,9.0,positivo
+Costa Mar,Zaragoza,2023-04-02,Falta de mantenimiento en las instalaciones.,4.3,negativo
+Brisa Marina,Bilbao,2023-06-21,Personal poco atento y recepción caótica.,4.8,negativo
+Hotel Sol,Madrid,2023-07-21,Desayuno espectacular y personal muy atento.,8.5,positivo
+Brisa Marina,Valencia,2023-03-05,Demasiado ruido durante la noche.,5.4,negativo
+Costa Mar,Barcelona,2023-11-10,Falta de mantenimiento en las instalaciones.,5.0,negativo
+Costa Mar,Valencia,2023-01-09,Precio elevado para la calidad ofrecida.,4.1,negativo
+Luna Park,Bilbao,2023-02-08,Desayuno espectacular y personal muy atento.,9.3,positivo
+Luna Park,Bilbao,2023-11-19,Personal poco atento y recepción caótica.,4.9,negativo
+Bahía Palace,Zaragoza,2023-11-04,Muy buena ubicación y excelente limpieza.,7.4,positivo
+Puerto Dorado,Sevilla,2023-07-23,Precio elevado para la calidad ofrecida.,5.6,negativo
+Hotel Sol,Sevilla,2023-04-23,Servicio amable. Volvería sin dudarlo.,8.0,positivo
+Playa Azul,Sevilla,2023-04-23,Demasiado ruido durante la noche.,4.4,negativo
+Luna Park,Valencia,2023-01-28,Precio elevado para la calidad ofrecida.,5.1,negativo
+Oasis Beach,Sevilla,2023-07-12,Precio elevado para la calidad ofrecida.,5.4,negativo
+Vista Real,Málaga,2023-05-14,Habitaciones muy cómodas y tranquilas.,9.7,positivo
+Vista Real,Granada,2023-09-25,Desayuno espectacular y personal muy atento.,7.3,positivo
+Puerto Dorado,Madrid,2023-11-06,Desayuno espectacular y personal muy atento.,7.8,positivo
+Brisa Marina,San Sebastián,2023-02-12,Demasiado ruido durante la noche.,5.9,negativo
+Brisa Marina,Granada,2023-07-02,Desayuno espectacular y personal muy atento.,8.6,positivo
+Hotel Sol,Granada,2023-06-09,El baño estaba sucio al llegar.,5.5,negativo
+Bahía Palace,Madrid,2023-02-22,Muy buena ubicación y excelente limpieza.,8.4,positivo
+Luna Park,Bilbao,2023-05-28,Demasiado ruido durante la noche.,5.8,negativo
+Luna Park,Barcelona,2023-11-21,Falta de mantenimiento en las instalaciones.,5.1,negativo
+Brisa Marina,Madrid,2023-09-01,Precio elevado para la calidad ofrecida.,4.9,negativo
+Luna Park,Valencia,2023-03-20,Relación calidad-precio excelente.,7.2,positivo
+Mar y Montaña,Barcelona,2023-04-02,Precio elevado para la calidad ofrecida.,4.6,negativo
+Bahía Palace,Sevilla,2023-12-10,El baño estaba sucio al llegar.,5.1,negativo
+Hotel Sol,Valencia,2023-12-01,Habitaciones muy cómodas y tranquilas.,7.8,positivo
+Hotel Sol,San Sebastián,2023-07-10,Personal poco atento y recepción caótica.,6.0,negativo
+Mar y Montaña,Barcelona,2023-06-27,Relación calidad-precio excelente.,8.1,positivo
+Mar y Montaña,Málaga,2023-11-16,Personal poco atento y recepción caótica.,4.2,negativo
+Playa Azul,Granada,2023-08-10,Personal poco atento y recepción caótica.,4.4,negativo
+Puerto Dorado,Málaga,2023-08-14,Desayuno espectacular y personal muy atento.,9.8,positivo
+Mar y Montaña,Zaragoza,2023-12-10,El baño estaba sucio al llegar.,4.6,negativo
+Vista Real,Zaragoza,2023-06-19,Servicio amable. Volvería sin dudarlo.,7.5,positivo
+Bahía Palace,Zaragoza,2023-07-06,Falta de mantenimiento en las instalaciones.,4.6,negativo
+Hotel Sol,Málaga,2023-02-18,Personal poco atento y recepción caótica.,4.1,negativo
+Brisa Marina,Málaga,2023-06-27,Personal poco atento y recepción caótica.,5.2,negativo
+Mar y Montaña,Valencia,2023-06-05,Servicio amable. Volvería sin dudarlo.,7.0,positivo
+Puerto Dorado,Barcelona,2023-06-28,Desayuno espectacular y personal muy atento.,8.0,positivo
+Oasis Beach,Valencia,2023-09-19,Muy buena ubicación y excelente limpieza.,9.5,positivo
+Playa Azul,Bilbao,2023-03-04,El baño estaba sucio al llegar.,5.7,negativo
+Brisa Marina,Madrid,2023-04-16,Habitaciones muy cómodas y tranquilas.,7.7,positivo
+Puerto Dorado,Granada,2023-05-01,Servicio amable. Volvería sin dudarlo.,8.2,positivo
+Hotel Sol,Barcelona,2023-11-02,Relación calidad-precio excelente.,9.3,positivo
+Puerto Dorado,Granada,2023-12-17,Precio elevado para la calidad ofrecida.,4.4,negativo
+Brisa Marina,San Sebastián,2023-02-21,Personal poco atento y recepción caótica.,5.7,negativo
+Oasis Beach,Bilbao,2023-05-10,Muy buena ubicación y excelente limpieza.,7.1,positivo
+Hotel Sol,Madrid,2023-07-23,Desayuno espectacular y personal muy atento.,9.5,positivo
+Brisa Marina,Valencia,2023-11-11,Relación calidad-precio excelente.,9.0,positivo
+Playa Azul,Málaga,2023-01-26,Falta de mantenimiento en las instalaciones.,5.0,negativo
+Brisa Marina,Zaragoza,2023-01-02,Desayuno espectacular y personal muy atento.,7.2,positivo
+Costa Mar,Granada,2023-10-18,Precio elevado para la calidad ofrecida.,5.2,negativo
+Hotel Sol,Salamanca,2023-09-21,Demasiado ruido durante la noche.,5.1,negativo
+Mar y Montaña,Zaragoza,2023-09-10,Desayuno espectacular y personal muy atento.,8.5,positivo
+Luna Park,San Sebastián,2023-03-03,Muy buena ubicación y excelente limpieza.,9.1,positivo
+Puerto Dorado,San Sebastián,2023-09-02,Precio elevado para la calidad ofrecida.,4.5,negativo
+Puerto Dorado,Sevilla,2023-04-19,Demasiado ruido durante la noche.,5.5,negativo
+Oasis Beach,Barcelona,2023-06-01,Falta de mantenimiento en las instalaciones.,4.5,negativo
+Hotel Sol,Granada,2023-09-05,Relación calidad-precio excelente.,7.3,positivo
+Hotel Sol,Madrid,2023-01-07,Relación calidad-precio excelente.,7.9,positivo
+Hotel Sol,Madrid,2023-09-16,Personal poco atento y recepción caótica.,5.1,negativo
+Mar y Montaña,Barcelona,2023-05-21,Desayuno espectacular y personal muy atento.,9.0,positivo
+Puerto Dorado,Valencia,2023-01-09,Habitaciones muy cómodas y tranquilas.,9.2,positivo
+Brisa Marina,Bilbao,2023-02-17,Relación calidad-precio excelente.,7.3,positivo
+Bahía Palace,Bilbao,2023-03-04,Demasiado ruido durante la noche.,5.1,negativo
+Costa Mar,Málaga,2023-05-24,Demasiado ruido durante la noche.,5.4,negativo
+Mar y Montaña,Bilbao,2023-09-23,Falta de mantenimiento en las instalaciones.,5.1,negativo
+Oasis Beach,Madrid,2023-05-28,Desayuno espectacular y personal muy atento.,7.8,positivo
+Oasis Beach,Zaragoza,2023-04-16,El baño estaba sucio al llegar.,4.3,negativo
+Puerto Dorado,Bilbao,2023-12-04,Precio elevado para la calidad ofrecida.,5.6,negativo
+Hotel Sol,Madrid,2023-04-17,Habitaciones muy cómodas y tranquilas.,8.6,positivo
+Bahía Palace,Valencia,2023-04-27,Servicio amable. Volvería sin dudarlo.,7.6,positivo
+Vista Real,Málaga,2023-04-10,Servicio amable. Volvería sin dudarlo.,8.2,positivo
+Costa Mar,San Sebastián,2023-01-10,Falta de mantenimiento en las instalaciones.,5.1,negativo
+Luna Park,San Sebastián,2023-08-19,El baño estaba sucio al llegar.,4.7,negativo
+Oasis Beach,Salamanca,2023-04-07,Demasiado ruido durante la noche.,4.8,negativo
+Costa Mar,San Sebastián,2023-08-06,Servicio amable. Volvería sin dudarlo.,7.7,positivo
+Oasis Beach,Salamanca,2023-03-22,Demasiado ruido durante la noche.,6.0,negativo
+Mar y Montaña,Granada,2023-09-17,Muy buena ubicación y excelente limpieza.,7.2,positivo
+Puerto Dorado,Bilbao,2023-01-18,Muy buena ubicación y excelente limpieza.,8.4,positivo
+Puerto Dorado,Sevilla,2023-01-05,El baño estaba sucio al llegar.,4.5,negativo
+Brisa Marina,Granada,2023-07-28,Habitaciones muy cómodas y tranquilas.,9.5,positivo

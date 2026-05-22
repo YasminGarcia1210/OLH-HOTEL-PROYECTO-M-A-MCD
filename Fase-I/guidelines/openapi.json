@@ -1,0 +1,4008 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Sistema de Análisis de Sentimiento de Reviews – Hotel OLH",
+    "description": "API REST para el pipeline de NLP y el dashboard ejecutivo de análisis de sentimiento de reseñas hoteleras. Cubre los servicios: Data Verification & Cleaner, Sentiment Prediction, ABSAService (ABSA sobre tópicos hoteleros → `review_topicos`), Topic Identification (alternativa al ABSA para la misma etapa `topics_identified`), Metric Calculation (`POST /metricas/calcular` y `POST /metricas/recalcular` en MetricProcessor), Dashboard Backend (lecturas `GET /metricas/*`, `POST /metricas/recalcular-semestre` que orquesta recálculos vía MetricProcessor, `GET /metricas/archivos/entrada`, `POST /metricas/archivos/upload` y Reviews Explorer) y el listado filtrado de reviews.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Equipo Tesis OLH",
+      "email": "admin@olh.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.olh.com",
+      "description": "Producción"
+    },
+    {
+      "url": "http://localhost:8000",
+      "description": "Desarrollo local (genérico)"
+    },
+    {
+      "url": "http://localhost:5002",
+      "description": "Dashboard Backend (local): GET /api/v1/metricas/*, POST /api/v1/metricas/recalcular-semestre, GET /api/v1/metricas/archivos/entrada y POST /api/v1/metricas/archivos/upload"
+    },
+    {
+      "url": "http://localhost:5004",
+      "description": "Metric Processor (local): POST /api/v1/metricas/calcular, POST /api/v1/metricas/recalcular"
+    },
+    {
+      "url": "http://localhost:5003",
+      "description": "Sentiment Prediction (local): POST /api/v1/sentimiento/procesar, POST /api/v1/sentimiento/predecir"
+    },
+    {
+      "url": "http://localhost:5005",
+      "description": "ABSAService (local): POST /api/v1/absa/* — el puerto se configura con `PORT` en `.env` (por defecto en código suele ser 5003; usar otro valor si choca con Sentiment u otro proceso)"
+    }
+  ],
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Verificacion",
+      "description": "Data Verification & Cleaner – Valida, limpia y carga reviews desde Azure Blob Storage"
+    },
+    {
+      "name": "Sentimiento",
+      "description": "Sentiment Prediction – Predice el sentimiento de cada review"
+    },
+    {
+      "name": "Topicos",
+      "description": "Topic Identification – Alternativa arquitectónica a ABSA; actualmente no desplegada en `sources/apis`"
+    },
+    {
+      "name": "Auth",
+      "description": "Autenticación JWT de DashboardBackend (`/api/v1/auth/*`)"
+    },
+    {
+      "name": "Health",
+      "description": "Health checks operativos (`/health`) de los servicios"
+    },
+    {
+      "name": "Absa",
+      "description": "ABSAService – ABSA (aspect-based) por archivo: escribe `review_topicos` y deja `log_archivos.estado = topics_identified`"
+    },
+    {
+      "name": "Metricas",
+      "description": "Metric Calculation (MetricProcessor) – `POST /api/v1/metricas/calcular` (pipeline) y `POST /api/v1/metricas/recalcular` (re-score de un mes ya persistido); persisten KPIs y alertas"
+    },
+    {
+      "name": "Dashboard",
+      "description": "Dashboard Backend – Lecturas de métricas pre-calculadas, `POST /api/v1/metricas/recalcular-semestre` (orquesta `POST /metricas/recalcular` en MetricProcessor), subida de archivos a Azure Blob (`POST /api/v1/metricas/archivos/upload`) y Reviews Explorer bajo `/api/v1/metricas`"
+    }
+  ],
+  "paths": {
+    "/api/v1/verificacion/ejecutar": {
+      "post": {
+        "tags": [
+          "Verificacion"
+        ],
+        "summary": "Ejecutar verificación y limpieza de un archivo",
+        "description": "Disparado por el Scheduler. Descarga el blob de origen en Azure Blob Storage, valida estructura, ejecuta el pipeline de limpieza, opcionalmente sube el CSV limpio y vuelca las reviews en la tabla `reviews` (incluyendo el campo `plataforma` indicado en el body en todas las filas insertadas). Registra y actualiza `log_archivos`.",
+        "operationId": "ejecutarVerificacion",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerificacionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Archivo verificado, limpiado y reviews cargadas correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/VerificacionResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "description": "El archivo ya fue procesado anteriormente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "ARCHIVO_YA_PROCESADO",
+                    "mensaje": "El archivo reviews_olh_nov2025.csv ya fue procesado. Estado actual: completed"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Estructura del CSV inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "ESTRUCTURA_INVALIDA",
+                    "mensaje": "Columnas requeridas ausentes: ['fecha_review', 'texto']"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/api/v1/verificacion/archivos/{archivo_id}": {
+      "get": {
+        "tags": [
+          "Verificacion"
+        ],
+        "summary": "Consultar estado de un archivo en el pipeline",
+        "description": "Devuelve el estado actual y metadatos de un archivo. Usada por Sentiment Prediction, Topic Identification y Metric Calculation antes de ejecutar su etapa.",
+        "operationId": "getArchivoById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ArchivoId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Metadatos y estado del archivo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ArchivoDetalle"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/v1/verificacion/archivos": {
+      "get": {
+        "tags": [
+          "Verificacion"
+        ],
+        "summary": "Listar archivos por estado",
+        "description": "Devuelve los archivos en un estado determinado del pipeline. Usada por Sentiment Prediction para descubrir qué archivos están listos para procesar.",
+        "operationId": "listarArchivos",
+        "parameters": [
+          {
+            "name": "hotel_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filtro por hotel"
+          },
+          {
+            "name": "estado",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "received",
+                "validated",
+                "cleaned",
+                "predicted",
+                "topics_identified",
+                "completed",
+                "error"
+              ]
+            },
+            "description": "Estado del pipeline a filtrar"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de archivos en el estado indicado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ArchivoResumen"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/sentimiento/procesar": {
+      "post": {
+        "tags": [
+          "Sentimiento"
+        ],
+        "summary": "Ejecutar predicción de sentimiento para un archivo",
+        "description": "Encola el trabajo de predicción de sentimiento (procesamiento asíncrono por volumen). El worker cargará las reviews del archivo desde BD, aplicará el modelo local configurado (p. ej. checkpoint p91) y persistirá en `predicciones_sentimiento` las columnas `sentimiento`, `confianza`, `prob_negativo`, `prob_neutro`, `prob_positivo` y `modelo_version`, actualizando `log_archivos.estado = 'predicted'` al finalizar.",
+        "operationId": "procesarSentimiento",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArchivoIdRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Solicitud aceptada; el procesamiento continúa de forma asíncrona",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/SentimientoProcesamientoAceptado"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "ok": true,
+                  "data": {
+                    "job_id": "550e8400-e29b-41d4-a716-446655440000",
+                    "archivo_id": 12,
+                    "estado": "encolado",
+                    "mensaje": "El procesamiento se ejecutará de forma asíncrona."
+                  },
+                  "error": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Body ausente o archivo_id inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "BODY_INVALIDO",
+                    "mensaje": "archivo_id es requerido y debe ser un entero positivo"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "description": "archivo_id no existe en log_archivos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "ARCHIVO_NO_ENCONTRADO",
+                    "mensaje": "No existe archivo_id=99 en log_archivos."
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "El archivo no está en estado cleaned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "ARCHIVO_NO_LISTO",
+                    "mensaje": "El archivo debe estar en estado 'cleaned' para predecir sentimiento. Estado actual: validated"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El archivo ya tiene predicciones de sentimiento",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "ARCHIVO_YA_PREDICHO",
+                    "mensaje": "El archivo_id 12 ya tiene predicciones. Estado: predicted"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ModeloNoDisponible"
+          }
+        }
+      }
+    },
+    "/api/v1/sentimiento/predecir": {
+      "post": {
+        "tags": [
+          "Sentimiento"
+        ],
+        "summary": "Predecir sentimiento de un texto (sin persistencia)",
+        "description": "Ejecuta el modelo de forma síncrona sobre el texto enviado. No consulta ni escribe en la base de datos. Devuelve etiqueta, confianza (máximo softmax) y el objeto `probabilidades` con negativo / neutro / positivo.",
+        "operationId": "predecirSentimientoTexto",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SentimientoTextoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Predicción del modelo para el texto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/SentimientoPrediccion"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "ok": true,
+                  "data": {
+                    "sentimiento": "positivo",
+                    "confianza": 0.923,
+                    "probabilidades": {
+                      "negativo": 0.012,
+                      "neutro": 0.065,
+                      "positivo": 0.923
+                    },
+                    "modelo_version": "p91"
+                  },
+                  "error": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Body ausente, texto vacío o excede longitud máxima",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "BODY_INVALIDO",
+                    "mensaje": "texto no puede estar vacío"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/api/v1/sentimiento/archivo/{archivo_id}/resultados": {
+      "get": {
+        "tags": [
+          "Sentimiento"
+        ],
+        "summary": "Consultar resultados de predicción de sentimiento",
+        "description": "Devuelve el estado del job asíncrono (`estado_proceso`), resumen agregado y metadatos (`fecha_prediccion`, errores si `fallido`). No lista reviews individuales. Usada por Topic Identification u orquestadores del pipeline.",
+        "operationId": "getSentimientoResultados",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ArchivoId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultados de predicción de sentimiento",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/SentimientoResultadosResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/v1/topicos/identificar": {
+      "post": {
+        "tags": [
+          "Topicos"
+        ],
+        "summary": "Ejecutar identificación de tópicos para un archivo",
+        "description": "Lee las reviews con sentimiento predicted desde BD, identifica los tópicos referenciados con el modelo activo del registry y persiste resultados en `review_topicos`. Actualiza `log_archivos.estado = 'topics_identified'`.\n\nEn despliegues con **ABSAService**, la misma etapa puede ejecutarse con `POST /api/v1/absa/procesar` (o flujo OpenAI Batch) en lugar de este endpoint; no conviene aplicar ambos sobre el mismo archivo.",
+        "operationId": "identificarTopicos",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArchivoIdRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tópicos identificados y almacenados correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/TopicosProcesamientoResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "description": "El archivo ya tiene tópicos identificados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "ARCHIVO_YA_TOPICADO",
+                    "mensaje": "El archivo_id 12 ya tiene tópicos identificados. Estado: topics_identified"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ModeloNoDisponible"
+          }
+        }
+      }
+    },
+    "/api/v1/topicos/review/{review_id}": {
+      "get": {
+        "tags": [
+          "Topicos"
+        ],
+        "summary": "Consultar tópicos de una review",
+        "description": "Devuelve los tópicos asignados a una review con su fragmento y confianza. Usada por el Dashboard para el modal de detalle.",
+        "operationId": "getTopicosReview",
+        "parameters": [
+          {
+            "name": "review_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "ID de la review"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tópicos asignados a la review",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ReviewTopicosResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/v1/absa/procesar": {
+      "post": {
+        "tags": [
+          "Absa"
+        ],
+        "summary": "Ejecutar ABSA para un archivo (síncrono)",
+        "description": "Disparado por el Scheduler tras la predicción de sentimiento (`log_archivos.estado = predicted`). Lee las reviews del archivo, ejecuta el modelo ABSA configurado (LLM, DeBERTa, etc.) y persiste en `review_topicos`. Actualiza `log_archivos.estado` a `topics_identified`.\n\nSi existe un trabajo OpenAI Batch pendiente para el archivo, responde `409` con `OPENAI_BATCH_PENDIENTE` hasta sincronizar o completar el batch.",
+        "operationId": "absaProcesar",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArchivoIdRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ABSA aplicado; mismo envelope que la etapa de tópicos, con conteo opcional de tokens del LLM",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AbsaProcesarResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Body inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "description": "Archivo no encontrado en BD",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Archivo ya topicado, estado distinto de `predicted`, o batch OpenAI pendiente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "502": {
+            "description": "Error de conexión con el LLM o respuesta inválida tras reintentos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "503": {
+            "$ref": "#/components/responses/ModeloNoDisponible"
+          }
+        }
+      }
+    },
+    "/api/v1/absa/procesar-batch": {
+      "post": {
+        "tags": [
+          "Absa"
+        ],
+        "summary": "Encolar ABSA vía OpenAI Batch API",
+        "description": "Requiere `ABSA_MODEL_BACKEND=llm` y `LLM_PROVIDER=openai`. Crea un batch JSONL en OpenAI y registra el trabajo en `absa_openai_batches`. El archivo permanece en `predicted` hasta `POST /api/v1/absa/batch/sincronizar` (o el poller interno si está habilitado).\n\nSi no hay reviews, puede avanzar el archivo a `topics_identified` y devolver `openai_batch_id` nulo.",
+        "operationId": "absaProcesarBatch",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArchivoIdRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch creado o archivo vacío tratado sin batch",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AbsaEncolarBatchResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Body inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "description": "Archivo no encontrado en BD",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Archivo ya topicado, estado inválido o batch pendiente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "502": {
+            "description": "Error al comunicar con OpenAI",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "503": {
+            "$ref": "#/components/responses/ModeloNoDisponible"
+          }
+        }
+      }
+    },
+    "/api/v1/absa/batch/sincronizar": {
+      "post": {
+        "tags": [
+          "Absa"
+        ],
+        "summary": "Sincronizar batches OpenAI pendientes",
+        "description": "Consulta OpenAI para jobs en `absa_openai_batches` con `estado_aplicacion = pendiente` y aplica la salida cuando el batch está `completed`. Body opcional: si se envía `openai_batch_id`, solo se procesa ese id (debe estar pendiente).\n\nAlternativa operativa: cron externo que llame a este endpoint; o `OPENAI_BATCH_POLL_ENABLED=true` en el proceso del servicio.",
+        "operationId": "absaBatchSincronizar",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OpenaiBatchSincronizarRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lista de resultados por batch inspeccionado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AbsaBatchSincronizarResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Body inválido (p. ej. `openai_batch_id` vacío)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "description": "No existe registro para el `openai_batch_id` indicado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "502": {
+            "description": "Error al comunicar con OpenAI",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "503": {
+            "$ref": "#/components/responses/ModeloNoDisponible"
+          }
+        }
+      }
+    },
+    "/api/v1/metricas/calcular": {
+      "post": {
+        "tags": [
+          "Metricas"
+        ],
+        "summary": "Calcular y persistir métricas del período",
+        "description": "Calcula y persiste las métricas mensuales en `metricas_globales_mensual` y `metricas_topico_mensual`. Genera alertas en `alertas` para tópicos bajo umbral. Actualiza `log_archivos.estado = 'completed'`.\n\nScores con suavizado bayesiano: `((positivas + C·m) / (total + C)) × 100` (env `LAPLACE_PRIOR_M`, `LAPLACE_PRIOR_C` en MetricProcessor; `C=0` equivale a proporción bruta).\n\nUn archivo puede cubrir varios meses naturales; la respuesta incluye `periodos` y `metricas_por_periodo` (un ítem por mes).",
+        "operationId": "calcularMetricas",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArchivoIdRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Métricas calculadas y dashboard disponible",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/MetricasCalculoResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Body ausente o archivo_id inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "BODY_INVALIDO",
+                    "mensaje": "archivo_id es requerido y debe ser un entero positivo"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "description": "El archivo no existe en log_archivos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "ARCHIVO_NO_ENCONTRADO",
+                    "mensaje": "archivo_id=99 no encontrado en log_archivos"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El archivo no está en estado 'topics_identified'",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "ESTADO_INVALIDO",
+                    "mensaje": "El archivo_id 12 debe estar en estado 'topics_identified'. Estado actual: predicted"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "El archivo no puede procesarse (sin hotel asignado o sin reviews)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "examples": {
+                  "sinHotel": {
+                    "summary": "Hotel no asignado",
+                    "value": {
+                      "ok": false,
+                      "data": null,
+                      "error": {
+                        "codigo": "HOTEL_NO_ASIGNADO",
+                        "mensaje": "archivo_id=12 no tiene hotel_id asignado"
+                      }
+                    }
+                  },
+                  "sinReviews": {
+                    "summary": "Sin reviews asociadas",
+                    "value": {
+                      "ok": false,
+                      "data": null,
+                      "error": {
+                        "codigo": "SIN_REVIEWS",
+                        "mensaje": "archivo_id=12 no tiene reviews asociadas"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/api/v1/metricas/recalcular": {
+      "post": {
+        "tags": [
+          "Metricas"
+        ],
+        "summary": "Recalcular scores de un período ya materializado",
+        "description": "Reaplica la fórmula de score (suavizado bayesiano) sobre los conteos ya persistidos en `metricas_globales_mensual` y `metricas_topico_mensual` para un `(hotel_id, anio, mes)`. Reevalúa alertas del período. No modifica `reviews` ni `log_archivos`. Útil tras cambiar `LAPLACE_PRIOR_M` / `LAPLACE_PRIOR_C` o para alinear históricos; conviene recalcular meses en orden cronológico para que `cambio_pct_vs_anterior` sea coherente con el mes siguiente.",
+        "operationId": "recalcularMetricasPeriodo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MetricasRecalcularRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Período recalculado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/MetricasRecalcularResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Body inválido (hotel_id, anio, mes)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No existe fila en metricas_globales_mensual para el hotel y período",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "PERIODO_NO_ENCONTRADO",
+                    "mensaje": "No hay métricas globales para hotel_id=1 2099-01"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/api/v1/metricas/recalcular-semestre": {
+      "post": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Recalcular métricas del último semestre (Dashboard Backend)",
+        "description": "Recibe `hotel_id` y orquesta seis llamadas secuenciales en orden cronológico ascendente a MetricProcessor `POST /api/v1/metricas/recalcular` para los últimos 6 meses naturales incluyendo el mes actual (rolling). Devuelve un resumen (`exitos`, `fallos`, `fallidos`). Requiere JWT. Configuración: `METRIC_PROCESSOR_URL`, `METRIC_PROCESSOR_TIMEOUT_SECONDS` en el backend del dashboard.",
+        "operationId": "postMetricasRecalcularSemestre",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecalcularSemestreRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Semestre procesado (puede incluir fallos parciales por mes sin fila en `metricas_globales_mensual`)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/RecalcularSemestreResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Body inválido (`hotel_id`)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "BODY_INVALIDO",
+                    "mensaje": "hotel_id debe ser un entero mayor a 0"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "description": "MetricProcessor no alcanzable o timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "METRIC_PROCESSOR_INDISPONIBLE",
+                    "mensaje": "No se pudo conectar con MetricProcessor."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/metricas/kpis": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "KPIs mensuales agregados (Dashboard Backend)",
+        "description": "Devuelve KPIs mensuales leyendo `metricas_globales_mensual`.",
+        "operationId": "getMetricasKpisMensual",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HotelId"
+          },
+          {
+            "$ref": "#/components/parameters/Anio"
+          },
+          {
+            "$ref": "#/components/parameters/Mes"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KPIs del período",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/KpisResponse"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "examples": {
+                  "conDatos": {
+                    "summary": "Período con métricas calculadas",
+                    "value": {
+                      "ok": true,
+                      "data": {
+                        "sentimiento_promedio": {
+                          "score": 68.4,
+                          "cambio_pct": 2.1,
+                          "tendencia": "up"
+                        },
+                        "reviews_analizadas": 1432,
+                        "topicos_con_alerta": 2
+                      },
+                      "error": null
+                    }
+                  },
+                  "sinDatos": {
+                    "summary": "Período sin métricas",
+                    "value": {
+                      "ok": true,
+                      "data": {
+                        "sentimiento_promedio": {
+                          "score": 0,
+                          "cambio_pct": 0,
+                          "tendencia": "stable"
+                        },
+                        "reviews_analizadas": 0,
+                        "topicos_con_alerta": 0
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parámetros inválidos (hotel_id, anio, mes)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "PARAMETROS_INVALIDOS",
+                    "mensaje": "'anio' debe ser un entero mayor o igual a 2020"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/api/v1/metricas/sentimiento-mensual": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Serie mensual de sentimiento (Dashboard Backend)",
+        "description": "Devuelve la evolución mensual del score de sentimiento leyendo `metricas_globales_mensual`.",
+        "operationId": "getMetricasSentimientoMensual",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HotelId"
+          },
+          {
+            "name": "meses",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 12,
+              "minimum": 1,
+              "maximum": 24
+            },
+            "description": "Últimos N meses incluyendo el actual. Se ignora si se usan `desde` y `hasta`."
+          },
+          {
+            "name": "desde",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-(?:0[1-9]|1[0-2])$",
+              "example": "2025-01"
+            },
+            "description": "Inicio del rango en formato YYYY-MM. Requiere `hasta`."
+          },
+          {
+            "name": "hasta",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-(?:0[1-9]|1[0-2])$",
+              "example": "2025-11"
+            },
+            "description": "Fin del rango en formato YYYY-MM. Requiere `desde`."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Serie mensual de sentimiento",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/PuntoSentimientoMensual"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parámetros inválidos (hotel_id, meses o rango desde/hasta)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "PARAMETROS_INVALIDOS",
+                    "mensaje": "'hotel_id' es requerido"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/api/v1/metricas/topicos": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Métricas por tópico del mes (Dashboard Backend)",
+        "description": "Devuelve métricas por tópico leyendo `metricas_topico_mensual` y `topicos`.",
+        "operationId": "getMetricasTopicosMensual",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HotelId"
+          },
+          {
+            "$ref": "#/components/parameters/Anio"
+          },
+          {
+            "$ref": "#/components/parameters/Mes"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "clave",
+                "adicional"
+              ]
+            },
+            "description": "Filtrar por tipo de tópico. Vacío = todos."
+          },
+          {
+            "name": "solo_alertas",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "Si es true, retorna solo tópicos con alerta activa"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Métricas de tópicos del período",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/TopicoMetrica"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parámetros inválidos (hotel_id, anio, mes, tipo o solo_alertas)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "PARAMETROS_INVALIDOS",
+                    "mensaje": "El parámetro 'mes' es requerido"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/api/v1/metricas/topicos/top5": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Top 5 tópicos más críticos (Dashboard Backend)",
+        "description": "Devuelve los 5 tópicos con menor score del período leyendo `metricas_topico_mensual` y `topicos`.",
+        "operationId": "getMetricasTopicosTop5Mensual",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HotelId"
+          },
+          {
+            "$ref": "#/components/parameters/Anio"
+          },
+          {
+            "$ref": "#/components/parameters/Mes"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Top 5 tópicos más críticos del período",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "maxItems": 5,
+                          "items": {
+                            "$ref": "#/components/schemas/TopicoTop5"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parámetros inválidos (hotel_id, anio, mes)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "PARAMETROS_INVALIDOS",
+                    "mensaje": "El parámetro 'mes' debe estar entre 1 y 12"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/api/v1/metricas/alertas": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Listar alertas activas o resueltas (Dashboard Backend)",
+        "description": "Devuelve las alertas generadas por Metric Calculation para el hotel indicado.",
+        "operationId": "getMetricasAlertas",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HotelId"
+          },
+          {
+            "name": "resuelta",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "false = solo alertas activas (default) · true = solo resueltas"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de alertas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Alerta"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parámetros inválidos (hotel_id o resuelta)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "PARAMETROS_INVALIDOS",
+                    "mensaje": "'resuelta' debe ser true o false"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/api/v1/metricas/topicos/{slug}/detalle": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Detalle de un tópico para el modal",
+        "description": "Detalle completo de un tópico: score, tendencia, desglose de menciones y fragmentos reales de reviews. Alimenta el modal de detalle del dashboard.",
+        "operationId": "getTopicoDetalle",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "ruido"
+            },
+            "description": "Identificador único del tópico (ej: ruido, limpieza, wifi)"
+          },
+          {
+            "$ref": "#/components/parameters/HotelId"
+          },
+          {
+            "$ref": "#/components/parameters/Anio"
+          },
+          {
+            "$ref": "#/components/parameters/Mes"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalle del tópico con fragmentos de reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/TopicoDetalle"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/v1/metricas/reviews": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Listar reviews con filtros (Reviews Explorer)",
+        "description": "Devuelve reviews del hotel con predicción de sentimiento y tópicos asociados, paginadas. Origen de datos: tablas `reviews`, `predicciones_sentimiento`, `review_topicos` y `topicos`. Soporta rango de fechas arbitrario (p. ej. últimos 30 días), filtro por sentimiento global y por tópico. Complementa `GET /api/v1/topicos/review/{review_id}` (detalle de tópicos de una sola review).",
+        "operationId": "getDashboardReviews",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HotelId"
+          },
+          {
+            "$ref": "#/components/parameters/FechaDesde"
+          },
+          {
+            "$ref": "#/components/parameters/FechaHasta"
+          },
+          {
+            "$ref": "#/components/parameters/SentimientoFiltro"
+          },
+          {
+            "$ref": "#/components/parameters/TopicoSlug"
+          },
+          {
+            "$ref": "#/components/parameters/TopicoId"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PageSize"
+          },
+          {
+            "$ref": "#/components/parameters/OrdenReviews"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista paginada de reviews con texto, sentimiento y tópicos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ReviewsListResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "description": "Parámetros de filtro inválidos (fechas incoherentes, página fuera de rango, etc.)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "PARAMETROS_INVALIDOS",
+                    "mensaje": "fecha_desde no puede ser posterior a fecha_hasta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/metricas/archivos/entrada": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Listar blobs de entrada vs log_archivos",
+        "description": "Lista blobs en Azure solo **un nivel** bajo el prefijo (no incluye rutas con subcarpetas). Con `AZURE_BLOB_PREFIX_UPLOAD` vacío o `/`, solo blobs en la raíz del contenedor (nombre sin `/`). Omite rutas bajo `AZURE_BLOB_LIST_EXCLUDE_PREFIXES` (por defecto `limpios`). Devuelve también filas de `log_archivos` (sin filtrar por origen). Los blobs sin fila correspondiente en BD (por ruta o nombre base) aparecen en `pendientes`. Requiere `AZURE_STORAGE_CONNECTION_STRING` y `AZURE_STORAGE_CONTAINER`.",
+        "operationId": "getMetricasArchivosEntrada",
+        "parameters": [
+          {
+            "name": "limite",
+            "in": "query",
+            "required": false,
+            "description": "Tope opcional (1–5000) de blobs a listar en Azure; si se alcanza y puede haber más, `data.truncado` es true.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Prefijo, blobs pendientes y todas las filas de log_archivos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ArchivosEntradaData"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "ok": true,
+                  "data": {
+                    "prefijo": "entrada",
+                    "pendientes": [
+                      {
+                        "blob_path": "entrada/nuevo.csv",
+                        "tamano_bytes": 1024,
+                        "ultima_modificacion": "2025-11-15T10:00:00+00:00"
+                      }
+                    ],
+                    "en_pipeline": [
+                      {
+                        "id": 12,
+                        "hotel_id": 1,
+                        "nombre_archivo_origen": "reviews_ejemplo.csv",
+                        "drive_id_origen": "entrada/reviews_ejemplo.csv",
+                        "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "total_registros": 500,
+                        "registros_validos": 480,
+                        "registros_descartados": 20,
+                        "estado": "cleaned",
+                        "etapa_error": null,
+                        "mensaje_error": null,
+                        "fecha_recepcion": "2025-11-15T09:00:00+00:00",
+                        "fecha_limpieza": "2025-11-15T09:05:00+00:00",
+                        "fecha_prediccion": null,
+                        "fecha_topicos": null,
+                        "fecha_metricas": null
+                      }
+                    ],
+                    "truncado": false
+                  },
+                  "error": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "`limite` u otros query params inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "PARAMETROS_INVALIDOS",
+                    "mensaje": "'limite' debe ser un entero entre 1 y 5000."
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado (p. ej. base de datos)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Error al listar blobs en Azure Storage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "ERROR_LISTADO_AZURE",
+                    "mensaje": "Error HTTP 403 al listar blobs con prefijo 'entrada/': ..."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Credenciales o contenedor de Azure inválidos o ausentes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "CREDENCIALES_AZURE_INVALIDAS",
+                    "mensaje": "AZURE_STORAGE_CONTAINER no está definido o está vacío."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/metricas/archivos/upload": {
+      "post": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Subir archivo a Azure Blob Storage",
+        "description": "Recibe un archivo por multipart (`archivo`), calcula SHA-256 y rechaza con `409` si ese hash ya existe en `log_archivos`. Si es nuevo, sube el blob al contenedor usando el prefijo `AZURE_BLOB_PREFIX_UPLOAD`. **No inserta** fila en `log_archivos`.\n\nRequiere variables de entorno: `AZURE_STORAGE_CONNECTION_STRING`, `AZURE_STORAGE_CONTAINER`, `AZURE_BLOB_PREFIX_UPLOAD`.",
+        "operationId": "postMetricasArchivoUpload",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "archivo"
+                ],
+                "properties": {
+                  "archivo": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Contenido del archivo a subir"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Blob subido correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ArchivoUploadResponse"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "ok": true,
+                  "data": {
+                    "blob_path": "entrada/reviews_ejemplo.csv",
+                    "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "nombre_archivo": "reviews_ejemplo.csv"
+                  },
+                  "error": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Falta el archivo o el nombre es inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "PARAMETROS_INVALIDOS",
+                    "mensaje": "El campo 'archivo' es obligatorio."
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El hash SHA-256 del archivo ya está en `log_archivos`",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "ARCHIVO_YA_SUBIDO",
+                    "mensaje": "Ya existe un archivo registrado con el mismo contenido (hash SHA-256)."
+                  }
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "El archivo supera `UPLOAD_MAX_BYTES` / `MAX_CONTENT_LENGTH`",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                },
+                "example": {
+                  "ok": false,
+                  "data": null,
+                  "error": {
+                    "codigo": "ARCHIVO_DEMASIADO_GRANDE",
+                    "mensaje": "El archivo supera el tamaño máximo permitido."
+                  }
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Error al comunicarse con Azure Blob (p. ej. HTTP de almacenamiento)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Credenciales o configuración de Azure inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Iniciar sesión",
+        "description": "Autentica usuario activo y retorna `access_token` + `refresh_token`.",
+        "operationId": "authLogin",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "username",
+                  "password"
+                ],
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login exitoso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parámetros inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Renovar access token",
+        "description": "Requiere `Authorization: Bearer {refresh_token}` y retorna un nuevo access token.",
+        "operationId": "authRefresh",
+        "responses": {
+          "200": {
+            "description": "Token renovado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Cerrar sesión",
+        "description": "Revoca access token actual y refresh token enviado en body.",
+        "operationId": "authLogout",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "refresh_token"
+                ],
+                "properties": {
+                  "refresh_token": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tokens revocados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parámetros inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvelopeError"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Health check del servicio",
+        "description": "Endpoint operativo presente en cada servicio (`app.py`) para monitoreo básico.",
+        "operationId": "health",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Servicio disponible",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "service": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "parameters": {
+      "ArchivoId": {
+        "name": "archivo_id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "ID del archivo en log_archivos"
+      },
+      "HotelId": {
+        "name": "hotel_id",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID del hotel"
+      },
+      "Anio": {
+        "name": "anio",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "minimum": 2020,
+          "example": 2025
+        },
+        "description": "Año del período"
+      },
+      "Mes": {
+        "name": "mes",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12,
+          "example": 11
+        },
+        "description": "Mes del período (1–12)"
+      },
+      "FechaDesde": {
+        "name": "fecha_desde",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date",
+          "example": "2025-10-01"
+        },
+        "description": "Inclusivo. Filtra `reviews.fecha_review` ≥ esta fecha (ISO 8601). Si se omite junto con `fecha_hasta`, el backend puede aplicar un rango por defecto (p. ej. últimos 30 días)."
+      },
+      "FechaHasta": {
+        "name": "fecha_hasta",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date",
+          "example": "2025-11-15"
+        },
+        "description": "Inclusivo. Filtra `reviews.fecha_review` ≤ esta fecha."
+      },
+      "SentimientoFiltro": {
+        "name": "sentimiento",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "positivo",
+            "negativo",
+            "neutro"
+          ]
+        },
+        "description": "Filtra por el sentimiento global en `predicciones_sentimiento.sentimiento`"
+      },
+      "TopicoSlug": {
+        "name": "topico_slug",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "example": "ruido"
+        },
+        "description": "Solo reviews que tengan asignación en `review_topicos` para el tópico con este `slug`. Si se envía junto con `topico_id`, prevalece `topico_slug`."
+      },
+      "TopicoId": {
+        "name": "topico_id",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "example": 7
+        },
+        "description": "Alternativa a `topico_slug`: filtra por ID de tópico."
+      },
+      "Page": {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1,
+          "example": 1
+        },
+        "description": "Número de página (base 1)"
+      },
+      "PageSize": {
+        "name": "page_size",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 20,
+          "example": 20
+        },
+        "description": "Tamaño de página (máx. 100)"
+      },
+      "OrdenReviews": {
+        "name": "orden",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "fecha_desc",
+            "fecha_asc"
+          ],
+          "default": "fecha_desc"
+        },
+        "description": "Orden por `reviews.fecha_review`"
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Token ausente o inválido",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EnvelopeError"
+            },
+            "example": {
+              "ok": false,
+              "data": null,
+              "error": {
+                "codigo": "NO_AUTORIZADO",
+                "mensaje": "Token de autenticación inválido o expirado"
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Recurso no encontrado",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EnvelopeError"
+            },
+            "example": {
+              "ok": false,
+              "data": null,
+              "error": {
+                "codigo": "ARCHIVO_NO_ENCONTRADO",
+                "mensaje": "No se encontró el recurso solicitado"
+              }
+            }
+          }
+        }
+      },
+      "ModeloNoDisponible": {
+        "description": "No se pudo recuperar el modelo desde el registry",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EnvelopeError"
+            },
+            "example": {
+              "ok": false,
+              "data": null,
+              "error": {
+                "codigo": "MODELO_NO_DISPONIBLE",
+                "mensaje": "No se pudo recuperar el modelo desde el registry"
+              }
+            }
+          }
+        }
+      },
+      "InternalError": {
+        "description": "Error interno del servidor",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EnvelopeError"
+            },
+            "example": {
+              "ok": false,
+              "data": null,
+              "error": {
+                "codigo": "ERROR_INTERNO",
+                "mensaje": "Error inesperado en el procesamiento"
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Envelope": {
+        "type": "object",
+        "required": [
+          "ok",
+          "data",
+          "error"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "object",
+            "nullable": true
+          },
+          "error": {
+            "type": "object",
+            "nullable": true,
+            "example": null
+          }
+        }
+      },
+      "EnvelopeError": {
+        "type": "object",
+        "required": [
+          "ok",
+          "data",
+          "error"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "example": false
+          },
+          "data": {
+            "type": "object",
+            "nullable": true,
+            "example": null
+          },
+          "error": {
+            "type": "object",
+            "required": [
+              "codigo",
+              "mensaje"
+            ],
+            "properties": {
+              "codigo": {
+                "type": "string",
+                "example": "ARCHIVO_NO_ENCONTRADO"
+              },
+              "mensaje": {
+                "type": "string",
+                "example": "No se encontró el recurso solicitado"
+              }
+            }
+          }
+        }
+      },
+      "ArchivoUploadResponse": {
+        "type": "object",
+        "required": [
+          "blob_path",
+          "hash",
+          "nombre_archivo"
+        ],
+        "properties": {
+          "blob_path": {
+            "type": "string",
+            "description": "Ruta del blob dentro del contenedor Azure (incluye prefijo configurado)",
+            "example": "entrada/reviews_ejemplo.csv"
+          },
+          "hash": {
+            "type": "string",
+            "description": "SHA-256 hexadecimal del contenido subido",
+            "example": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "nombre_archivo": {
+            "type": "string",
+            "description": "Nombre de archivo sanitizado usado en el blob",
+            "example": "reviews_ejemplo.csv"
+          }
+        }
+      },
+      "BlobEntradaItem": {
+        "type": "object",
+        "required": [
+          "blob_path"
+        ],
+        "properties": {
+          "blob_path": {
+            "type": "string",
+            "description": "Ruta completa del blob en el contenedor"
+          },
+          "tamano_bytes": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "description": "Tamaño en bytes según Azure Blob (puede ser null)"
+          },
+          "ultima_modificacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Última modificación en ISO-8601 si está disponible"
+          }
+        }
+      },
+      "LogArchivoEntradaItem": {
+        "type": "object",
+        "description": "Fila de log_archivos (cualquier origen)",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "hotel_id": {
+            "type": "integer",
+            "nullable": true
+          },
+          "nombre_archivo_origen": {
+            "type": "string"
+          },
+          "drive_id_origen": {
+            "type": "string",
+            "nullable": true
+          },
+          "hash": {
+            "type": "string",
+            "nullable": true
+          },
+          "total_registros": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Total de filas/registros del archivo origen (estadística de limpieza)"
+          },
+          "registros_validos": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Registros válidos tras validación/limpieza"
+          },
+          "registros_descartados": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Registros descartados en el proceso"
+          },
+          "estado": {
+            "type": "string"
+          },
+          "etapa_error": {
+            "type": "string",
+            "nullable": true
+          },
+          "mensaje_error": {
+            "type": "string",
+            "nullable": true
+          },
+          "fecha_recepcion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "fecha_limpieza": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "fecha_prediccion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "fecha_topicos": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "fecha_metricas": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "ArchivosEntradaData": {
+        "type": "object",
+        "required": [
+          "prefijo",
+          "pendientes",
+          "en_pipeline"
+        ],
+        "properties": {
+          "prefijo": {
+            "type": "string",
+            "description": "Prefijo virtual de entrada sin barra final (p. ej. entrada); cadena vacía si el listado es de todo el contenedor",
+            "example": "entrada"
+          },
+          "pendientes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BlobEntradaItem"
+            }
+          },
+          "en_pipeline": {
+            "type": "array",
+            "description": "Todas las filas de log_archivos (orden recientes primero), sin filtrar por prefijo u origen",
+            "items": {
+              "$ref": "#/components/schemas/LogArchivoEntradaItem"
+            }
+          },
+          "truncado": {
+            "type": "boolean",
+            "description": "Presente solo si se envió `limite`; indica si se alcanzó el tope y podría haber más blobs"
+          }
+        }
+      },
+      "ArchivoIdRequest": {
+        "type": "object",
+        "required": [
+          "archivo_id"
+        ],
+        "properties": {
+          "archivo_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 12
+          }
+        }
+      },
+      "MetricasRecalcularRequest": {
+        "type": "object",
+        "required": [
+          "hotel_id",
+          "anio",
+          "mes"
+        ],
+        "properties": {
+          "hotel_id": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1,
+            "example": 1
+          },
+          "anio": {
+            "type": "integer",
+            "minimum": 2000,
+            "example": 2025
+          },
+          "mes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12,
+            "example": 11
+          }
+        }
+      },
+      "RecalcularSemestreRequest": {
+        "type": "object",
+        "required": [
+          "hotel_id"
+        ],
+        "properties": {
+          "hotel_id": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1,
+            "example": 1
+          }
+        }
+      },
+      "RecalcularSemestreFalloItem": {
+        "type": "object",
+        "properties": {
+          "anio": {
+            "type": "integer",
+            "example": 2025
+          },
+          "mes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12,
+            "example": 12
+          },
+          "http_status": {
+            "type": "integer",
+            "example": 404
+          },
+          "codigo": {
+            "type": "string",
+            "example": "PERIODO_NO_ENCONTRADO"
+          },
+          "mensaje": {
+            "type": "string",
+            "nullable": true,
+            "example": "No hay métricas globales para hotel_id=1 2025-12"
+          }
+        },
+        "required": [
+          "anio",
+          "mes",
+          "http_status",
+          "codigo"
+        ]
+      },
+      "RecalcularSemestreResponse": {
+        "type": "object",
+        "description": "Resumen de POST /recalcular-semestre tras orquestar 6 meses.",
+        "properties": {
+          "hotel_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "primer_periodo": {
+            "$ref": "#/components/schemas/Periodo"
+          },
+          "ultimo_periodo": {
+            "$ref": "#/components/schemas/Periodo"
+          },
+          "periodos_solicitados": {
+            "type": "integer",
+            "example": 6
+          },
+          "exitos": {
+            "type": "integer",
+            "example": 5
+          },
+          "fallos": {
+            "type": "integer",
+            "example": 1
+          },
+          "fallidos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecalcularSemestreFalloItem"
+            }
+          },
+          "fecha_inicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fecha_fin": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "hotel_id",
+          "primer_periodo",
+          "ultimo_periodo",
+          "periodos_solicitados",
+          "exitos",
+          "fallos",
+          "fallidos",
+          "fecha_inicio",
+          "fecha_fin"
+        ]
+      },
+      "SentimientoTextoRequest": {
+        "type": "object",
+        "required": [
+          "texto"
+        ],
+        "description": "Texto de una review para predicción puntual (sin persistencia en BD). Longitud máxima configurable en el servicio (p. ej. `SENTIMENT_MAX_INPUT_CHARS`, default 8000).",
+        "properties": {
+          "texto": {
+            "type": "string",
+            "description": "Contenido de la review en texto plano",
+            "example": "La habitación estaba impecable y el personal muy atento."
+          }
+        }
+      },
+      "VerificacionRequest": {
+        "type": "object",
+        "required": [
+          "hotel_id",
+          "drive_id_origen",
+          "nombre_archivo_origen",
+          "plataforma"
+        ],
+        "properties": {
+          "hotel_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "drive_id_origen": {
+            "type": "string",
+            "description": "Ruta del blob de entrada dentro del contenedor Azure configurado (el nombre del campo es histórico).",
+            "example": "entrada/reviews_olh_nov2025.csv"
+          },
+          "nombre_archivo_origen": {
+            "type": "string",
+            "example": "reviews_olh_nov2025.csv"
+          },
+          "plataforma": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 1,
+            "description": "Origen de las reseñas (p. ej. booking, tripadvisor). Se persiste en la columna `reviews.plataforma` para todas las filas del lote; tiene prioridad sobre una columna homónima en el CSV si existiera.",
+            "example": "booking"
+          }
+        }
+      },
+      "VerificacionResponse": {
+        "type": "object",
+        "properties": {
+          "archivo_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 12
+          },
+          "nombre_archivo_origen": {
+            "type": "string",
+            "example": "reviews_olh_nov2025.csv"
+          },
+          "estado": {
+            "type": "string",
+            "example": "cleaned"
+          },
+          "total_registros": {
+            "type": "integer",
+            "example": 1500
+          },
+          "registros_validos": {
+            "type": "integer",
+            "example": 1432
+          },
+          "registros_descartados": {
+            "type": "integer",
+            "example": 68
+          },
+          "nombre_archivo_limpio": {
+            "type": "string",
+            "example": "clean_reviews_olh_2025-11-15.csv"
+          },
+          "drive_id_limpio": {
+            "type": "string",
+            "description": "Ruta del blob del CSV limpio en el contenedor Azure (vacío si no se subió).",
+            "example": "limpios/reviews_olh_nov2025_clean.csv"
+          },
+          "hash": {
+            "type": "string",
+            "description": "SHA-256 en hexadecimal del contenido binario del blob de origen descargado desde Azure Blob.",
+            "pattern": "^[a-f0-9]{64}$",
+            "example": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "ArchivoDetalle": {
+        "type": "object",
+        "properties": {
+          "archivo_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 12
+          },
+          "hotel_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "nombre_archivo_origen": {
+            "type": "string",
+            "example": "reviews_olh_nov2025.csv"
+          },
+          "nombre_archivo_limpio": {
+            "type": "string",
+            "example": "clean_reviews_olh_2025-11-15.csv"
+          },
+          "drive_id_limpio": {
+            "type": "string",
+            "description": "Ruta del blob del CSV limpio en el contenedor Azure.",
+            "example": "limpios/reviews_olh_nov2025_clean.csv"
+          },
+          "hash": {
+            "type": "string",
+            "nullable": true,
+            "description": "SHA-256 en hexadecimal del blob de origen; null en registros anteriores a la migración.",
+            "example": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "estado": {
+            "type": "string",
+            "enum": [
+              "received",
+              "validated",
+              "cleaned",
+              "predicted",
+              "topics_identified",
+              "completed",
+              "error"
+            ],
+            "example": "cleaned"
+          },
+          "total_registros": {
+            "type": "integer",
+            "example": 1500
+          },
+          "registros_validos": {
+            "type": "integer",
+            "example": 1432
+          },
+          "fecha_limpieza": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-11-15T08:32:00Z"
+          }
+        }
+      },
+      "ArchivoResumen": {
+        "type": "object",
+        "properties": {
+          "archivo_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 12
+          },
+          "hotel_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "nombre_archivo_limpio": {
+            "type": "string",
+            "example": "clean_reviews_olh_2025-11-15.csv"
+          },
+          "estado": {
+            "type": "string",
+            "example": "cleaned"
+          },
+          "registros_validos": {
+            "type": "integer",
+            "example": 1432
+          },
+          "fecha_limpieza": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-11-15T08:32:00Z"
+          }
+        }
+      },
+      "ResumenSentimiento": {
+        "type": "object",
+        "properties": {
+          "positivas": {
+            "type": "integer",
+            "example": 980
+          },
+          "negativas": {
+            "type": "integer",
+            "example": 312
+          },
+          "neutras": {
+            "type": "integer",
+            "example": 140
+          }
+        }
+      },
+      "SentimientoProcesamientoResponse": {
+        "type": "object",
+        "description": "Resultado una vez completado el job de predicción (p. ej. consulta interna o documentación del estado final). La API HTTP expone 202 con SentimientoProcesamientoAceptado al encolar.",
+        "properties": {
+          "archivo_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 12
+          },
+          "estado": {
+            "type": "string",
+            "example": "predicted"
+          },
+          "modelo_version": {
+            "type": "string",
+            "example": "sentiment-beto-v2.1"
+          },
+          "total_reviews_procesadas": {
+            "type": "integer",
+            "example": 1432
+          },
+          "resumen": {
+            "$ref": "#/components/schemas/ResumenSentimiento"
+          },
+          "fecha_prediccion": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-11-15T09:10:00Z"
+          }
+        }
+      },
+      "SentimientoProcesamientoAceptado": {
+        "type": "object",
+        "description": "Respuesta inmediata al encolar el procesamiento asíncrono de sentimiento.",
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "archivo_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 12
+          },
+          "estado": {
+            "type": "string",
+            "example": "encolado",
+            "description": "Estado del encolado (no del archivo en log_archivos)"
+          },
+          "mensaje": {
+            "type": "string",
+            "example": "El procesamiento se ejecutará de forma asíncrona."
+          }
+        },
+        "required": [
+          "job_id",
+          "archivo_id",
+          "estado"
+        ]
+      },
+      "SentimientoProbabilidades": {
+        "type": "object",
+        "description": "Distribución softmax del modelo sobre negativo / neutro / positivo (suma ≈ 1 salvo redondeo).",
+        "properties": {
+          "negativo": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "example": 0.012
+          },
+          "neutro": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "example": 0.065
+          },
+          "positivo": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "example": 0.923
+          }
+        },
+        "required": [
+          "negativo",
+          "neutro",
+          "positivo"
+        ]
+      },
+      "SentimientoPrediccion": {
+        "type": "object",
+        "description": "Salida del modelo de sentimiento global para una review (tabla `predicciones_sentimiento`). `confianza` coincide con el máximo de `probabilidades`. La UI puede mapear `confianza` a porcentaje (×100) para badges.",
+        "properties": {
+          "sentimiento": {
+            "type": "string",
+            "enum": [
+              "positivo",
+              "negativo",
+              "neutro"
+            ],
+            "example": "positivo"
+          },
+          "confianza": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "example": 0.923
+          },
+          "probabilidades": {
+            "$ref": "#/components/schemas/SentimientoProbabilidades"
+          },
+          "modelo_version": {
+            "type": "string",
+            "example": "sentiment-beto-v2.1"
+          }
+        },
+        "required": [
+          "sentimiento",
+          "confianza",
+          "probabilidades",
+          "modelo_version"
+        ]
+      },
+      "PrediccionReview": {
+        "type": "object",
+        "properties": {
+          "review_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 5001
+          },
+          "sentimiento": {
+            "type": "string",
+            "enum": [
+              "positivo",
+              "negativo",
+              "neutro"
+            ],
+            "example": "positivo"
+          },
+          "confianza": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "example": 0.923
+          },
+          "probabilidades": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SentimientoProbabilidades"
+              }
+            ],
+            "nullable": true,
+            "description": "Presente cuando la fila en BD tiene `prob_negativo` / `prob_neutro` / `prob_positivo` informados; `null` en filas migradas sin re-ejecutar predicción."
+          }
+        }
+      },
+      "SentimientoResultadosResponse": {
+        "type": "object",
+        "properties": {
+          "archivo_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 12
+          },
+          "estado_proceso": {
+            "type": "string",
+            "enum": [
+              "completado",
+              "en_proceso",
+              "fallido",
+              "no_iniciado"
+            ],
+            "description": "Mapeo desde `log_archivos.estado`: predicted/topics_identified/completed → completado; error → fallido; cleaned → en_proceso; otros → no_iniciado.",
+            "example": "completado"
+          },
+          "modelo_version": {
+            "type": "string",
+            "example": "sentiment-beto-v2.1"
+          },
+          "total": {
+            "type": "integer",
+            "example": 1432
+          },
+          "resumen": {
+            "$ref": "#/components/schemas/ResumenSentimiento"
+          },
+          "fecha_prediccion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp de `log_archivos.fecha_prediccion` cuando el archivo pasó a predicted; null si aún no aplica.",
+            "example": "2025-11-15T09:10:00Z"
+          },
+          "etapa_error": {
+            "type": "string",
+            "nullable": true,
+            "description": "Solo cuando `estado_proceso` es `fallido` (p. ej. sentiment_prediction).",
+            "example": "sentiment_prediction"
+          },
+          "mensaje_error": {
+            "type": "string",
+            "nullable": true,
+            "description": "Solo cuando `estado_proceso` es `fallido`."
+          }
+        }
+      },
+      "DistribucionTopico": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "example": "limpieza"
+          },
+          "menciones": {
+            "type": "integer",
+            "example": 520
+          }
+        }
+      },
+      "TopicosProcesamientoResponse": {
+        "type": "object",
+        "properties": {
+          "archivo_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 12
+          },
+          "estado": {
+            "type": "string",
+            "example": "topics_identified"
+          },
+          "modelo_version": {
+            "type": "string",
+            "example": "topic-beto-v1.4"
+          },
+          "total_reviews_procesadas": {
+            "type": "integer",
+            "example": 1432
+          },
+          "total_asignaciones": {
+            "type": "integer",
+            "example": 2718
+          },
+          "distribucion_topicos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DistribucionTopico"
+            }
+          },
+          "fecha_topicos": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-11-15T09:45:00Z"
+          }
+        }
+      },
+      "AbsaProcesarResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TopicosProcesamientoResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "tokens_entrada": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Tokens de entrada acumulados (LLM); 0 si no aplica"
+              },
+              "tokens_salida": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Tokens de salida acumulados (LLM); 0 si no aplica"
+              }
+            }
+          }
+        ]
+      },
+      "AbsaEncolarBatchResponse": {
+        "type": "object",
+        "properties": {
+          "archivo_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 12
+          },
+          "openai_batch_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "Identificador del batch en OpenAI; null si no se creó batch (sin reviews)",
+            "example": "batch_abc123"
+          },
+          "total_requests": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 1432
+          },
+          "estado_openai": {
+            "type": "string",
+            "nullable": true,
+            "description": "Estado inicial devuelto por OpenAI al crear el batch",
+            "example": "validating"
+          },
+          "mensaje": {
+            "type": "string",
+            "description": "Presente cuando no hubo reviews y se marcó el archivo como `topics_identified`"
+          }
+        }
+      },
+      "OpenaiBatchSincronizarRequest": {
+        "type": "object",
+        "description": "Opcional. Sin cuerpo o `{}` sincroniza todos los batches pendientes.",
+        "properties": {
+          "openai_batch_id": {
+            "type": "string",
+            "description": "Si se informa, solo se intenta sincronizar este batch (debe existir y estar pendiente)."
+          }
+        }
+      },
+      "AbsaBatchSincronizarResponse": {
+        "type": "object",
+        "required": [
+          "resultados"
+        ],
+        "properties": {
+          "resultados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AbsaBatchResultadoItem"
+            }
+          }
+        }
+      },
+      "AbsaBatchResultadoItem": {
+        "type": "object",
+        "description": "Elemento de la lista devuelta por sincronizar. La forma depende de `accion` y del estado en OpenAI.",
+        "properties": {
+          "openai_batch_id": {
+            "type": "string"
+          },
+          "archivo_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "estado_openai": {
+            "type": "string"
+          },
+          "accion": {
+            "type": "string",
+            "description": "p. ej. esperando, aplicado, fallido, omitido",
+            "enum": [
+              "esperando",
+              "aplicado",
+              "fallido",
+              "omitido"
+            ]
+          },
+          "detalle": {
+            "type": "string"
+          },
+          "motivo": {
+            "type": "string"
+          },
+          "estado": {
+            "type": "string",
+            "example": "topics_identified"
+          },
+          "modelo_version": {
+            "type": "string"
+          },
+          "total_asignaciones": {
+            "type": "integer"
+          },
+          "lineas_ok": {
+            "type": "integer"
+          },
+          "lineas_fallidas": {
+            "type": "integer"
+          },
+          "tokens_entrada": {
+            "type": "integer"
+          },
+          "tokens_salida": {
+            "type": "integer"
+          },
+          "distribucion_topicos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DistribucionTopico"
+            }
+          }
+        },
+        "additionalProperties": true
+      },
+      "TopicoAsignado": {
+        "type": "object",
+        "properties": {
+          "topico_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "slug": {
+            "type": "string",
+            "example": "limpieza"
+          },
+          "nombre": {
+            "type": "string",
+            "example": "Limpieza"
+          },
+          "score_topico": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "example": 0.912
+          },
+          "sentimiento": {
+            "type": "string",
+            "enum": [
+              "positivo",
+              "negativo",
+              "neutro"
+            ],
+            "nullable": true,
+            "example": "positivo"
+          },
+          "fragmento": {
+            "type": "string",
+            "example": "La habitación estaba impecable cada día."
+          }
+        }
+      },
+      "ReviewTopicosResponse": {
+        "type": "object",
+        "properties": {
+          "review_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 5001
+          },
+          "topicos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TopicoAsignado"
+            }
+          }
+        }
+      },
+      "ReviewListItem": {
+        "type": "object",
+        "description": "Una review lista para el explorador: alinea con `reviews`, predicción global y filas de `review_topicos` + `topicos`. El título corto para tarjetas puede omitirse: la UI puede derivarlo de `texto_limpio`.",
+        "properties": {
+          "review_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 5001
+          },
+          "hotel_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "fecha_review": {
+            "type": "string",
+            "format": "date",
+            "example": "2023-10-12"
+          },
+          "texto_limpio": {
+            "type": "string",
+            "example": "Our stay was absolutely magnificent from the moment we arrived."
+          },
+          "plataforma": {
+            "type": "string",
+            "nullable": true,
+            "example": "Booking.com"
+          },
+          "idioma": {
+            "type": "string",
+            "nullable": true,
+            "example": "en"
+          },
+          "titulo": {
+            "type": "string",
+            "nullable": true,
+            "description": "Opcional. Encabezado breve si se persiste o genera en backend; si es null, el cliente usa un recorte de `texto_limpio`.",
+            "example": "Excellent Stay in the Master Suite"
+          },
+          "prediccion": {
+            "$ref": "#/components/schemas/SentimientoPrediccion"
+          },
+          "topicos": {
+            "type": "array",
+            "description": "Tópicos asignados a la review (`score_topico` 0–1; la UI puede mostrarlo como porcentaje). Misma forma semántica que en `ReviewTopicosResponse`.",
+            "items": {
+              "$ref": "#/components/schemas/TopicoAsignado"
+            }
+          }
+        }
+      },
+      "Paginacion": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 1
+          },
+          "page_size": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 20
+          },
+          "total": {
+            "type": "integer",
+            "description": "Total de reviews que cumplen los filtros (sin paginar)",
+            "example": 1432
+          },
+          "total_pages": {
+            "type": "integer",
+            "example": 72
+          }
+        }
+      },
+      "ReviewsListResponse": {
+        "type": "object",
+        "required": [
+          "items",
+          "paginacion"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReviewListItem"
+            }
+          },
+          "paginacion": {
+            "$ref": "#/components/schemas/Paginacion"
+          }
+        }
+      },
+      "AlertaResumen": {
+        "type": "object",
+        "properties": {
+          "topico_slug": {
+            "type": "string",
+            "example": "ruido"
+          },
+          "score_actual": {
+            "type": "number",
+            "format": "float",
+            "example": 52.3
+          }
+        }
+      },
+      "MetricasGlobal": {
+        "type": "object",
+        "properties": {
+          "score_promedio": {
+            "type": "number",
+            "format": "float",
+            "example": 68.4
+          },
+          "cambio_pct_vs_anterior": {
+            "type": "number",
+            "format": "float",
+            "example": 2.1
+          },
+          "total_reviews": {
+            "type": "integer",
+            "example": 1432
+          },
+          "reviews_positivas": {
+            "type": "integer",
+            "example": 980
+          },
+          "reviews_negativas": {
+            "type": "integer",
+            "example": 312
+          },
+          "reviews_neutras": {
+            "type": "integer",
+            "example": 140
+          }
+        }
+      },
+      "Periodo": {
+        "type": "object",
+        "description": "Mes natural de negocio representado como año + mes.",
+        "properties": {
+          "anio": {
+            "type": "integer",
+            "example": 2025
+          },
+          "mes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12,
+            "example": 11
+          }
+        },
+        "required": [
+          "anio",
+          "mes"
+        ]
+      },
+      "MetricasPeriodo": {
+        "type": "object",
+        "description": "Agregados globales y alertas para un mes natural.",
+        "properties": {
+          "periodo": {
+            "$ref": "#/components/schemas/Periodo"
+          },
+          "global": {
+            "$ref": "#/components/schemas/MetricasGlobal"
+          },
+          "alertas_generadas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlertaResumen"
+            }
+          }
+        },
+        "required": [
+          "periodo",
+          "global",
+          "alertas_generadas"
+        ]
+      },
+      "MetricasCalculoResponse": {
+        "type": "object",
+        "description": "Resultado de POST /calcular. Un archivo puede cubrir varios meses naturales; la respuesta incluye todos los períodos tocados (estrategia A+C).",
+        "properties": {
+          "archivo_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 12
+          },
+          "estado": {
+            "type": "string",
+            "example": "completed"
+          },
+          "periodos": {
+            "type": "array",
+            "description": "Lista ordenada (ASC) de meses naturales procesados.",
+            "items": {
+              "$ref": "#/components/schemas/Periodo"
+            }
+          },
+          "metricas_por_periodo": {
+            "type": "array",
+            "description": "Métricas globales y alertas por cada período, en el mismo orden que `periodos`.",
+            "items": {
+              "$ref": "#/components/schemas/MetricasPeriodo"
+            }
+          },
+          "fecha_metricas": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-11-15T10:05:00Z"
+          }
+        },
+        "required": [
+          "archivo_id",
+          "estado",
+          "periodos",
+          "metricas_por_periodo",
+          "fecha_metricas"
+        ]
+      },
+      "MetricasRecalcularResponse": {
+        "type": "object",
+        "description": "Resultado de POST /recalcular para un único mes.",
+        "properties": {
+          "periodo": {
+            "$ref": "#/components/schemas/Periodo"
+          },
+          "hotel_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "global": {
+            "$ref": "#/components/schemas/MetricasGlobal"
+          },
+          "alertas_generadas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlertaResumen"
+            }
+          },
+          "fecha_metricas": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-11-15T10:05:00Z"
+          }
+        },
+        "required": [
+          "periodo",
+          "hotel_id",
+          "global",
+          "alertas_generadas",
+          "fecha_metricas"
+        ]
+      },
+      "KpisResponse": {
+        "type": "object",
+        "properties": {
+          "sentimiento_promedio": {
+            "type": "object",
+            "properties": {
+              "score": {
+                "type": "number",
+                "format": "float",
+                "example": 68.4
+              },
+              "cambio_pct": {
+                "type": "number",
+                "format": "float",
+                "example": 2.1
+              },
+              "tendencia": {
+                "type": "string",
+                "enum": [
+                  "up",
+                  "down",
+                  "stable"
+                ],
+                "example": "up"
+              }
+            }
+          },
+          "reviews_analizadas": {
+            "type": "integer",
+            "example": 1432
+          },
+          "topicos_con_alerta": {
+            "type": "integer",
+            "example": 2
+          }
+        }
+      },
+      "PuntoSentimientoMensual": {
+        "type": "object",
+        "properties": {
+          "anio": {
+            "type": "integer",
+            "example": 2025
+          },
+          "mes": {
+            "type": "integer",
+            "example": 11
+          },
+          "score_promedio": {
+            "type": "number",
+            "format": "float",
+            "example": 68.4
+          },
+          "total_reviews": {
+            "type": "integer",
+            "example": 1432
+          }
+        }
+      },
+      "TopicoMetrica": {
+        "type": "object",
+        "properties": {
+          "topico_id": {
+            "type": "integer",
+            "example": 7
+          },
+          "slug": {
+            "type": "string",
+            "example": "ruido"
+          },
+          "nombre": {
+            "type": "string",
+            "example": "Ruido"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "clave",
+              "adicional"
+            ],
+            "example": "adicional"
+          },
+          "score_promedio": {
+            "type": "number",
+            "format": "float",
+            "example": 52.3
+          },
+          "cambio_pct_vs_anterior": {
+            "type": "number",
+            "format": "float",
+            "example": -5.2
+          },
+          "total_menciones": {
+            "type": "integer",
+            "example": 310
+          },
+          "alerta": {
+            "type": "boolean",
+            "example": true
+          },
+          "tendencia": {
+            "type": "string",
+            "enum": [
+              "up",
+              "down",
+              "stable"
+            ],
+            "example": "down"
+          }
+        }
+      },
+      "TopicoTop5": {
+        "type": "object",
+        "properties": {
+          "posicion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 1
+          },
+          "slug": {
+            "type": "string",
+            "example": "ruido"
+          },
+          "nombre": {
+            "type": "string",
+            "example": "Ruido"
+          },
+          "score_promedio": {
+            "type": "number",
+            "format": "float",
+            "example": 52.3
+          },
+          "alerta": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "FragmentoReview": {
+        "type": "object",
+        "properties": {
+          "sentimiento": {
+            "type": "string",
+            "enum": [
+              "positivo",
+              "negativo",
+              "neutro"
+            ],
+            "example": "negativo"
+          },
+          "fragmento": {
+            "type": "string",
+            "example": "El ruido de la calle no nos dejó descansar."
+          },
+          "confianza": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "example": 0.951
+          }
+        }
+      },
+      "TopicoDetalle": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "example": "ruido"
+          },
+          "nombre": {
+            "type": "string",
+            "example": "Ruido"
+          },
+          "score_promedio": {
+            "type": "number",
+            "format": "float",
+            "example": 52.3
+          },
+          "cambio_pct_vs_anterior": {
+            "type": "number",
+            "format": "float",
+            "example": -5.2
+          },
+          "alerta": {
+            "type": "boolean",
+            "example": true
+          },
+          "umbral_alerta": {
+            "type": "integer",
+            "example": 65
+          },
+          "menciones": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer",
+                "example": 310
+              },
+              "positivas": {
+                "type": "integer",
+                "example": 82
+              },
+              "negativas": {
+                "type": "integer",
+                "example": 193
+              },
+              "neutras": {
+                "type": "integer",
+                "example": 35
+              }
+            }
+          },
+          "fragmentos_destacados": {
+            "type": "array",
+            "maxItems": 5,
+            "items": {
+              "$ref": "#/components/schemas/FragmentoReview"
+            }
+          }
+        }
+      },
+      "Alerta": {
+        "type": "object",
+        "properties": {
+          "alerta_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 5
+          },
+          "topico_slug": {
+            "type": "string",
+            "example": "ruido"
+          },
+          "topico_nombre": {
+            "type": "string",
+            "example": "Ruido"
+          },
+          "anio": {
+            "type": "integer",
+            "example": 2025
+          },
+          "mes": {
+            "type": "integer",
+            "example": 11
+          },
+          "score_actual": {
+            "type": "number",
+            "format": "float",
+            "example": 52.3
+          },
+          "umbral_usado": {
+            "type": "integer",
+            "example": 65
+          },
+          "mensaje": {
+            "type": "string",
+            "example": "Score de Ruido cayó a 52.3%, por debajo del umbral de 65%."
+          },
+          "generada_en": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-11-15T10:05:00Z"
+          }
+        }
+      }
+    }
+  }
+}

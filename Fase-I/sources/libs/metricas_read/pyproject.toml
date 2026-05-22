@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "metricas-read"
+version = "0.1.0"
+description = "Lecturas de métricas pre-calculadas (compartido entre DashboardBackend y tests)"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "psycopg2-binary>=2.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["metricas_read"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/metricas_read"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

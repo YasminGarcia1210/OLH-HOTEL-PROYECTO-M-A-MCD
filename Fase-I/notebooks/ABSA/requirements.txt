@@ -1,0 +1,34 @@
+# Dependencias directas del proyecto ABSA
+# Las dependencias transitivas son resueltas automáticamente por pip
+
+# Modelos y NLP
+torch==2.11.0+cu126
+sentence-transformers==5.3.0
+accelerate==1.13.0
+huggingface-hub==0.36.2
+
+# ABSA
+pyabsa==2.4.2
+pysentimiento==0.7.3
+
+# BERTopic y clustering
+bertopic==0.17.4
+hdbscan==0.8.42
+umap-learn==0.5.11
+
+# spaCy + modelo español
+spacy==3.8.14
+https://github.com/explosion/spacy-models/releases/download/es_core_news_sm-3.8.0/es_core_news_sm-3.8.0-py3-none-any.whl
+
+# Data y visualización
+pandas==3.0.2
+numpy==2.4.4
+scikit-learn==1.8.0
+matplotlib==3.10.8
+plotly==5.24.1
+
+# Utilidades
+tqdm==4.67.3
+datasets==4.8.4
+openpyxl==3.1.5
+protobuf

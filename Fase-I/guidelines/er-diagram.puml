@@ -1,0 +1,201 @@
+@startuml er-diagram
+!theme plain
+skinparam linetype ortho
+skinparam roundcorner 8
+skinparam entity {
+  BackgroundColor #F8F9FA
+  BorderColor     #495057
+  FontColor       #212529
+  FontSize        13
+}
+skinparam arrow {
+  Color     #495057
+  FontColor #495057
+  FontSize  11
+}
+
+title "Modelo Entidad-Relación – Sistema de Análisis de Sentimiento\nHotel OLH · PostgreSQL"
+
+' ══════════════════════════════════════════════
+' GRUPO 1: CATÁLOGOS
+' ══════════════════════════════════════════════
+
+entity "**hoteles**" as hoteles {
+  * id            : SERIAL          <<PK>>
+  --
+  * nombre        : VARCHAR(150)
+    ciudad        : VARCHAR(100)
+    pais          : VARCHAR(100)
+  * activo        : BOOLEAN
+  * creado_en     : TIMESTAMPTZ
+}
+
+entity "**topicos**" as topicos {
+  * id            : SERIAL          <<PK>>
+  --
+  * slug          : VARCHAR(60)     <<UNIQUE>>
+  * nombre        : VARCHAR(120)
+  * tipo          : VARCHAR(20)
+  * umbral_alerta : SMALLINT
+  * activo        : BOOLEAN
+}
+
+entity "**usuarios**" as usuarios {
+  * id            : SERIAL          <<PK>>
+  --
+  * nombre        : VARCHAR(120)
+  * email         : VARCHAR(200)    <<UNIQUE>>
+  * rol           : VARCHAR(30)
+    hotel_id      : INT             <<FK>>
+  * activo        : BOOLEAN
+  * creado_en     : TIMESTAMPTZ
+}
+
+' ══════════════════════════════════════════════
+' GRUPO 2: PIPELINE AUDIT
+' ══════════════════════════════════════════════
+
+entity "**log_archivos**" as log_archivos {
+  * id                      : BIGSERIAL     <<PK>>
+  --
+    hotel_id                : INT           <<FK>>
+  * nombre_archivo_origen   : VARCHAR(255)  <<UNIQUE>>
+    drive_id_origen         : VARCHAR(200)
+    nombre_archivo_limpio   : VARCHAR(255)
+    drive_id_limpio         : VARCHAR(200)
+    hash                    : VARCHAR(64)
+    total_registros         : INT
+    registros_validos       : INT
+    registros_descartados   : INT
+  * estado                  : VARCHAR(30)
+    etapa_error             : VARCHAR(50)
+    mensaje_error           : TEXT
+  * fecha_recepcion         : TIMESTAMPTZ
+    fecha_limpieza          : TIMESTAMPTZ
+    fecha_prediccion        : TIMESTAMPTZ
+    fecha_topicos           : TIMESTAMPTZ
+    fecha_metricas          : TIMESTAMPTZ
+}
+
+' ══════════════════════════════════════════════
+' GRUPO 3: DATOS NLP
+' ══════════════════════════════════════════════
+
+entity "**reviews**" as reviews {
+  * id            : BIGSERIAL      <<PK>>
+  --
+  * hotel_id      : INT            <<FK>>
+  * archivo_id    : BIGINT         <<FK>>
+    plataforma    : VARCHAR(60)
+  * fecha_review  : DATE
+  * texto_limpio  : TEXT
+    idioma        : CHAR(5)
+  * cargada_en    : TIMESTAMPTZ
+}
+
+entity "**predicciones_sentimiento**" as predicciones {
+  * id             : BIGSERIAL     <<PK>>
+  --
+  * review_id      : BIGINT        <<FK>> <<UNIQUE>>
+  * sentimiento    : VARCHAR(20)
+  * confianza      : NUMERIC(4,3)
+    prob_negativo  : NUMERIC(4,3)
+    prob_neutro    : NUMERIC(4,3)
+    prob_positivo  : NUMERIC(4,3)
+  * modelo_version : VARCHAR(50)
+  * procesado_en   : TIMESTAMPTZ
+}
+
+entity "**review_topicos**" as review_topicos {
+  * id             : BIGSERIAL     <<PK>>
+  --
+  * review_id      : BIGINT        <<FK>>
+  * topico_id      : INT           <<FK>>
+    score_topico   : NUMERIC(4,3)
+    fragmento      : TEXT
+    sentimiento    : VARCHAR(20)
+  * modelo_version : VARCHAR(50)
+  * procesado_en   : TIMESTAMPTZ
+}
+
+' ══════════════════════════════════════════════
+' GRUPO 4: MÉTRICAS PRE-CALCULADAS
+' ══════════════════════════════════════════════
+
+entity "**metricas_globales_mensual**" as metricas_globales {
+  * id                     : BIGSERIAL     <<PK>>
+  --
+  * hotel_id               : INT           <<FK>>
+  * anio                   : SMALLINT
+  * mes                    : SMALLINT
+  * total_reviews          : INT
+  * reviews_positivas      : INT
+  * reviews_negativas      : INT
+  * reviews_neutras        : INT
+  * score_promedio         : NUMERIC(5,2)
+    cambio_pct_vs_anterior : NUMERIC(6,2)
+  * total_alertas          : SMALLINT
+  * calculado_en           : TIMESTAMPTZ
+}
+
+entity "**metricas_topico_mensual**" as metricas_topico {
+  * id                     : BIGSERIAL     <<PK>>
+  --
+  * hotel_id               : INT           <<FK>>
+  * topico_id              : INT           <<FK>>
+  * anio                   : SMALLINT
+  * mes                    : SMALLINT
+  * total_menciones        : INT
+  * menciones_positivas    : INT
+  * menciones_negativas    : INT
+  * menciones_neutras      : INT
+  * score_promedio         : NUMERIC(5,2)
+    cambio_pct_vs_anterior : NUMERIC(6,2)
+  * alerta                 : BOOLEAN
+  * calculado_en           : TIMESTAMPTZ
+}
+
+entity "**alertas**" as alertas {
+  * id             : BIGSERIAL     <<PK>>
+  --
+  * hotel_id       : INT           <<FK>>
+  * topico_id      : INT           <<FK>>
+  * anio           : SMALLINT
+  * mes            : SMALLINT
+    score_actual   : NUMERIC(5,2)
+    umbral_usado   : SMALLINT
+    mensaje        : TEXT
+  * resuelta       : BOOLEAN
+    resuelta_en    : TIMESTAMPTZ
+    resuelta_por   : INT           <<FK>>
+  * generada_en    : TIMESTAMPTZ
+}
+
+' ══════════════════════════════════════════════
+' RELACIONES
+' ══════════════════════════════════════════════
+
+' Catálogos
+hoteles     ||--o{ usuarios         : "tiene"
+hoteles     ||--o{ log_archivos     : "registra"
+hoteles     ||--o{ reviews          : "contiene"
+hoteles     ||--o{ metricas_globales: "agrega"
+hoteles     ||--o{ metricas_topico  : "agrega"
+hoteles     ||--o{ alertas          : "genera"
+
+' Pipeline
+log_archivos ||--o{ reviews         : "origina"
+
+' NLP
+reviews     ||--||  predicciones    : "tiene"
+reviews     ||--o{  review_topicos  : "clasifica"
+topicos     ||--o{  review_topicos  : "referenciado en"
+
+' Métricas
+topicos     ||--o{  metricas_topico : "mide"
+topicos     ||--o{  alertas         : "activa"
+
+' Alertas
+usuarios    ||--o{  alertas         : "resuelve"
+
+@enduml

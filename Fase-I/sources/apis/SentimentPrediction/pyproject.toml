@@ -1,0 +1,20 @@
+[project]
+name = "sentimentprediction"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "flask>=3.1.0,<4",
+    "flask-cors>=5.0.0,<6",
+    "python-dotenv>=1.0.1,<2",
+    "psycopg2-binary>=2.9.11,<3",
+    "torch>=2.0.0",
+    "transformers>=4.40.0,<5",
+    "huggingface_hub>=0.26.0,<1",
+    "safetensors>=0.4.0",
+]
+
+# Evita que uv intente compilar psycopg2 desde fuente (requiere pg_config / PostgreSQL dev).
+[tool.uv.pip]
+only-binary = ["psycopg2-binary"]

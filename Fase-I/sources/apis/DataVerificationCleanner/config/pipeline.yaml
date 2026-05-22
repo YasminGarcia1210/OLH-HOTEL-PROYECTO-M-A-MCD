@@ -1,0 +1,49 @@
+# ============================================================
+# Operaciones post-limpieza
+#
+# Permite activar/desactivar pasos opcionales sin tocar código.
+# ============================================================
+
+operaciones:
+  subir_csv_limpio: true       # subir CSV limpio al prefijo AZURE_BLOB_PREFIX_LIMPIOS
+  mover_archivo_original: true # mover blob origen al prefijo AZURE_BLOB_PREFIX_PROCESADOS
+
+# ============================================================
+# Configuración del pipeline de limpieza de reviews
+#
+# Perfiles:
+#   prediccion   → usado por el servicio Data Verification & Cleaner
+#                  cuando procesa reviews reales del hotel.
+#                  Prioridad: conservar todas las reviews.
+#
+#   entrenamiento → usado offline para preparar datasets de entrenamiento.
+#                   Prioridad: calidad del texto sobre cantidad de registros.
+# ============================================================
+
+pipeline:
+
+  prediccion:
+    modo: bert                    # bert | clasico
+    deduplicar: false             # no eliminar reviews duplicadas
+    umbral_fuzzy: 90              # (ignorado si deduplicar=false)
+    filtrar_idioma: false         # solo detectar idioma, no eliminar filas
+    umbral_confianza_idioma: 0.75 # (ignorado si filtrar_idioma=false)
+    solo_idioma: es               # (ignorado si filtrar_idioma=false)
+    anonimizar: true              # enmascarar emails y teléfonos
+    nombres: true                 # anonimizar nombres propios con spaCy
+    min_palabras: 1               # mínimo de palabras tras limpieza (paso 7)
+    min_tokens: 1                 # mínimo de tokens BERT (paso 8)
+    max_tokens: 512               # máximo de tokens BERT antes de truncar
+
+  entrenamiento:
+    modo: bert
+    deduplicar: true              # eliminar duplicados exactos y casi-duplicados
+    umbral_fuzzy: 90              # similitud mínima para considerar casi-duplicado
+    filtrar_idioma: true          # eliminar reviews en otros idiomas
+    umbral_confianza_idioma: 0.75
+    solo_idioma: es
+    anonimizar: true
+    nombres: true
+    min_palabras: 5               # textos cortos no aportan señal para el modelo
+    min_tokens: 6
+    max_tokens: 512

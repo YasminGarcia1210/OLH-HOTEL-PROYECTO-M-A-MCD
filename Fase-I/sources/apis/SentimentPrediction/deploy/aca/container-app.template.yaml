@@ -1,0 +1,61 @@
+# Plantilla para: az containerapp create --yaml @container-app.template.yaml
+# Reemplazá los marcadores <...> antes de aplicar. No commitees secretos.
+---
+kind: containerapp
+location: <LOCATION>
+name: sentiment-prediction
+resourceGroup: <RESOURCE_GROUP_NAME>
+type: Microsoft.App/containerApps
+properties:
+  managedEnvironmentId: <MANAGED_ENVIRONMENT_RESOURCE_ID>
+  configuration:
+    activeRevisionsMode: Single
+    ingress:
+      external: true
+      targetPort: 5003
+      transport: Auto
+    secrets: []
+  template:
+    scale:
+      minReplicas: 0
+      maxReplicas: 2
+    containers:
+      - name: api
+        image: <ACR_NAME>.azurecr.io/sentiment-prediction:1.0.0
+        resources:
+          cpu: 2.0
+          memory: 4.0Gi
+        env:
+          - name: PORT
+            value: "5003"
+          - name: FLASK_ENV
+            value: production
+          - name: FLASK_DEBUG
+            value: "false"
+          - name: SENTIMENT_MODEL_DIR
+            value: /app/models/p91
+          # Añadí el resto de variables y secretref según docs/DEPLOY_AZURE_ACA.md
+        probes:
+          - type: Startup
+            httpGet:
+              path: /health
+              port: 5003
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            failureThreshold: 40
+            timeoutSeconds: 10
+          - type: Liveness
+            httpGet:
+              path: /health
+              port: 5003
+            periodSeconds: 30
+            failureThreshold: 3
+            timeoutSeconds: 10
+          - type: Readiness
+            httpGet:
+              path: /health
+              port: 5003
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 10

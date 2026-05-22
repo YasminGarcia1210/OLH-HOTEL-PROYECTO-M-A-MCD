@@ -1,0 +1,8 @@
+# Dependencias para topicos_reviews_ollama.ipynb
+# Requiere Python >= 3.10 (anotaciones tipo str | None).
+
+pandas>=2.0.0
+openai>=1.40.0
+python-dotenv>=1.0.0
+tqdm>=4.66.0
+ipykernel>=6.29.0

@@ -1,0 +1,589 @@
+{
+  "info": {
+    "_postman_id": "5a871abb-4932-4c12-a007-cc5b5574e474",
+    "name": "Tesis",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "5096543"
+  },
+  "item": [
+    {
+      "name": "Verificacion/Ejecutar",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"hotel_id\": 1,\r\n    \"drive_id_origen\": \"resenas_hotel.csv\",\r\n    \"nombre_archivo_origen\": \"resenas_hotel.csv\",\r\n    \"plataforma\": \"booking\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://data-verification-cleaner.nicehill-77407515.eastus2.azurecontainerapps.io/api/v1/verificacion/ejecutar",
+          "protocol": "https",
+          "host": [
+            "data-verification-cleaner",
+            "nicehill-77407515",
+            "eastus2",
+            "azurecontainerapps",
+            "io"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "verificacion",
+            "ejecutar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "dashboard/reviews",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:5002/api/v1/metricas/reviews?hotel_id=1",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5002",
+          "path": [
+            "api",
+            "v1",
+            "metricas",
+            "reviews"
+          ],
+          "query": [
+            {
+              "key": "hotel_id",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "dashboard/reviews por fecha",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:5002/api/v1/dashboard/reviews?hotel_id=1&fecha_desde=2026-01-01&fecha_hasta=2026-03-31",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5002",
+          "path": [
+            "api",
+            "v1",
+            "dashboard",
+            "reviews"
+          ],
+          "query": [
+            {
+              "key": "hotel_id",
+              "value": "1"
+            },
+            {
+              "key": "fecha_desde",
+              "value": "2026-01-01"
+            },
+            {
+              "key": "fecha_hasta",
+              "value": "2026-03-31"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "dashboard/reviews por sentimiento",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:5002/api/v1/dashboard/reviews?hotel_id=1&sentimiento=negativo",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5002",
+          "path": [
+            "api",
+            "v1",
+            "dashboard",
+            "reviews"
+          ],
+          "query": [
+            {
+              "key": "hotel_id",
+              "value": "1"
+            },
+            {
+              "key": "sentimiento",
+              "value": "negativo"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "dashboard/reviews por topico",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:5002/api/v1/dashboard/reviews?hotel_id=1&topico_slug=limpieza",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5002",
+          "path": [
+            "api",
+            "v1",
+            "dashboard",
+            "reviews"
+          ],
+          "query": [
+            {
+              "key": "hotel_id",
+              "value": "1"
+            },
+            {
+              "key": "topico_slug",
+              "value": "limpieza"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "metricas/kpis",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:5002/api/v1/metricas/kpis?hotel_id=1&anio=2025&mes=12",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5002",
+          "path": [
+            "api",
+            "v1",
+            "metricas",
+            "kpis"
+          ],
+          "query": [
+            {
+              "key": "hotel_id",
+              "value": "1"
+            },
+            {
+              "key": "anio",
+              "value": "2025"
+            },
+            {
+              "key": "mes",
+              "value": "12"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "metricas/calcular",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer TU_TOKEN"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"archivo_id\": 14\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://metric-processor.nicehill-77407515.eastus2.azurecontainerapps.io/api/v1/metricas/calcular",
+          "protocol": "https",
+          "host": [
+            "metric-processor",
+            "nicehill-77407515",
+            "eastus2",
+            "azurecontainerapps",
+            "io"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "metricas",
+            "calcular"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "sentimiento/predecir",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"texto\": \"Excelente ubicacion cerca a todo. Lo recomiendo.\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://sentiment-prediction.nicehill-77407515.eastus2.azurecontainerapps.io/api/v1/sentimiento/predecir",
+          "protocol": "https",
+          "host": [
+            "sentiment-prediction",
+            "nicehill-77407515",
+            "eastus2",
+            "azurecontainerapps",
+            "io"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "sentimiento",
+            "predecir"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "sentimiento/procesar",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"archivo_id\": 14\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://sentiment-prediction.nicehill-77407515.eastus2.azurecontainerapps.io/api/v1/sentimiento/procesar",
+          "protocol": "https",
+          "host": [
+            "sentiment-prediction",
+            "nicehill-77407515",
+            "eastus2",
+            "azurecontainerapps",
+            "io"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "sentimiento",
+            "procesar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "sentimiento/consultar",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "https://sentiment-prediction.nicehill-77407515.eastus2.azurecontainerapps.io/api/v1/sentimiento/archivo/14/resultados",
+          "protocol": "https",
+          "host": [
+            "sentiment-prediction",
+            "nicehill-77407515",
+            "eastus2",
+            "azurecontainerapps",
+            "io"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "sentimiento",
+            "archivo",
+            "14",
+            "resultados"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "webhook-n8n",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"hotel_id\": 1,\r\n    \"drive_id_origen\": \"resenas_hotel.csv\",\r\n    \"nombre_archivo_origen\": \"resenas_hotel.csv\",\r\n    \"plataforma\": \"booking\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5678/webhook-test/a96993c1-d180-4b56-bf95-14752f402d50",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5678",
+          "path": [
+            "webhook-test",
+            "a96993c1-d180-4b56-bf95-14752f402d50"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "metricas/archivos/entrada",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5002/api/v1/metricas/archivos/entrada",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5002",
+          "path": [
+            "api",
+            "v1",
+            "metricas",
+            "archivos",
+            "entrada"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "openai-consulta-batch",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "OPENAI_API_KEY",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer TU_OPENAI_API_KEY"
+          }
+        ],
+        "url": {
+          "raw": "https://api.openai.com/v1/batches/batch_69e97fc02c388190ae0a08d68d334588",
+          "protocol": "https",
+          "host": [
+            "api",
+            "openai",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "batches",
+            "batch_69e97fc02c388190ae0a08d68d334588"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Absa-batch/sincronizar",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n   \"openai_batch_id\": \"batch_69f93800243c8190a2424c222912d032\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://absa-service.nicehill-77407515.eastus2.azurecontainerapps.io/api/v1/absa/batch/sincronizar",
+          "protocol": "https",
+          "host": [
+            "absa-service",
+            "nicehill-77407515",
+            "eastus2",
+            "azurecontainerapps",
+            "io"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "absa",
+            "batch",
+            "sincronizar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "absa/procesar-batch",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"archivo_id\": 14\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://absa-service.nicehill-77407515.eastus2.azurecontainerapps.io/api/v1/absa/procesar-batch",
+          "protocol": "https",
+          "host": [
+            "absa-service",
+            "nicehill-77407515",
+            "eastus2",
+            "azurecontainerapps",
+            "io"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "absa",
+            "procesar-batch"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "metricas/topicos/top5",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:5002/api/v1/metricas/topicos/top5?hotel_id=1&anio=2026&mes=3",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5002",
+          "path": [
+            "api",
+            "v1",
+            "metricas",
+            "topicos",
+            "top5"
+          ],
+          "query": [
+            {
+              "key": "hotel_id",
+              "value": "1"
+            },
+            {
+              "key": "anio",
+              "value": "2026"
+            },
+            {
+              "key": "mes",
+              "value": "3"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

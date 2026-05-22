@@ -1,0 +1,28 @@
+# Usar con contexto `sources/` y:
+#   podman build --ignorefile sources/apis/DashboardBackend/context.dockerignore ...
+# Sin esto, se empaqueta TODO `sources/` (modelos ML, app Next, CSV, otras APIs) y en
+# Windows + Podman Machine puede tardar muchos minutos sin ninguna línea en consola.
+
+# Ramas del monorepo que este Dockerfile no copia
+app
+data
+sentimentAnalysis
+apis/DataVerificationCleanner
+apis/SentimentPrediction
+apis/MetricProcessor
+apis/ABSAService
+apis/n8n-workflow
+
+# Ruido / secretos / entornos locales (cualquier carpeta bajo sources)
+**/.venv
+**/venv
+**/__pycache__
+**/*.py[cod]
+**/.pytest_cache
+**/.mypy_cache
+**/.git
+**/.gitignore
+**/.env
+**/node_modules
+**/*.egg-info
+**/uv.lock
