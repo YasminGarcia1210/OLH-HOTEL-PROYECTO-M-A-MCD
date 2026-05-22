@@ -13,6 +13,13 @@ La iniciativa evoluciona en tres fases:
 
 El enfoque es escalable, de bajo costo y orientado a impacto real en reputación, ingresos y experiencia del huésped.
 
+## 📁 Estructura del repositorio
+
+| Carpeta | Contenido |
+| --- | --- |
+| **[`Fase-I/`](Fase-I/)** | Implementación de **Fase 1 – Inteligencia interna**: microservicios (ingesta, sentimiento, ABSA, métricas, API de dashboard), front Next.js, notebooks, guidelines y documentación técnica. Ver [`Fase-I/README.md`](Fase-I/README.md). |
+| **Raíz (`README.md`)** | Visión del programa completo (Fases 0–3), cronograma e impacto estratégico. |
+
 ## 🟡 Fase 0 – Automatización Operativa (Transversal)
 
 Esta etapa acompaña todo el proyecto y habilita automatizaciones desde la reserva hasta la atención post‑estadía, incluyendo un agente ligero conectado a WhatsApp Business.
@@ -66,22 +73,46 @@ Agente inteligente (Fase 3)
 
 ## 🔵 Fase 1 – Inteligencia Interna
 
+> **Código y documentación operativa:** carpeta [`Fase-I/`](Fase-I/) — guía completa en [`Fase-I/README.md`](Fase-I/README.md).
+
 ### Alcance
 
 - Consolidación automática de datos.
 - Análisis de sentimiento y emociones.
-- Identificación de tópicos críticos.
+- Identificación de tópicos críticos (ABSA).
 - Automatización de KPIs.
 - Dashboard ejecutivo.
 - Sistema de alertas tempranas.
-- MLops
+- MLOps y experimentación en notebooks.
+
+### Implementación en `Fase-I/` (resumen)
+
+Pipeline de microservicios orquestado (p. ej. scheduler o n8n), según [`Fase-I/guidelines/api-contracts.md`](Fase-I/guidelines/api-contracts.md):
+
+```
+Azure Blob (CSV) → Data Verification & Cleaner → Sentiment Prediction
+    → ABSAService → MetricProcessor → Dashboard Backend → olh-sentiment-ia (Next.js)
+```
+
+| Componente | Rol |
+| --- | --- |
+| **Data Verification & Cleaner** | Ingesta, validación y limpieza hacia PostgreSQL |
+| **Sentiment Prediction** | Inferencia de sentimiento (BERT) |
+| **ABSAService** | Sentimiento por aspectos / tópicos (`review_topicos`) |
+| **MetricProcessor** | Cálculo batch de KPIs agregados |
+| **Dashboard Backend** | API de lectura para el front |
+| **olh-sentiment-ia** | Dashboard y administración de archivos de entrada |
+
+Otros artefactos: **`Fase-I/notebooks/`** (EDA, ABSA, scraping), **`Fase-I/pipeline/`** (diagrama interactivo del flujo), **`Fase-I/Poc/`** (POC estático), **`Fase-I/guidelines/`** (DDL, OpenAPI, contratos REST, KPIs).
+
+**Stack (Fase 1):** Python · Flask · PostgreSQL (p. ej. Neon) · Azure Blob · Next.js · Transformers/BERT · LLM/OpenAI Batch para ABSA.
 
 ### KPIs Clave
 
-- Rating promedio.
-- Evolución del sentimiento.
-- Tiempo de respuesta.
-- Índice de Experiencia Inteligente (IEI).
+- Sentimiento promedio y evolución en el tiempo.
+- Reviews analizadas y tópicos con alerta.
+- Score por tópico y top críticos.
+- Rating promedio e Índice de Experiencia Inteligente (IEI), según reglas en `Fase-I/guidelines/`.
 
 ## 🟣 Fase 2 – Sistema Recomendador
 
