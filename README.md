@@ -7,11 +7,22 @@ Este proyecto tiene como objetivo transformar la gestión operativa y estratégi
 
 La iniciativa evoluciona en tres fases:
 
-- 🔵 Inteligencia Interna
+- 🔵 [Inteligencia Interna](Fase-I/) — implementada en [`Fase-I/`](Fase-I/)
 - 🟣 Sistema Recomendador
 - 🟢 Agente Inteligente de Reservas
 
 El enfoque es escalable, de bajo costo y orientado a impacto real en reputación, ingresos y experiencia del huésped.
+
+## 📁 Estructura del repositorio
+
+| Ruta | Contenido |
+|------|-----------|
+| **[`Fase-I/`](Fase-I/)** | Implementación de **Fase 1 – Inteligencia interna**: microservicios, dashboard, notebooks, contratos API y documentación técnica. Ver [`Fase-I/README.md`](Fase-I/README.md). |
+| `docs/` | Guías transversales del repositorio (p. ej. instalación). |
+| `notebooks/` | Notebooks en la raíz del monorepo (complementarios al trabajo en `Fase-I/notebooks/`). |
+| `src/` · `tests/` | Esqueleto de experimentación / entrenamiento de modelos en la raíz. |
+
+> La documentación operativa, el pipeline de microservicios, el DDL, OpenAPI y los README por servicio viven bajo **`Fase-I/`**.
 
 ## 🟡 Fase 0 – Automatización Operativa (Transversal)
 
@@ -66,15 +77,30 @@ Agente inteligente (Fase 3)
 
 ## 🔵 Fase 1 – Inteligencia Interna
 
+**Código y documentación:** [`Fase-I/`](Fase-I/) · guía completa en [`Fase-I/README.md`](Fase-I/README.md)
+
 ### Alcance
 
 - Consolidación automática de datos.
 - Análisis de sentimiento y emociones.
-- Identificación de tópicos críticos.
+- Identificación de tópicos críticos (ABSA).
 - Automatización de KPIs.
 - Dashboard ejecutivo.
 - Sistema de alertas tempranas.
-- MLops
+- MLOps y despliegue en contenedores (Azure Container Apps, según servicio).
+
+### Implementación actual (`Fase-I/`)
+
+Pipeline de microservicios (Python/Flask) orquestado sobre PostgreSQL y Azure Blob Storage:
+
+1. **Data Verification & Cleaner** — ingesta, validación y limpieza de CSV de reseñas.
+2. **Sentiment Prediction** — inferencia de sentimiento (modelo BERT).
+3. **ABSAService** — análisis por aspectos / tópicos hacia `review_topicos`.
+4. **MetricProcessor** — cálculo batch de KPIs agregados.
+5. **Dashboard Backend** — API de lectura para el front.
+6. **olh-sentiment-ia** — dashboard y administración (Next.js).
+
+Artefactos adicionales: `guidelines/` (contratos REST, DDL, migraciones), `notebooks/` (EDA, ABSA, experimentos), `pipeline/` (diagrama interactivo del flujo), `Poc/` (POC estática de referencia).
 
 ### KPIs Clave
 
@@ -82,6 +108,7 @@ Agente inteligente (Fase 3)
 - Evolución del sentimiento.
 - Tiempo de respuesta.
 - Índice de Experiencia Inteligente (IEI).
+- Sentimiento por tópico y alertas por umbral (detalle en `Fase-I/guidelines/`).
 
 ## 🟣 Fase 2 – Sistema Recomendador
 
@@ -120,15 +147,11 @@ Agente inteligente (Fase 3)
 - Roadmap evolutivo.
 - Documento técnico final.
 
-## 💻 Tecnologías Propuestas
+## 💻 Tecnologías
 
-- Python
-- NLP (transformers / modelos ligeros)
-- Pandas
-- Power BI o Looker Studio
-- WhatsApp Business API
-- SQLite / Base ligera
-- Docker (opcional para despliegue)
+**Fase 1 (en [`Fase-I/`](Fase-I/)):** Python · Flask · PostgreSQL (p. ej. Neon) · Transformers/BERT · Next.js · Azure Blob Storage · Docker / Azure Container Apps · notebooks de experimentación.
+
+**Fases posteriores y transversales:** WhatsApp Business API · motor de recomendación · agente de reservas · visualización ejecutiva (Power BI o Looker Studio, según evolución del proyecto).
 
 ## 📅 Cronograma
 
